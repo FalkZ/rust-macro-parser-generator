@@ -1,7 +1,3 @@
-use regex::Regex;
-
-
-
 macro_rules! Lexer{
        
     
@@ -10,12 +6,38 @@ macro_rules! Lexer{
             Lexer!(match: $matcher, $it, break)
         };
 
-        (match: $m:pat, $it:ident, $repetition:ident) => {
+        (match: $matcher:pat, $it:ident, until($until:pat)) => {
+            {
+                let mut str: String = "".to_string();           
+               
+                str.push(*$it.peek().expect("called with no chars left"));
+                $it.next();
+
+                while let Some(&c) = $it.peek() {
+                    match c {
+                        $until => {
+                            $it.next();
+                            str.push(c);
+                            break
+                        }
+                        _ => {
+                            $it.next();
+                            str.push(c);    
+                        }
+        
+                    }
+                }                
+                str
+            }
+        };
+
+
+        (match: $matcher:pat, $it:ident, $repetition:ident) => {
         {
             let mut str: String = "".to_string();
             while let Some(&c) = $it.peek() {
                 match c {
-                    $m => {
+                    $matcher => {
                         $it.next();
                         str.push(c);
                         $repetition;
@@ -25,14 +47,14 @@ macro_rules! Lexer{
                     }
     
                 }
-           }                
-                str
+            }                
+            str
         }
         };
 
        
         (matcher: 
-            $($token_name:ident, $matcher:pat, $($type:ty)?, $($repetition:ident)?),+ 
+            $($token_name:ident, $matcher:pat, $($type:ty)?, $($repetition:ident $(($until:pat))?)?),+ 
             $(, ($skip:pat))?
         ) => {
           
@@ -46,7 +68,7 @@ macro_rules! Lexer{
                             $(
                             $matcher => {   
                                 
-                                let _m = Lexer!(match: $matcher, it $(, $repetition)?);
+                                let _m = Lexer!(match: $matcher, it $(, $repetition$(($until))?)?);
                                 
                                 result.push(
                                 Lexer::$token_name$(({
@@ -126,7 +148,7 @@ macro_rules! Lexer{
             Lexer!(type: $($token_name, $($type)?),+  $(, $token_name_secondary, $($type_secondary)?)+);
 
             impl Lexer {
-                Lexer!(matcher: $($token_name, $matcher, $($type)?, $($repetition)?),+ $(, ($skip))?);
+                Lexer!(matcher: $($token_name, $matcher, $($type)?, $($repetition$(($until))?)?),+ $(, ($skip))?);
                 Lexer!(secondary: 
                  $($token_name_secondary $(, $type_secondary)? , $matched_type),*
                 );
@@ -149,8 +171,17 @@ macro_rules! Lexer{
 Lexer!(
     {
         NUMBER(i32): '0'..='9' => continue,
-        IDENT(String): 'A'..='z' => continue('"'),
+        IDENT(String): 'A'..='z' => continue,
+        TEXTLITERAL(String): '"' | '\'' => until('"' | '\''),
         PLUS: '+',
+        MINUS: '-',
+        DIVISION: '/',
+        MULTIPLICATION: '*',
+        POWER: '^',
+        BRACKETOPEN: '(',
+        BRACKETCLOSE: ')',
+        CBRACKETOPEN: '{',
+        CBRACKETCLOSE: '}',    
         _: '\n' | ' '
     }
     {
@@ -161,7 +192,7 @@ Lexer!(
 
 
 fn main() {
-    let a:String = "123 \n + 345 add 12".to_string();
+    let a:String = "123 \n + 345 add 12 'text'  () { 123 }".to_string();
 
    
     let t = Lexer::lex(&a);
