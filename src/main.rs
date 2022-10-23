@@ -1,23 +1,16 @@
 use regex::Regex;
 
-fn get_match<T: std::convert::From<String>>(re: Regex, text: &str) -> Option<T> {
-    if re.is_match(text) {
-        let m: String = re
-            .captures(text)
-            .unwrap()
-            .get(0)
-            .unwrap()
-            .as_str()
-            .to_string();
 
-        Some(m.into())
-    } else {
-        None
-    }
-}
 
 macro_rules! Lexer{
-       (while, $m:pat, $it:ident) => {
+       
+    
+         // default match breaks after 1 char
+        (match: $matcher:pat, $it:ident) => {
+            Lexer!(match: $matcher, $it, break)
+        };
+
+        (match: $m:pat, $it:ident, $repetition:ident) => {
         {
             let mut str: String = "".to_string();
             while let Some(&c) = $it.peek() {
@@ -25,6 +18,7 @@ macro_rules! Lexer{
                     $m => {
                         $it.next();
                         str.push(c);
+                        $repetition;
                     }
                     _ => {
                         break
@@ -36,10 +30,13 @@ macro_rules! Lexer{
         }
         };
 
-        (matcher: $($e:ident, $matcher:pat, $($type:ty)?, $($cont:ident)?),+) => {
-
-            impl Lexer{
-                fn lex(input: &String) -> Result<Vec<Lexer>, String> {
+       
+        (matcher: 
+            $($token_name:ident, $matcher:pat, $($type:ty)?, $($repetition:ident)?),+ 
+            $(, ($skip:pat))?
+        ) => {
+          
+                fn primary_pass(input: &String) -> Result<Vec<Lexer>, String> {
                     let mut result = Vec::new();
     
                     let mut it = input.chars().peekable();
@@ -48,48 +45,101 @@ macro_rules! Lexer{
     
                             $(
                             $matcher => {   
-                                $(
-                                let mut m = Lexer!($cont, $matcher, it);
-                                result.push(Lexer::$e(m.parse().unwrap()));
-                                continue;
-                                )?
-    
-                                it.next();
-                                result.push(Lexer::$e(c.to_string().parse().unwrap()));
-    
+                                
+                                let _m = Lexer!(match: $matcher, it $(, $repetition)?);
+                                
+                                result.push(
+                                Lexer::$token_name$(({
+                                    let val: $type = _m.parse().unwrap();
+                                    val
+                                }))?
+                                );
+                                continue;   
                                 
                             }
     
                             )+
     
+                            $(
+                                $skip => {
+                                    it.next();
+                                }
+                            )?
     
-    
-                            ' ' | '\n' => {
-                                it.next();
-                            }
+                           
                             _ => {
-                                return Err(format!("unexpected character {}", c));
+                                return Err(format!("unexpected character {:?}", c));
                             }
                         }
                     }
             Ok(result)
-                }
+                }              
+        };
+
+        (secondary: 
+            $($token_name_secondary:ident $(, $type_secondary:ty)? , $matched_type:pat),*
+        ) => {
+            fn secondary_pass(input: Vec<Lexer>) -> Vec<Lexer> {
+
+                input.into_iter().map(|l|{
+                    match l {
+                        $(
+                            
+                        
+                            $matched_type => {
+                                Lexer::$token_name_secondary$(({
+                                    let val: $type_secondary = m.parse().unwrap();
+                                    val
+                                }))?
+
+                            }
+                        )*
+                        _ => {l}
+                    }
+
+                }).collect()
             }
-    
+
+
         };
 
 
-        (type: $($e:ident, $($type:ty)?),+) => {
+        (type: $($token_name:ident, $($type:ty)?),+) => {
             #[derive(Debug, Clone)]
             enum Lexer {
-                $($e$(($type))?),+
+                $($token_name$(($type))?),+
             }
         };
         
-        ($($e:ident$(($type:ty))? : $matcher:pat $(=> $cont:ident)?), +)=>{
-            Lexer!(type: $($e, $($type)?),+);
+        // Entrypoint
+        (
+            {
+                $($token_name:ident$(($type:ty))? : $matcher:pat $(=> $repetition:ident$(($until:pat))?)?),+ 
+                $(,_: $skip:pat)?
+            }
+            {
+                $($token_name_secondary:ident$(($type_secondary:ty))? : $matched_type:pat),*
+            }
+        )=>{
+            
+            
+            Lexer!(type: $($token_name, $($type)?),+  $(, $token_name_secondary, $($type_secondary)?)+);
 
-            Lexer!(matcher: $($e, $matcher, $($type)?, $($cont)?),+);
+            impl Lexer {
+                Lexer!(matcher: $($token_name, $matcher, $($type)?, $($repetition)?),+ $(, ($skip))?);
+                Lexer!(secondary: 
+                 $($token_name_secondary $(, $type_secondary)? , $matched_type),*
+                );
+
+                fn lex(input: &String) -> Result<Vec<Lexer>, String> {
+
+                    let first = Lexer::primary_pass(input)?;
+
+                    Ok(Lexer::secondary_pass(first))
+                 
+                }
+            
+            }
 
         };
 
@@ -97,16 +147,26 @@ macro_rules! Lexer{
  }
 
 Lexer!(
-    NUMBER(i32): '0'..='9' => while,
-    E(char): 'e'
+    {
+        NUMBER(i32): '0'..='9' => continue,
+        IDENT(String): 'A'..='z' => continue('"'),
+        PLUS: '+',
+        _: '\n' | ' '
+    }
+    {
+        T123: Lexer::NUMBER(123 | 12)
+    } 
 );
+ 
+
 
 fn main() {
-    let a:String = "123 \n 345e".to_string();
+    let a:String = "123 \n + 345 add 12".to_string();
 
-    let r = Lexer::lex(&a);
+   
+    let t = Lexer::lex(&a);
 
     
 
-    println!("{:?}", r);
+    println!("{:?}", t);
 }
