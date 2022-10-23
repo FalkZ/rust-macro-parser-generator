@@ -94,55 +94,7 @@ macro_rules! Lexer{
         };
 
        
-   // Second arm macth add!(1), add!(2) etc
-       (old: $($e:ident $(($type:ty))? : $m:pat $(=> $cont:ident)?), +)=> {
-
-        #[derive(Debug, Clone)]
-        enum Lexer {
-            $($e$(($type))?),+
-        }
-
-        impl Lexer{
-            fn lex(input: &String) -> Result<Vec<Lexer>, String> {
-                let mut result = Vec::new();
-
-                let mut it = input.chars().peekable();
-                while let Some(&c) = it.peek() {
-                    match c {
-
-                        $(
-
-                        $m => {   
-                            $(
-                            let mut m = Lexer!($cont, $m, it);
-                            result.push(Lexer::$e(m.parse().unwrap()));
-                            continue;
-                            )?
-
-                            it.next();
-                            result.push(Lexer::$e(c.to_string().parse().unwrap()));
-
-                            
-                        }
-
-                        )+
-
-
-
-                        ' ' | '\n' => {
-                            it.next();
-                        }
-                        _ => {
-                            return Err(format!("unexpected character {}", c));
-                        }
-                    }
-                }
-        Ok(result)
-            }
-        }
-
-       }
-   }
+ }
 
 Lexer!(
     NUMBER(i32): '0'..='9' => while,
