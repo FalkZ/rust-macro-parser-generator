@@ -2,11 +2,12 @@ macro_rules! Lexer{
        
     
          // default match breaks after 1 char
-        (match: $matcher:pat, $it:ident) => {
-            Lexer!(match: $matcher, $it, break)
+        (@MATCH: $matcher:pat, $it:ident) => {
+            Lexer!(@MATCH: $matcher, $it, break)
         };
 
-        (match: $matcher:pat, $it:ident, continue, $until:pat) => {
+        // matches until other pattern is reached
+        (@MATCH: $matcher:pat, $it:ident, continue, $until:pat) => {
             {
                 let mut str: String = "".to_string();           
                
@@ -31,8 +32,8 @@ macro_rules! Lexer{
             }
         };
 
-
-        (match: $matcher:pat, $it:ident, $repetition:ident) => {
+        // matches 1 or multiple
+        (@MATCH: $matcher:pat, $it:ident, $repetition:ident) => {
         {
             let mut str: String = "".to_string();
             while let Some(&c) = $it.peek() {
@@ -53,8 +54,10 @@ macro_rules! Lexer{
         };
 
        
-        (matcher: 
-            $($token_name:ident, $matcher:pat, $($type:ty)?, $(=> $(($until:pat))?)?),+ 
+        (@PRIMARY: 
+            $(
+                $token_name:ident, $matcher:pat, $($type:ty)?, $(=> $(($until:pat))?)?
+            ),+ 
             $(, ($skip:pat))?
         ) => {
           
@@ -64,22 +67,19 @@ macro_rules! Lexer{
                     let mut it = input.chars().peekable();
                     while let Some(&c) = it.peek() {
                         match c {
-    
                             $(
-                            $matcher => {   
-                                
-                                let _m = Lexer!(match: $matcher, it $(, continue $(, $until)?)?);
-                                
-                                result.push(
-                                Lexer::$token_name$(({
-                                    let val: $type = _m.parse().unwrap();
-                                    val
-                                }))?
-                                );
-                                continue;   
-                                
-                            }
-    
+                                $matcher => {   
+                                    
+                                    let _m = Lexer!(@MATCH: $matcher, it $(, continue $(, $until)?)?);
+                                    
+                                    result.push(
+                                        Lexer::$token_name$(({
+                                            let val: $type = _m.parse().unwrap();
+                                            val
+                                        }))?
+                                    );
+                                    continue;                                   
+                                }
                             )+
     
                             $(
@@ -87,18 +87,18 @@ macro_rules! Lexer{
                                     it.next();
                                 }
                             )?
-    
-                           
+                              
                             _ => {
                                 return Err(format!("unexpected character {:?}", c));
                             }
                         }
                     }
-            Ok(result)
+
+                    Ok(result)
                 }              
         };
 
-        (@secondary: 
+        (@SECONDARY: 
             $(
                 $matched_type:ident => {
                     $(
@@ -137,83 +137,57 @@ macro_rules! Lexer{
         };
 
 
-        (secondary: 
-            $($token_name_secondary:ident $(, $type_secondary:ty)? , $({$matched_string:ident })? $matched_type:pat ),*
+        (@ENUM: 
+            $(
+                $token_name:ident, $($type:ty)?
+            ),+
         ) => {
-            fn secondary_pass(input: Vec<Lexer>) -> Vec<Lexer> {
 
-              
-
-                input.into_iter().map(|l|{
-
-                    $($(
-                        let $matched_string: String = stringify!($matched_string).to_string();
-                        
-                      
-                    )?)*
-                    
-                    match l {
-                        $(                                                 
-                            $matched_type$((_/* $type_secondary */))? => {
-                                Lexer::$token_name_secondary$(({
-                                    let val: $type_secondary = m.parse().unwrap();
-                                    val
-                                }))?
-
-                            }
-                       )*
-                        _ => {l}
-                    }
-
-                }).collect()
-            }
-
-
-        };
-
-
-        (type: $($token_name:ident, $($type:ty)?),+) => {
             #[derive(Debug, Clone)]
             enum Lexer {
                 $($token_name$(($type))?),+
             }
         };
         
-        // Entrypoint
+        // ENTRYPOINT
         (
-            {
-               $({$matcher:pat $(=> $($until:pat)?)? } => $token_name:ident$(($type:ty))? ),+ 
-              
+            { // FIRST PASS
+               $(
+                    { $matcher:pat $(=> $($until:pat)? )? } => $token_name:ident$(($type:ty))? 
+                ),+               
             }
             
-            $({$skip:pat} => _)?
+            // SKIP PATTERN
+            $({ $skip:pat } => _)?
             
-            {
+            { // SECOND PASS
                 $(
                     $matched_type:ident => {
                         $(
                             { $secondary_pattern:pat } => $secondary_token_name:ident$(($secondary_type:ty))?
-
                         ),+
                     }
                 ),*
             }
-        )=>{
+        ) => {
             
             
-            Lexer!(type: 
+            Lexer!(
+                @ENUM: 
                 $($token_name, $($type)?),+  
                 $(,$( $secondary_token_name, $($secondary_type)?),*)*
             );
 
             impl Lexer {
-                Lexer!(matcher: $($token_name, $matcher, $($type)?, $(=> $(($until))?)?),+ $(, ($skip))?);
-                /* 
-                Lexer!(secondary: 
-                 $($token_name_secondary $(, $type_secondary)? , $({ $matched_string })?  $matched_type ),*
-                );*/
+                
+                Lexer!(@PRIMARY: 
+                    $(
+                        $token_name, $matcher, $($type)?, $(=> $(($until))?)?
+                    ),+ 
+                    $(, ($skip))?
+                );
 
-                Lexer!(@secondary: 
+                Lexer!(@SECONDARY: 
                     $(
                         $matched_type => {
                             $(
@@ -260,19 +234,7 @@ macro_rules! Lexer{
 );
  
 
-macro_rules! Test{
-    ($({$start:pat $(=> $($end:pat)?)?} => $target:path),+) => {
-       $({ println!("{}", stringify!($start));
-        $(
-            println!("=>");
-            $(
-                println!("{}", stringify!($end));
-            )?
-        )?
-        println!("{}", stringify!($target));
-    };)+
-};
-}
+
 
 
 fn main() {
@@ -280,16 +242,6 @@ fn main() {
 
    
     let t = Lexer::lex(&a).unwrap();
-
- 
-
-
-
-    Test!(
-        {'0'..='9'} => Lexer::NUMBER,
-        {'0'..='9' =>} => Lexer::NUMBER,
-        {'0'..='9' => '0'..='9'} => Lexer::NUMBER
-    );
     
 
     println!("{:?}", t);
