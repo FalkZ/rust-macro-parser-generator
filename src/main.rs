@@ -1,5 +1,4 @@
 macro_rules! Lexer{
-       
     
          // default match breaks after 1 char
         (@MATCH: $matcher:pat, $it:ident) => {
@@ -119,7 +118,7 @@ macro_rules! Lexer{
                                     $( 
                                         $secondary_pattern => {
                                             Lexer::$secondary_token_name$(({
-                                                let val: $secondary_type = value.parse().unwrap();
+                                                let val: $secondary_type = value.into();
                                                 val
                                             }))?
                                         }
@@ -229,7 +228,7 @@ macro_rules! Lexer{
     { ' ' | '\n' } => _
     
     {
-        NUMBER => { {123} => T123 }
+        NUMBER => { { 123 } => T123(i64) }
     } 
 );
  
