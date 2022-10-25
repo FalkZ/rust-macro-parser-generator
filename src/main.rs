@@ -101,25 +101,98 @@ impl Parser {
     }
 }
 
+
+macro_rules! omit {
+    ($(omit:tt)+) => {};
+}
+
+macro_rules! Parser {
+    (@OMIT: omit:tt) => {};
+    (
+        {
+            $(
+                $token_name:ident
+                $(
+                    ($type:ty)
+                )?
+            ),+
+        }{
+            $(
+                $rule_name:ident = 
+                $({
+                    $(
+                        $($lex_or:ident
+                            $(($lex_or_type:ty))?
+                        )?
+                        $(#$rule_or:ident)?
+                    )|+
+                })? 
+                $((
+                    $(
+                        $($lex_and:ident
+                            $(($lex_and_type:ty))?
+                        )?
+                        $(#$rule_and:ident)?
+                    ),+
+                ))?
+            ),+
+        }
+    ) => {
+            $( 
+                $(
+                    #[derive(Clone, Copy)]
+                    struct $token_name($type);               
+                )?
+            )+
+            $(
+                $(
+                    #[derive(Clone)]
+                    enum $rule_name {
+                    $(
+                        $(
+                            $lex_or$(($lex_or, $lex_or_type)
+                        )?
+                            
+                        )?
+                        $(    
+                            $rule_or(Box<$rule_or>)
+                        )?
+                    ,)+
+                    }
+                )? 
+                $(
+                    #[derive(Clone)]
+                    struct $rule_name (
+                    $(
+                        $(
+                            $lex_and   
+                        )?
+                        $(    
+                            Box<$rule_and>
+                        )?
+                    ),+
+                    );
+                )? 
+              
+            )+
+        };
+}
+
 // op = PLUS | MINUS | POWER | DIV
 // _term3 = term | NUMBER(i64)
 // term = NUMBER(i64) op _term3
 
-enum op {
-    PLUS,
-    MINUS,
-    POWER,
-    DIV,
+Parser!({PLUS, MINUS, POWER, DIV,  NUMBER(i64)}
+{
+    op = { PLUS | MINUS | POWER | DIV },
+    _term3 = { #term | NUMBER(i64) },
+    term = (NUMBER(i64), #op, #_term3)
 }
+);
 
-struct NUMBER(i64);
 
-enum _term3 {
-    op(op),
-    NUMBER(NUMBER),
-}
 
-struct term(NUMBER, op, _term3);
+
 
 fn run() -> ParserResult<()> {
     let a = "123 \n ^+ 345 add 12 'text' ";
@@ -132,5 +205,19 @@ fn run() -> ParserResult<()> {
 }
 
 fn main() {
+
+    let a = term(NUMBER(123),Box::new(op::MINUS), Box::new(_term3::NUMBER(NUMBER(123), 123)));
+
+
+    let b: i64 = a.0.0;
+
+    let c = *a.2;
+    let d = match c {
+        _term3::NUMBER(typ, val) => {
+
+        }
+        _ => {}
+    };
+
     println!("{:?}", run());
 }

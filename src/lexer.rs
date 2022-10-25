@@ -1,5 +1,7 @@
-
-pub trait FakeAsStr where Self: Sized {
+pub trait FakeAsStr
+where
+    Self: Sized,
+{
     fn as_str(self) -> Self {
         self
     }
@@ -9,7 +11,7 @@ impl<T: std::fmt::Binary> FakeAsStr for T {}
 
 #[macro_export]
 macro_rules! Lexer {
-    
+
     // default match breaks after 1 char
    (@MATCH: $matcher:pat, $it:ident) => {
        Lexer!(@MATCH: $matcher, $it, break)
@@ -18,8 +20,8 @@ macro_rules! Lexer {
    // matches until other pattern is reached
    (@MATCH: $matcher:pat, $it:ident, continue, $until:pat) => {
        {
-           let mut str: String = "".to_string();           
-          
+           let mut str: String = "".to_string();
+
            str.push(*$it.peek().expect("called with no chars left"));
            $it.next();
 
@@ -32,11 +34,11 @@ macro_rules! Lexer {
                    }
                    _ => {
                        $it.next();
-                       str.push(c);    
+                       str.push(c);
                    }
-   
+
                }
-           }                
+           }
            str
        }
    };
@@ -57,19 +59,19 @@ macro_rules! Lexer {
                }
 
            }
-       }                
+       }
        str
    }
    };
 
-  
-   (@PRIMARY: 
+
+   (@PRIMARY:
        $(
            $token_name:ident, $matcher:pat, $($type:ty)?, $(=> $(($until:pat))?)?
-       ),+ 
+       ),+
        $(, ($skip:pat))?
    ) => {
-     
+
            fn primary_pass(input: &str) -> Result<Vec<Lexer>, String> {
                let mut result = Vec::new();
 
@@ -77,17 +79,17 @@ macro_rules! Lexer {
                while let Some(&c) = it.peek() {
                    match c {
                        $(
-                           $matcher => {   
-                               
+                           $matcher => {
+
                                let _m = Lexer!(@MATCH: $matcher, it $(, continue $(, $until)?)?);
-                               
+
                                result.push(
                                    Lexer::$token_name$(({
                                        let val: $type = _m.parse().unwrap();
                                        val
                                    }))?
                                );
-                               continue;                                   
+                               continue;
                            }
                        )+
 
@@ -96,7 +98,7 @@ macro_rules! Lexer {
                                it.next();
                            }
                        )?
-                         
+
                        _ => {
                            return Err(format!("unexpected character {:?}", c));
                        }
@@ -104,10 +106,10 @@ macro_rules! Lexer {
                }
 
                Ok(result)
-           }              
+           }
    };
 
-   (@SECONDARY: 
+   (@SECONDARY:
        $(
            $matched_type:ident => {
                $(
@@ -118,15 +120,15 @@ macro_rules! Lexer {
        ),*
    ) => {
 
-       fn secondary_pass(input: Vec<Lexer>) -> Vec<Lexer> {  
+       fn secondary_pass(input: Vec<Lexer>) -> Vec<Lexer> {
 
-           input.into_iter().map(|l|{        
+           input.into_iter().map(|l|{
                match l.clone() {
-                   $(                                                 
+                   $(
                        Lexer::$matched_type(value) => {
                            use $crate::lexer::FakeAsStr;
                            match value.as_str() {
-                               $( 
+                               $(
                                    $secondary_pattern => {
                                        Lexer::$secondary_token_name$(({
                                            let val: $secondary_type = value.into();
@@ -147,7 +149,7 @@ macro_rules! Lexer {
    };
 
 
-   (@ENUM: 
+   (@ENUM:
        $(
            $token_name:ident, $($type:ty)?
        ),+
@@ -158,18 +160,18 @@ macro_rules! Lexer {
            $($token_name$(($type))?),+
        }
    };
-   
+
    // ENTRYPOINT
    (
        { // FIRST PASS
           $(
-               { $matcher:pat $(=> $($until:pat)? )? } => $token_name:ident$(($type:ty))? 
-           ),+               
+               { $matcher:pat $(=> $($until:pat)? )? } => $token_name:ident$(($type:ty))?
+           ),+
        }
-       
+
        // SKIP PATTERN
        $({ $skip:pat } => _)?
-       
+
        { // SECOND PASS
            $(
                $matched_type:ident => {
@@ -180,24 +182,24 @@ macro_rules! Lexer {
            ),*
        }
    ) => {
-       
-       
+
+
        Lexer!(
-           @ENUM: 
-           $($token_name, $($type)?),+  
+           @ENUM:
+           $($token_name, $($type)?),+
            $(,$( $secondary_token_name, $($secondary_type)?),*)*
        );
 
        impl Lexer {
-           
-           Lexer!(@PRIMARY: 
+
+           Lexer!(@PRIMARY:
                $(
                    $token_name, $matcher, $($type)?, $(=> $(($until))?)?
-               ),+ 
+               ),+
                $(, ($skip))?
            );
 
-           Lexer!(@SECONDARY: 
+           Lexer!(@SECONDARY:
                $(
                    $matched_type => {
                        $(
@@ -214,13 +216,13 @@ macro_rules! Lexer {
 
                let first = Lexer::primary_pass(input)?;
 
-              
+
                Ok(Lexer::secondary_pass(first))
-            
+
            }
-       
+
        }
 
    };
- 
+
 }
