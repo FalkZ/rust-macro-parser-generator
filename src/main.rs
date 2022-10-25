@@ -1,4 +1,11 @@
 mod lexer;
+mod result;
+mod traits;
+
+use core::slice::Iter;
+use result::{ParserResult, ParserError};
+use traits::*;
+
 
 Lexer!(
     {
@@ -27,7 +34,7 @@ Lexer!(
 macro_rules! eat {
     ($self:ident, $($pattern : tt)+) => {
         let next = $self.next().or_message("next on EOF")?;
-     
+
         if(!matches!(&next, &$($pattern)+)){
             return ParserError::error(&format!("tried to eat {} but was {:?}", stringify!($($pattern)+), &next));
         }
@@ -46,101 +53,17 @@ macro_rules! peek {
     };
 }
 
+
+
 #[derive(Debug)]
 struct Parser {
     tokens: Vec<Lexer>,
     stack: Vec<Lexer>,
 }
 
-
-
-
-
-
-#[derive(Debug)]
-enum ParserError {
-    Mismatch,
-    Err(anyhow::Error),
-}
-
-
-use std::error::Error;
-use std::fmt;
-
-impl fmt::Display for ParserError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "SuperError is here!")
-    }
-}
-
-impl Error for ParserError {
-    fn description(&self) -> &str {
-        "I'm the superhero of errors"
-    }
-
-    fn cause(&self) -> Option<&dyn Error> {
-        match &self {
-            ParserError::Err(e) => Some(self),
-            _ => None,
-
-        }
-    }
-}
-
-
-
-
-
-
-
-type ParserResult<T> =  Result<T, ParserError>;
-
-impl ParserError {
-    fn error(message: &str) -> ParserError {
-        ParserError::Err(anyhow::anyhow!(message))
-    }
-}
-
-
-use core::slice::Iter;
-
-
-
-
-
-trait T<V> {
-    fn or_message(self, str: &str) -> ParserResult<V>;
-}
-
-impl<A> T<A> for Option<A> {
-    fn or_message(self, message: &str) -> ParserResult<A> {
-        match self {
-            Some(v) => Ok(v),
-            None => Err(ParserError::error(message)),
-        }
-    }
-}
-
-trait T2<V> {
-    fn or_err(self) -> ParserResult<V>;
-}
-
-impl<A, E: Into<anyhow::Error>> T2<A> for Result<A, E> {
-    fn or_err(self) -> ParserResult<A> {
-        let res: anyhow::Result<Lexer> = self.into();
-        match res {
-            Ok(v) => Ok(v),
-            Err(e) => ParserError::Err(e),
-        }
-    }
-}
-
-
-
 impl Parser {
-    fn new(str: &str) -> Result<Self, String> {
-        let tokens = Lexer::lex(str)?;
-
+    fn new(str: &str) -> ParserResult<Self> {
+        let tokens = Lexer::lex(str).or_err()?;
         return Ok(Self {
             tokens,
             stack: vec![],
@@ -155,58 +78,55 @@ impl Parser {
         }
     }
 
-    fn next(&mut self) -> ParserResult<Lexer> {
-        if self.tokens.is_empty() {
-            Err("next on EOF".into())
-        } else {
-            Ok(self.tokens.remove(0))
-        }
-    }
-
     fn root(mut self) -> Result<(), String> {
-        while let Ok(t) = self.peek() {
-            println!("{:?}", &t);
-
-            match t {
-                &Lexer::NUMBER(i64) => {
-                    let a = self.next().unwrap();
-                    self.stack.push(a);
-                }
-                _ => {
-                    self.next().unwrap();
-                }
-            };
-        }
-        println!("{:?}", &self);
-
         // eat!(self, Lexer::T123(_));
         // eat!(self, Lexer::PLUS);
 
         Ok(())
     }
 
-    fn parse_term(tokens: Iter<Lexer>) -> ParserResult<()> {
-         eat!(tokens, NUMBER);
+    fn parse_term(mut tokens: Iter<Lexer>) -> ParserResult<()> {
+        eat!(tokens, Lexer::NUMBER(_));
+        eat!(tokens, Lexer::NUMBER(_));
 
         Ok(())
     }
 
-    fn start(self) {
+    fn start(self) -> ParserResult<()> {
         let iter: Iter<Lexer> = self.tokens.iter();
 
-        Self::parse_term(iter.clone());
+        Self::parse_term(iter.clone())?;
+
+        Ok(())
     }
 }
 
 // op = PLUS | MINUS | POWER | DIV
-// term = NUMBER op { term | NUMBER }
+// _term3 = term | NUMBER(i64)
+// term = NUMBER(i64) op _term3
 
-fn run() -> Result<(), String> {
+enum op {
+    PLUS,
+    MINUS,
+    POWER,
+    DIV,
+}
+
+struct NUMBER(i64);
+
+enum _term3 {
+    op(op),
+    NUMBER(NUMBER),
+}
+
+struct term(NUMBER, op, _term3);
+
+fn run() -> ParserResult<()> {
     let a = "123 \n ^+ 345 add 12 'text' ";
 
     let t = Parser::new(a)?;
 
-    t.root()?;
+    t.start()?;
 
     Ok(())
 }
