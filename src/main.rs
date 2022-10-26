@@ -150,7 +150,7 @@ macro_rules! Parser {
                     enum $rule_name {
                     $(
                         $(
-                            $lex_or$(($lex_or, $lex_or_type)
+                            $lex_or$(($lex_or_type)
                         )?
                             
                         )?
@@ -206,14 +206,14 @@ fn run() -> ParserResult<()> {
 
 fn main() {
 
-    let a = term(NUMBER(123),Box::new(op::MINUS), Box::new(_term3::NUMBER(NUMBER(123), 123)));
+    let a = term(NUMBER(123),Box::new(op::MINUS), Box::new(_term3::NUMBER(123)));
 
 
     let b: i64 = a.0.0;
 
     let c = *a.2;
     let d = match c {
-        _term3::NUMBER(typ, val) => {
+        _term3::NUMBER(val) => {
 
         }
         _ => {}
