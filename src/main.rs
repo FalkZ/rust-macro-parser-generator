@@ -3,6 +3,7 @@ mod parser;
 mod result;
 mod traits;
 mod tokens;
+mod matchers;
 
 use core::slice::Iter;
 
@@ -43,62 +44,16 @@ Lexer!(
 
 Parser!({PLUS, MINUS, POWER, DIV,  NUMBER(i64)}
 {
-    op = { PLUS | MINUS | POWER | DIV },
+    op = { PLUS | MINUS | POWER },
     _term3 = { #term | NUMBER(i64) },
     term = (NUMBER(i64), #op, #_term3)
 }
 );
 
 
-macro_rules! return_if_match {
-    ($parser_result:ident) => {
-        match $parser_result {
-            Ok(m) => return Ok(Box::new(m)),
-            _ => (),
-        }
-    }
-}
 
-macro_rules! mat {
-    ($pinned_tokens:expr, $name:ident, $name_out:path) => {
-        {
-            let tokens = $pinned_tokens;
-            let next = tokens.next().or_message("next on EOF")?;
-     
-            match next {
-                Lexer::$name => Ok($name_out),                 
-                _ => Err(ParserError::Mismatch)
-            }
-        }
-    };
 
-    ($pinned_tokens:expr, $name:ident (), $name_out:path) => {
-        {
-            let tokens = $pinned_tokens;
-            let next = tokens.next().or_message("next on EOF")?;
-     
-            match next {
-                Lexer::$name(val) =>  Ok($name_out(*val)),      
-                _ =>  Err(ParserError::Mismatch)
-            }
-        }
-    };
 
-    ($pinned_tokens:expr, #$name:ident, $name_out:path) => {
-        {
-            match Self::$name($pinned_tokens) {
-                Ok(val) => Ok($name_out(val)),
-                _ =>  Err(ParserError::Mismatch)
-            }
-        }
-    };
-
-    ($pinned_tokens:expr, #$name:ident) => {
-        {
-           Self::$name($pinned_tokens)
-        }
-    };
-}
 
 
 #[derive(Debug)]
@@ -122,7 +77,7 @@ impl Parser {
        
         let a = mat!(pin.get_pinned(), #term, _term3::term);
         return_if_match!(a);
-        let a = mat!(pin.get_pinned(), NUMBER(), _term3::NUMBER);
+        let a = mat!(pin.get_pinned(), NUMBER(i32), _term3::NUMBER);
         return_if_match!(a);
 
         Err(ParserError::UnreachableAt("parse_term".to_string()))
@@ -143,7 +98,7 @@ impl Parser {
     fn term(tokens: & Tokens<Lexer>) -> ParserResult<Box<term>> {
         println!("parse_term: {:?}", tokens);
         let r = term(
-        mat!(tokens, NUMBER(), NUMBER)?,
+        mat!(tokens, NUMBER(i32), NUMBER)?,
         mat!(tokens, #op)?,
         mat!(tokens, #_term3)?,
         );
@@ -163,9 +118,9 @@ fn run() -> ParserResult<Box<term>> {
 
     let b = "123 \n - 345 + 12 ";
 
-    let t = Parser::new(b)?;
+    let t = Parser2::new(b)?;
 
-    Parser::term(&t.tokens)
+    Parser2::term(&t.tokens)
 }
 
 fn main() {
