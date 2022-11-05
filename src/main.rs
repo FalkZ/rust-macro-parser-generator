@@ -42,17 +42,11 @@ Lexer!(
 // _term3 = term | NUMBER(i64)
 // term = NUMBER(i64) op _term3
 
-Parser!({PLUS, MINUS, POWER, DIV,  NUMBER(i64)}
-{
+Parser!(
     op = { PLUS | MINUS | POWER },
     _term3 = { #term | NUMBER(i64) },
     term = (NUMBER(i64), #op, #_term3)
-}
 );
-
-
-
-
 
 
 

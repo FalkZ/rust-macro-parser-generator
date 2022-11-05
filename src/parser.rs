@@ -1,16 +1,7 @@
 
 #[macro_export]
 macro_rules! Parser {
-    (@OMIT: omit:tt) => {};
-    (
-        {
-            $(
-                $token_name:ident
-                $(
-                    ($type:ty)
-                )?
-            ),+
-        }{
+    (      
             $(
                 $rule_name:ident = 
                 $({
@@ -30,14 +21,8 @@ macro_rules! Parser {
                     ),+
                 ))?
             ),+
-        }
+        
     ) => {
-            $( 
-                $(
-                    #[derive(Debug, Clone, Copy)]
-                    struct $token_name($type);               
-                )?
-            )+
             $(
                 $(
                     #[derive(Debug, Clone)]

@@ -159,6 +159,13 @@ macro_rules! Lexer {
        enum Lexer {
            $($token_name$(($type))?),+
        }
+
+       
+       $(
+        #[derive(Debug, Clone)]
+            struct $token_name$(($type))?;
+        )+
+       
    };
 
    // ENTRYPOINT
