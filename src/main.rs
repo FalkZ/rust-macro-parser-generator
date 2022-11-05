@@ -4,8 +4,9 @@ mod result;
 mod traits;
 mod tokens;
 mod matchers;
+mod visitor;
+mod example_parser;
 
-use core::slice::Iter;
 
 use result::{ParserResult, ParserError};
 use traits::*;
@@ -49,63 +50,13 @@ Parser!(
 );
 
 
+struct V;
 
-#[derive(Debug)]
-struct Parser {
-    tokens: Tokens<Lexer>,
+impl Visitor<()> for V {
+   fn term(&self,_: &term) -> () {
+       println!("hello")
+   }
 }
-
-impl Parser {
-    fn new(str: &str) -> ParserResult<Self> {
-        let tokens = Lexer::lex(str).or_err()?;
-
-        
-        return Ok(Self {
-            tokens: Tokens::new(tokens),
-        });
-    }
-
-    fn _term3(tokens: & Tokens<Lexer>) -> ParserResult<Box<_term3>> {
-
-        let pin = tokens.pin();
-       
-        let a = mat!(pin.get_pinned(), #term, _term3::term);
-        return_if_match!(a);
-        let a = mat!(pin.get_pinned(), NUMBER(i32), _term3::NUMBER);
-        return_if_match!(a);
-
-        Err(ParserError::UnreachableAt("parse_term".to_string()))
-    }
-
-    fn op(tokens: & Tokens<Lexer>) -> ParserResult<Box<op>> {
-        
-        let pin = tokens.pin();
-
-        let a = mat!(pin.get_pinned(), PLUS, op::PLUS);
-        return_if_match!(a);
-        let a = mat!(pin.get_pinned(), MINUS, op::MINUS);
-        return_if_match!(a);
-
-         Err(ParserError::UnreachableAt("parse_op".to_string()))
-    }
-
-    fn term(tokens: & Tokens<Lexer>) -> ParserResult<Box<term>> {
-        println!("parse_term: {:?}", tokens);
-        let r = term(
-        mat!(tokens, NUMBER(i32), NUMBER)?,
-        mat!(tokens, #op)?,
-        mat!(tokens, #_term3)?,
-        );
-     
-
-        Ok(Box::new(r))
-    }
-
-}
-
-
-
-
 
 fn run() -> ParserResult<Box<term>> {
     let a = "123 \n - 345 add 12 'text' ^";
@@ -114,23 +65,20 @@ fn run() -> ParserResult<Box<term>> {
 
     let t = Parser2::new(b)?;
 
-    Parser2::term(&t.tokens)
+    let t = Parser2::term(&t.tokens)?;
+
+    let v = V{};
+
+    t.visit(v);
+
+    Ok(t)
 }
+
+
 
 fn main() {
 
-    let a = term(NUMBER(123),Box::new(op::MINUS), Box::new(_term3::NUMBER(123)));
 
-
-    let b: i64 = a.0.0;
-
-    let c = *a.2;
-    let d = match c {
-        _term3::NUMBER(val) => {
-
-        }
-        _ => {}
-    };
 
     println!("{:?}", run());
 }

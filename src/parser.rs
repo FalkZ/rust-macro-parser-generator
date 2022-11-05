@@ -26,7 +26,7 @@ macro_rules! Parser {
             $(
                 $(
                     #[derive(Debug, Clone)]
-                    enum $rule_name {
+                    pub enum $rule_name {
                     $(
                         $(
                             $lex_or$(($lex_or_type))?
@@ -36,11 +36,11 @@ macro_rules! Parser {
                             $rule_or(Box<$rule_or>)
                         )?
                     ,)+
-                    }
+                    } 
                 )? 
                 $(
                     #[derive(Debug, Clone)]
-                    struct $rule_name (
+                    pub struct $rule_name (
                     $(
                         $(
                             $lex_and   
@@ -50,9 +50,18 @@ macro_rules! Parser {
                         )?
                     ),+
                     );
-                )? 
-              
+                )?
+                
+                impl_visit!($rule_name);                       
             )+
+
+            pub trait Visitor<R> {
+                $(impl_visitor!($rule_name);)+
+            }
+
+            pub trait Visit {
+                fn visit<R, V: Visitor<R>>(&self, visitor: V)-> R;
+            }
 
             #[derive(Debug)]
             struct Parser2 {
