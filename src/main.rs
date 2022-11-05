@@ -49,60 +49,53 @@ Parser!({PLUS, MINUS, POWER, DIV,  NUMBER(i64)}
 }
 );
 
-macro_rules! eat3 {
-    ($self:ident, $name:ident ($type:ty)) => {
+
+macro_rules! return_if_match {
+    ($parser_result:ident) => {
+        match $parser_result {
+            Ok(m) => return Ok(Box::new(m)),
+            _ => (),
+        }
+    }
+}
+
+macro_rules! mat {
+    ($pinned_tokens:expr, $name:ident, $name_out:path) => {
         {
-            let next = $self.peek().or_message("next on EOF")?;
+            let tokens = $pinned_tokens;
+            let next = tokens.next().or_message("next on EOF")?;
      
-            match &next {
-                Lexer::$name (val) => {
-                    $self.next();
-                    Ok($name(*val))
-                },            
+            match next {
+                Lexer::$name => Ok($name_out),                 
                 _ => Err(ParserError::Mismatch)
             }
         }
     };
-}
 
-macro_rules! mat {
-    ($self:ident, $name:ident, $name_out:path) => {
+    ($pinned_tokens:expr, $name:ident (), $name_out:path) => {
         {
-            let next = $self.peek().or_message("next on EOF")?;
-
-            println!("match token {:?} to {:?}", next, stringify!($name));
+            let tokens = $pinned_tokens;
+            let next = tokens.next().or_message("next on EOF")?;
      
-            match &next {
-                Lexer::$name => {
-                    $self.next();
-                    return Ok(Box::new($name_out));
-                },            
-                _ => ()
-            }
-        }
-    };
-    ($self:ident, $name:ident (), $name_out:path) => {
-        {
-            let next = $self.peek().or_message("next on EOF")?;
-
-            println!("match token {:?} to {:?}", next, stringify!($name));
-     
-            match &next {
-                Lexer::$name (val) => {
-                    $self.next();
-                    return Ok(Box::new(($name_out(*val))));
-                },            
-                _ => ()
+            match next {
+                Lexer::$name(val) =>  Ok($name_out(*val)),      
+                _ =>  Err(ParserError::Mismatch)
             }
         }
     };
 
-    ($pinned_tokens:ident, #$name:ident, $name_out:path) => {
+    ($pinned_tokens:expr, #$name:ident, $name_out:path) => {
         {
-            match Self::$name($pinned_tokens.get_pinned()) {
-                Ok(val) => return Ok(Box::new($name_out(val))),
-                _ => (),
-            };
+            match Self::$name($pinned_tokens) {
+                Ok(val) => Ok($name_out(val)),
+                _ =>  Err(ParserError::Mismatch)
+            }
+        }
+    };
+
+    ($pinned_tokens:expr, #$name:ident) => {
+        {
+           Self::$name($pinned_tokens)
         }
     };
 }
@@ -127,16 +120,22 @@ impl Parser {
 
         let pin = tokens.pin();
        
-        mat!(pin, #term, _term3::term);
+        let a = mat!(pin.get_pinned(), #term, _term3::term);
+        return_if_match!(a);
+        let a = mat!(pin.get_pinned(), NUMBER(), _term3::NUMBER);
+        return_if_match!(a);
 
-        let a = pin.get_pinned();
-        mat!(a, NUMBER(), _term3::NUMBER);
         Err(ParserError::UnreachableAt("parse_term".to_string()))
     }
 
     fn op(tokens: & Tokens<Lexer>) -> ParserResult<Box<op>> {
-         mat!(tokens, PLUS, op::PLUS);
-         mat!(tokens, MINUS, op::MINUS);
+        
+        let pin = tokens.pin();
+
+        let a = mat!(pin.get_pinned(), PLUS, op::PLUS);
+        return_if_match!(a);
+        let a = mat!(pin.get_pinned(), MINUS, op::MINUS);
+        return_if_match!(a);
 
          Err(ParserError::UnreachableAt("parse_op".to_string()))
     }
@@ -144,9 +143,9 @@ impl Parser {
     fn term(tokens: & Tokens<Lexer>) -> ParserResult<Box<term>> {
         println!("parse_term: {:?}", tokens);
         let r = term(
-        eat3!(tokens, NUMBER(n))?,
-        Self::op(tokens)?,
-        Self::_term3(tokens)?
+        mat!(tokens, NUMBER(), NUMBER)?,
+        mat!(tokens, #op)?,
+        mat!(tokens, #_term3)?,
         );
      
 
