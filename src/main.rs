@@ -49,50 +49,6 @@ Parser!({PLUS, MINUS, POWER, DIV,  NUMBER(i64)}
 }
 );
 
-macro_rules! cast {
-    ($target: expr, $pat: path) => {
-        {
-            if let $pat(a) = $target { // #1
-                a
-            } else {
-                panic!(
-                    "mismatch variant when cast to {}", 
-                    stringify!($pat)); // #2
-            }
-        }
-    };
-}
-
-macro_rules! eat {
-    ($self:ident, $pattern : pat) => {
-        let next = $self.next().or_message("next on EOF")?;
-
-    
-        match &next {
-            $pattern => Ok(n),            
-            _ => Err(ParserError::Unreachable)
-        }
-
-    };
-}
-
-
-macro_rules! eat2 {
-    ($self:ident, $name:ident ($type:ty)) => {
-        {
-            let next = $self.next().or_message("next on EOF")?;
-     
-            match &next {
-                Lexer::$name (val) => {
-
-                    Ok($name(*val))
-                },            
-                _ => Err(ParserError::Mismatch)
-            }
-        }
-    };
-}
-
 macro_rules! eat3 {
     ($self:ident, $name:ident ($type:ty)) => {
         {
@@ -150,18 +106,6 @@ macro_rules! mat {
         }
     };
 }
-
-macro_rules! peek {
-    ($self:ident, $($pattern : tt)+) => {
-        {
-            let next = $self.peek()?;
-            if(!matches!(&next, &$($pattern)+)){
-                return Mismatch;
-            }
-        }
-    };
-}
-
 
 
 #[derive(Debug)]
