@@ -45,13 +45,12 @@ Lexer!(
 Parser!(
     operator = {PLUS | MINUS | DIVISION | IDENT(String) },
     value = { NUMBER(i64) | TEXTLITERAL(String) | IDENT(String)},
-    expression = (#value, #operator, #expressions),
+    expression = (#value => value, #operator => operator, #expressions => ex),
     expressions = {#expression | #value},
-    argument =  (IDENT(String), COMMA, #arguments),
+    argument =  (IDENT(String) => arg,  COMMA, #arguments => rest),
     arguments = {#argument | IDENT(String)},
-
-    function = (IDENT(String), BRACKETOPEN, #arguments, BRACKETCLOSE, EQUAL, #expressions),
-    assignment = (IDENT(String), EQUAL, #expressions),
+    function = ( IDENT(String) => name, BRACKETOPEN, #arguments => arguments,  BRACKETCLOSE, EQUAL, #expressions => body),
+    assignment = ( IDENT(String) => name, EQUAL, #expressions => body),
     statement = {#function | #assignment}
 );
 
@@ -79,8 +78,8 @@ impl Visitor<ASTVariants> for V {
         loop {
             match a {
                 arguments::argument(ar) => {
-                    vec.push(ar.0.0.clone());
-                    a = &ar.2
+                    vec.push(ar.arg.0.clone());
+                    a = &ar.rest
                 }
                 arguments::IDENT(str) => {
                     vec.push(str.to_owned());
@@ -93,8 +92,9 @@ impl Visitor<ASTVariants> for V {
     }
 
     fn function(&self, f: &function) -> ASTVariants {
-        let name = f.0.0.to_owned();
-        match f.2.visit(self) {
+        let name = f.name.0.to_owned();
+    
+        match f.arguments.visit(self) {
             ASTVariants::Arguments(args) => ASTVariants::Function(Function {
                 name,
                 args,

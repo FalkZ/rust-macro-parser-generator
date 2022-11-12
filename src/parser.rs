@@ -14,10 +14,14 @@ macro_rules! Parser {
                 })? 
                 $((
                     $(
-                        $($lex_and:ident
+                        $(
+                            $lex_and:ident
                             $(($lex_and_type:ty))?
+                            $(=> $enum_key:ident)?
                         )?
-                        $(#$rule_and:ident)?
+                        $(  #$rule_and:ident 
+                            $(=> $rule_enum_key:ident)?
+                        )?
                     ),+
                 ))?
             ),+
@@ -40,16 +44,17 @@ macro_rules! Parser {
                 )? 
                 $(
                     #[derive(Debug, Clone)]
-                    pub struct $rule_name (
+                    pub struct $rule_name {
                     $(
+                        
                         $(
-                            $lex_and   
+                            $($enum_key: $lex_and,)?           
                         )?
                         $(    
-                            Box<$rule_and>
-                        )?
-                    ),+
-                    );
+                            $($rule_enum_key: Box<$rule_and>,)?
+                        )?         
+                    )+
+                    }
                 )?
                 
                 impl_visit!($rule_name);                       
@@ -101,20 +106,29 @@ macro_rules! Parser {
                 // AND RULES
                 $(
                     fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
-                       
-                        let r = $rule_name(
                         $(
                             $(
-                                mat!(tokens, $lex_and$(($lex_and_type))?, $lex_and)? 
+                                $(let $enum_key =)? mat!(tokens, $lex_and$(($lex_and_type))?, $lex_and)? 
                             )?
-                            $(    
-                                mat!(tokens, #$rule_and)?
+                            $( 
+                                $(let $rule_enum_key =)? mat!(tokens, #$rule_and)?
                             )?
-                        ),+
-                        );
+                        ;)+
+
+
+                        let __r = $rule_name{
+                        $(
+                            $($(    
+                                $enum_key,
+                            )?)?
+                            $($(    
+                                $rule_enum_key,
+                            )?)?
+                        )+
+                        };
                      
                 
-                        Ok(Box::new(r))
+                        Ok(Box::new(__r))
                     }
                 )? 
             )+
