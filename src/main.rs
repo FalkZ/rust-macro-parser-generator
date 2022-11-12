@@ -4,7 +4,6 @@ mod parser;
 mod result;
 mod tokens;
 mod traits;
-mod visitor;
 //mod example_parser;
 
 use result::{ParserError, ParserResult};
@@ -69,7 +68,7 @@ struct Function {
     args: Vec<String>,
 }
 
-impl Visitor<ASTVariants> for V {
+impl V {
     fn arguments(&self, args: &arguments) -> ASTVariants {
         let mut vec: Vec<String> = vec![];
 

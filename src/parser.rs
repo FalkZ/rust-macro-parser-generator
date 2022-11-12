@@ -57,16 +57,8 @@ macro_rules! Parser {
                     }
                 )?
                 
-                impl_visit!($rule_name);                       
+                                       
             )+
-
-            pub trait Visitor<R> {
-                $(impl_visitor!($rule_name);)+
-            }
-
-            pub trait Visit {
-                fn visit<R, V: Visitor<R>>(&self, visitor: &V)-> R;
-            }
 
             #[derive(Debug)]
             struct Parser {
