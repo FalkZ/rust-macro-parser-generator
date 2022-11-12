@@ -41,25 +41,42 @@ Lexer!(
 // _term3 = term | NUMBER(i64)
 // term = NUMBER(i64) op _term3
 
+//expression = [#value => value, #operator => operator * | ],
+
 Parser!(
-    operator = {PLUS | MINUS | DIVISION | IDENT(String) },
-    value = { NUMBER(i64) | TEXTLITERAL(String) | IDENT(String)},
-    expression = (#value => value, #operator => operator, #expressions => ex),
-    expressions = {#expression | #value},
-    argument =  (IDENT(String) => arg,  COMMA, #arguments => rest),
-    arguments = {#argument | IDENT(String)},
-    function = ( IDENT(String) => name, BRACKETOPEN, #arguments => arguments,  BRACKETCLOSE, EQUAL, #expressions => body),
-    assignment = ( IDENT(String) => name, EQUAL, #expressions => body),
-    statement = {#function | #assignment}
+    operator = (PLUS | MINUS | DIVISION | IDENT(String) ),
+    value = ( NUMBER(i64) | TEXTLITERAL(String) | IDENT(String)),
+
+    expression = {#value => value, #operator => operator, #expressions => rest},
+    expressions = (#expression | #value),
+
+    argument =  {IDENT(String) => arg,  COMMA, #arguments => rest},
+    arguments = (#argument | IDENT(String)),
+
+    function = { IDENT(String) => name, BRACKETOPEN, #arguments => arguments,  BRACKETCLOSE, EQUAL, #expressions => body},
+    variable = { IDENT(String) => name, EQUAL, #expressions => body },
+    statement = (#function | #variable),
+    s = {#statement => statement, #statements => rest},
+    statements = (#s | #statement)
 );
 
 struct V;
 
+
+
 #[derive(Debug)]
-enum ASTVariants {
-    Arguments(Vec<String>),
-    Function(Function),
-    None,
+struct Statements {
+    functions: Vec<Function>,
+    variables: Vec<Variable>,
+}
+
+impl Default for Statements {
+    fn default() -> Self {
+        Statements {
+            functions: vec![],
+            variables: vec![]
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -68,60 +85,112 @@ struct Function {
     args: Vec<String>,
 }
 
-impl V {
-    fn arguments(&self, args: &arguments) -> ASTVariants {
-        let mut vec: Vec<String> = vec![];
+#[derive(Debug)]
+struct Variable {
+    name: String
+}
 
-        let mut a = args;
+macro_rules! map_nested {
+    (match $value:ident {
+        $($pattern:pat => $block:block)+
+    }
+    rest: $continue:path) => {
+        let mut __iter = $value;
 
         loop {
-            match a {
+            match __iter {
+                $($pattern => $block)+
+            };
+
+            match __iter {
+                $continue(v) => { __iter = &v.rest; },
+                _ => { break; }
+            };
+        }
+
+    };
+}
+
+impl V {
+    fn arguments(&self, args: &arguments) -> Vec<String> {
+        let mut vec: Vec<String> = vec![];
+
+        map_nested!(
+            match args {
                 arguments::argument(ar) => {
                     vec.push(ar.arg.0.clone());
-                    a = &ar.rest
                 }
                 arguments::IDENT(str) => {
                     vec.push(str.to_owned());
-                    break;
                 }
+
+            }
+            rest: arguments::argument
+        );
+
+        vec
+    }
+
+    fn function(&self, f: &function) -> Function {
+        let name = f.name.0.to_owned();
+
+       let args = self.arguments(&f.arguments);
+        
+        Function { name, args }
+    }
+
+    fn variable(&self, f: &variable) -> Variable {
+        let name = f.name.0.to_owned();
+      
+        Variable { name }
+    }
+
+    fn statement(&self, s: &mut Statements, statement: &statement){
+
+        match statement {
+            statement::function(fun) => {
+                s.functions.push(self.function(&fun));
+            },
+            statement::variable(var) => {s.variables.push(self.variable(&var));},
+        };
+    }
+
+    fn statements(&self, statements: &statements) -> Statements {
+        let mut s = Statements::default();
+
+        
+        map_nested!(match statements {
+            statements::statement(statement) => {
+                self.statement(&mut s, statement);      
+            }
+            statements::s(statements) => {
+                self.statement(&mut s, &statements.statement.to_owned());
             }
         }
+        rest: statements::s
+        );
 
-        ASTVariants::Arguments(vec)
-    }
-
-    fn function(&self, f: &function) -> ASTVariants {
-        let name = f.name.0.to_owned();
-    
-        match self.arguments(&f.arguments) {
-            ASTVariants::Arguments(args) => ASTVariants::Function(Function {
-                name,
-                args,
-            }),
-            _ => ASTVariants::None,
-        }
-    }
-
-    fn statement(&self, statement: &statement) -> ASTVariants {
-        match statement {
-            statement::function(fun) => self.function(fun),
-            statement::assignment(_) => todo!(),
-        }
+        s
     }
 }
 
-fn run() -> ParserResult<Box<statement>> {
-    let a = "test(a, b) = a + b";
+fn run() -> ParserResult<Box<statements>> {
+    let a = "
+    test(a, b) = 
+        a + b
+
+    PI = 316
+    ";
 
     // let a = "test = a";
 
     let t = Parser::new(a)?;
 
-    let t = Parser::statement(&t.tokens)?;
+    let t = Parser::statements(&t.tokens)?;
 
     let v = V {};
 
-    println!("{:?}", v.statement(&t));
+    println!("{:?}", v.statements(&t));
     Ok(t)
 }
 

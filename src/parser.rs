@@ -4,15 +4,15 @@ macro_rules! Parser {
     (      
             $(
                 $rule_name:ident = 
-                $({
+                $((
                     $(
                         $($lex_or:ident
                             $(($lex_or_type:ty))?
                         )?
                         $(#$rule_or:ident)?
                     )|+
-                })? 
-                $((
+                ))? 
+                $({
                     $(
                         $(
                             $lex_and:ident
@@ -23,7 +23,7 @@ macro_rules! Parser {
                             $(=> $rule_enum_key:ident)?
                         )?
                     ),+
-                ))?
+                })?
             ),+
         
     ) => {
