@@ -94,7 +94,7 @@ impl Visitor<ASTVariants> for V {
     fn function(&self, f: &function) -> ASTVariants {
         let name = f.name.0.to_owned();
     
-        match f.arguments.visit(self) {
+        match self.arguments(&f.arguments) {
             ASTVariants::Arguments(args) => ASTVariants::Function(Function {
                 name,
                 args,
@@ -105,7 +105,7 @@ impl Visitor<ASTVariants> for V {
 
     fn statement(&self, statement: &statement) -> ASTVariants {
         match statement {
-            statement::function(fun) => fun.visit(self),
+            statement::function(fun) => self.function(fun),
             statement::assignment(_) => todo!(),
         }
     }
@@ -122,8 +122,7 @@ fn run() -> ParserResult<Box<statement>> {
 
     let v = V {};
 
-    println!("{:?}", t.visit(&v));
-
+    println!("{:?}", v.statement(&t));
     Ok(t)
 }
 
