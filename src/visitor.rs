@@ -11,7 +11,7 @@ macro_rules! impl_visitor {
 macro_rules! impl_visit {
     ($name:ident) => {
         impl Visit for $name {
-            fn visit<R, V: Visitor<R>>(&self, v: V)-> R {
+            fn visit<R, V: Visitor<R>>(&self, v: &V)-> R {
                 v.$name(&self)
             }
         }

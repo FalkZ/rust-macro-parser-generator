@@ -60,7 +60,7 @@ macro_rules! Parser {
             }
 
             pub trait Visit {
-                fn visit<R, V: Visitor<R>>(&self, visitor: V)-> R;
+                fn visit<R, V: Visitor<R>>(&self, visitor: &V)-> R;
             }
 
             #[derive(Debug)]
@@ -102,7 +102,7 @@ macro_rules! Parser {
                 $(
                     fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
                        
-                        let r = term(
+                        let r = $rule_name(
                         $(
                             $(
                                 mat!(tokens, $lex_and$(($lex_and_type))?, $lex_and)? 
