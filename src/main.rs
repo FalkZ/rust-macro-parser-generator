@@ -9,6 +9,8 @@ mod traits;
 use result::{ParserError, ParserResult};
 use traits::*;
 
+
+
 use crate::tokens::Tokens;
 
 Lexer!(
@@ -47,14 +49,13 @@ Parser!(
     operator = (PLUS | MINUS | DIVISION | IDENT(String) ),
     value = ( NUMBER(i64) | TEXTLITERAL(String) | IDENT(String)),
 
-    expression = {#value => value, #operator => operator, #expressions => rest},
-    expressions = (#expression | #value),
+    expressions = [#value => value, #operator => operator, * | #value ],
 
     argument =  {IDENT(String) => arg,  COMMA, #arguments => rest},
     arguments = (#argument | IDENT(String)),
 
     function = { IDENT(String) => name, BRACKETOPEN, #arguments => arguments,  BRACKETCLOSE, EQUAL, #expressions => body},
-    variable = { IDENT(String) => name, EQUAL, #expressions => body },
+    variable = { IDENT(String) => name, EQUAL, IDENT(String) => body },
     statement = (#function | #variable),
     s = {#statement => statement, #statements => rest},
     statements = (#s | #statement)
@@ -174,24 +175,66 @@ impl V {
     }
 }
 
+
+#[derive(Debug, Clone)]
+struct Recursive<R, B> {
+    items: Vec<R>,
+    end: Option<B>
+}
+
+impl<R, B> Recursive<R, B> {
+    fn prepend_0(self, element: Recursive<R, B>) -> Self {
+
+        let mut items: Vec<R> = vec![];
+        
+        let end = element.end.or(self.end);
+
+        items.extend(element.items);
+        items.extend(self.items);
+
+
+        Self{ items, end }
+    }
+
+    fn prepend(self, element: R) -> Self {
+
+        let mut items: Vec<R> = vec![element];
+        
+        let end = self.end;
+
+        items.extend(self.items);
+
+
+        Self{ items, end }
+    }
+}
+
+
+
+
+
+
+
+
 fn run() -> ParserResult<Box<statements>> {
     let a = "
     test(a, b) = 
-        a + b
+        a + a a
 
-    PI = 316
+
     ";
 
     // let a = "test = a";
 
     let t = Parser::new(a)?;
 
-    let t = Parser::statements(&t.tokens)?;
+    let t = Parser::statement(&t.tokens)?;
+
 
     let v = V {};
 
-    println!("{:?}", v.statements(&t));
-    Ok(t)
+    println!("{:?}", &t);
+    Err(ParserError::Unreachable)
 }
 
 fn main() {

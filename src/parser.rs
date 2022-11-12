@@ -24,9 +24,34 @@ macro_rules! Parser {
                         )?
                     ),+
                 })?
+                // RECURSION RULE
+                $([
+                    $(
+                        $(
+                            $lex_rec_before:ident
+                            $(($lex_rec_before_type:ty))?
+                            $(=> $lex_rec_before_key:ident)?
+                        )?
+                        $(  #$rule_rec_before:ident 
+                            $(=> $rule_rec_before_key:ident)?
+                        )?
+                    ,)*
+                    *
+                    $(,
+                        $(
+                            $lex_rec_after:ident
+                            $(($lex_rec_after_type:ty))?
+                            $(=> $lex_rec_after_key:ident)?
+                        )?
+                        $(  #$rule_rec_after:ident 
+                            $(=> $rule_rec_after_key:ident)?
+                        )?
+                    )* | #$rec_break:ident
+                ])?
             ),+
         
     ) => {
+            use concat_idents::concat_idents;
             $(
                 $(
                     #[derive(Debug, Clone)]
@@ -55,6 +80,36 @@ macro_rules! Parser {
                         )?         
                     )+
                     }
+                )?
+
+                 // RECURSION RULE
+                $(                   
+                    
+                concat_idents!(struct_name = $rule_name, _single {
+                    #[derive(Debug, Clone)]
+                    pub struct struct_name {
+                    $(                     
+                        $(
+                            $($lex_rec_before_key:  $lex_rec_before,)?           
+                        )?
+                        $(    
+                            $($rule_rec_before_key: Box<$rule_rec_before>,)?
+                        )?
+                    )*
+                    $(
+                        $(
+                            $($lex_rec_after_key:  $lex_rec_after,)?           
+                        )?
+                        $(    
+                            $($rule_rec_after_key: Box<$rule_rec_after>,)?
+                        )?          
+                    )*
+                    }
+
+                    type $rule_name = Recursive<struct_name, $rec_break>;
+
+                });
+                    
                 )?
                 
                                        
@@ -118,6 +173,66 @@ macro_rules! Parser {
                             )?)?
                         )+
                         };
+                     
+                
+                        Ok(Box::new(__r))
+                    }
+                )?
+                
+                // RECURSIVE RULES
+                $(
+                    fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
+                        
+                        let __p = tokens.pin();
+
+                        let t = __p.get_pinned();
+                        
+                        $(
+                            $(
+                                $(let $lex_rec_before_key =)? mat!(t, $lex_rec_before$(($lex_rec_before_type))?, $lex_rec_before)? 
+                            )?
+                            $( 
+                                $(let $rule_rec_before_key =)? mat!(t, #$rule_rec_before)?
+                            )?
+                        ;)*
+
+                        let mut __rest: Box<$rule_name>;
+
+                        match Self::$rule_name(&tokens) {
+                            Ok(r)=> {
+                                __rest = r;
+                            }
+                    
+                            Err(_e) => {
+                                let t = __p.get_pinned();
+                                let v = *Self::$rec_break(t)?;
+                    
+                                return Ok(Box::new(
+                                    $rule_name {
+                                        items: vec![], 
+                                        end: Some(v)
+                                }));
+                    
+                            }
+                         }
+
+
+                        concat_idents!(struct_name = $rule_name, _single 
+                        {
+                        let __this = struct_name {
+                            $(
+                                $($(    
+                                    $lex_rec_before_key,
+                                )?)?
+                                $($(    
+                                    $rule_rec_before_key,
+                                )?)?
+                            )+
+                        };
+                        });
+
+                    
+                        let __r = __rest.prepend(__this);
                      
                 
                         Ok(Box::new(__r))
