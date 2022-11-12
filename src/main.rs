@@ -34,7 +34,7 @@ Lexer!(
 
     {
         IDENT => { {"^"} => POWER }
-       // NUMBER => { { 123 } => T123(i64) }
+        //NUMBER => { { 123 } => T123(i64) }
     }
 );
 
@@ -53,9 +53,23 @@ Parser!(
 struct V;
 
 impl Visitor<()> for V {
-   fn term(&self,_: &term) -> () {
-       println!("hello")
+   fn term(&self, t: &term) -> () {
+
+ 
+    let mut last = *t.2.clone();
+
+    println!("op: {:?}", t.1);
+
+    while let _term3::term(t0) = last {
+        println!("op: {:?}", t0.1);
+        last = *t0.2;
+    }
+    
+    
+
+      
    }
+  
 }
 
 fn run() -> ParserResult<Box<term>> {
@@ -63,9 +77,9 @@ fn run() -> ParserResult<Box<term>> {
 
     let b = "123 \n - 345 + 12 ";
 
-    let t = Parser2::new(b)?;
+    let t = Parser::new(b)?;
 
-    let t = Parser2::term(&t.tokens)?;
+    let t = Parser::term(&t.tokens)?;
 
     let v = V{};
 
@@ -77,8 +91,5 @@ fn run() -> ParserResult<Box<term>> {
 
 
 fn main() {
-
-
-
     println!("{:?}", run());
 }

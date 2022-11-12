@@ -64,11 +64,11 @@ macro_rules! Parser {
             }
 
             #[derive(Debug)]
-            struct Parser2 {
+            struct Parser {
                 tokens: Tokens<Lexer>,
             }
             
-            impl Parser2 {
+            impl Parser {
                 fn new(str: &str) -> ParserResult<Self> {
                     let tokens = Lexer::lex(str).or_err()?;
             
