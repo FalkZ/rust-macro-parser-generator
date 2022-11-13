@@ -3,12 +3,12 @@ use std::fmt;
 
 pub type ParserResult<T> = Result<T, ParserError>;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum ParserError {
     Mismatch,
     Unreachable,
     UnreachableAt(String),
-    Err(anyhow::Error),
+    Err(TextError),
 }
 
 impl fmt::Display for ParserError {
@@ -30,9 +30,35 @@ impl Error for ParserError {
     }
 }
 
+
+#[derive(Debug, Clone)]
+struct TextError {
+    message: String
+}
+
+
+impl Error for TextError {
+    fn description(&self) -> &str {
+       &self.message
+    }
+
+    fn cause(&self) -> Option<&dyn Error> {
+        None 
+    }
+}
+
+impl fmt::Display for TextError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", &self)
+    }
+}
+
+
 impl ParserError {
     pub fn error<T>(message: &str) -> ParserResult<T> {
-        let err = anyhow::anyhow!("{}", message);
+        let err = TextError{ message: message.to_string() };
         Err(ParserError::Err(err))
     }
 }
+
+

@@ -219,7 +219,7 @@ impl<R, B> Recursive<R, B> {
 fn run() -> ParserResult<Box<statements>> {
     let a = "
     test(a, b) = 
-        a + a a
+        a + b
 
 
     ";

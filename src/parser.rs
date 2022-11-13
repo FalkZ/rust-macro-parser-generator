@@ -189,33 +189,33 @@ macro_rules! Parser {
                         
                         $(
                             $(
-                                $(let $lex_rec_before_key =)? mat!(t, $lex_rec_before$(($lex_rec_before_type))?, $lex_rec_before)? 
+                                let a = mat!(t, $lex_rec_before$(($lex_rec_before_type))?, $lex_rec_before);
+                                return_end_if_missmatch!($rule_name, a, $rec_break, __p.get_pinned());
+                                $(let $lex_rec_before_key = a?;)?
                             )?
                             $( 
-                                $(let $rule_rec_before_key =)? mat!(t, #$rule_rec_before)?
+                                let a = mat!(t, #$rule_rec_before);
+                                return_end_if_missmatch!($rule_name, a, $rec_break, __p.get_pinned());
+                                $(let $rule_rec_before_key = a?;)?
                             )?
-                        ;)*
+                        )*
 
-                        let mut __rest: Box<$rule_name>;
+                        let a = Self::$rule_name(&tokens);
 
-                        match Self::$rule_name(&tokens) {
-                            Ok(r)=> {
-                                __rest = r;
-                            }
-                    
-                            Err(_e) => {
-                                let t = __p.get_pinned();
-                                let v = *Self::$rec_break(t)?;
-                    
-                                return Ok(Box::new(
-                                    $rule_name {
-                                        items: vec![], 
-                                        end: Some(v)
-                                }));
-                    
-                            }
-                         }
+                        let __rest = return_end_if_missmatch!($rule_name, a, $rec_break, __p.get_pinned());
 
+                        $(
+                            $(
+                                let a = mat!(t, $lex_rec_after$(($lex_rec_after_type))?, $lex_rec_after);
+                                return_end_if_missmatch!($rule_name, a, $rec_break, __p.get_pinned());
+                                $(let $lex_rec_after_key = a?;)?
+                            )?
+                            $( 
+                                let a = mat!(t, #$rule_rec_after);
+                                return_end_if_missmatch!($rule_name, a, $rec_break, __p.get_pinned());
+                                $(let $rule_rec_after_key = a?;)?
+                            )?
+                        )*
 
                         concat_idents!(struct_name = $rule_name, _single 
                         {
@@ -227,7 +227,15 @@ macro_rules! Parser {
                                 $($(    
                                     $rule_rec_before_key,
                                 )?)?
-                            )+
+                            )*
+                            $(
+                                $($(    
+                                    $lex_rec_after_key,
+                                )?)?
+                                $($(    
+                                    $rule_rec_after_key,
+                                )?)?
+                            )*
                         };
                         });
 

@@ -9,6 +9,28 @@ macro_rules! return_if_match {
     }
 }
 
+#[macro_export]
+macro_rules! return_end_if_missmatch {
+    ($rule_name:ident, $parser_result:ident, $end_name:ident, $pinned_tokens:expr) => {
+        match $parser_result.clone() {
+            Ok(r)=> {
+                r
+            }
+            Err(_e) => {
+                let tokens = $pinned_tokens;
+                let v = *Self::$end_name(tokens)?;
+        
+                return Ok(Box::new(
+                    $rule_name {
+                        items: vec![], 
+                        end: Some(v)
+                }));
+        
+            }
+         }
+    }
+}
+
 
 #[macro_export]
 macro_rules! mat {
