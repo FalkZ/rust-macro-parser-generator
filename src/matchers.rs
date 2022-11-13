@@ -11,21 +11,15 @@ macro_rules! return_if_match {
 
 #[macro_export]
 macro_rules! return_end_if_missmatch {
-    ($rule_name:ident, $parser_result:ident, $end_name:ident, $pinned_tokens:expr) => {
+    ($rule_name:ident, $parser_result:ident, $pin:ident) => {
         match $parser_result.clone() {
             Ok(r)=> {
                 r
             }
             Err(_e) => {
-                let tokens = $pinned_tokens;
-                let v = *Self::$end_name(tokens)?;
-        
+                $pin.get_pinned();
                 return Ok(Box::new(
-                    $rule_name {
-                        items: vec![], 
-                        end: Some(v)
-                }));
-        
+                    $rule_name::new()));
             }
          }
     }
@@ -69,7 +63,7 @@ macro_rules! mat {
 
     ($pinned_tokens:expr, #$name:ident) => {
         {
-           //println!("#{} =>> {}", stringify!($name), $pinned_tokens);
+           println!("#{} =>> {}", stringify!($name), $pinned_tokens);
            Self::$name($pinned_tokens)
         }
     };

@@ -18,6 +18,7 @@ Lexer!(
         {'0'..='9' =>} => NUMBER(i64),
         {'A'..='Z' | 'a'..='z' =>} => IDENT(String),
         {'"' | '\'' => '"' | '\''} => TEXTLITERAL(String),
+        {';'} => SEMI,
         {'.'} => DOT,
         {'+'} => PLUS,
         {'-'} => MINUS,
@@ -34,7 +35,7 @@ Lexer!(
     { ' ' | '\n' } => _
 
     {
-        IDENT => { {"^"} => POWER }
+        IDENT => { {"if"} => IF }
         //NUMBER => { { 123 } => T123(i64) }
     }
 );
@@ -49,13 +50,14 @@ Parser!(
     operator = (PLUS | MINUS | DIVISION | IDENT(String) ),
     value = ( NUMBER(i64) | TEXTLITERAL(String) | IDENT(String)),
 
-    expressions = [#value => value, #operator => operator, * | #value ],
+    expressions = [ #value => value, #operator => operator, * | #value ],
+    ex = {#expressions => ex, #value => v, SEMI},
 
     argument =  {IDENT(String) => arg,  COMMA, #arguments => rest},
     arguments = (#argument | IDENT(String)),
 
-    function = { IDENT(String) => name, BRACKETOPEN, #arguments => arguments,  BRACKETCLOSE, EQUAL, #expressions => body},
-    variable = { IDENT(String) => name, EQUAL, #expressions => body },
+    function = { IDENT(String) => name, BRACKETOPEN, #arguments => arguments,  BRACKETCLOSE, EQUAL, #ex => body},
+    variable = { IDENT(String) => name, EQUAL, #ex => body },
     statement = (#function | #variable),
     statements = [#statement => statement,  * | #statement]
 );
@@ -159,48 +161,14 @@ impl V {
         let mut s = Statements::default();
 
         
-        statements.items.iter().for_each(|v|{ self.statement(&mut s, &v.statement)});
-       
-        let end = statements.end.as_ref().expect("no end at statement");
-        self.statement(&mut s, &end);
+        statements.iter().for_each(|v|{ self.statement(&mut s, &v.statement)});
   
         s
     }
 }
 
 
-#[derive(Debug, Clone)]
-struct Recursive<R, B> {
-    items: Vec<R>,
-    end: Option<B>
-}
 
-impl<R, B> Recursive<R, B> {
-    fn prepend_0(self, element: Recursive<R, B>) -> Self {
-
-        let mut items: Vec<R> = vec![];
-        
-        let end = element.end.or(self.end);
-
-        items.extend(element.items);
-        items.extend(self.items);
-
-
-        Self{ items, end }
-    }
-
-    fn prepend(self, element: R) -> Self {
-
-        let mut items: Vec<R> = vec![element];
-        
-        let end = self.end;
-
-        items.extend(self.items);
-
-
-        Self{ items, end }
-    }
-}
 
 
 
@@ -211,10 +179,11 @@ impl<R, B> Recursive<R, B> {
 
 fn run() -> ParserResult<Statements> {
     let a = "
-    test(a, b) = 
-        a + b
+    PI = a + b + c;
 
-    PI = 3
+ 
+
+    
 
     ";
 
@@ -226,6 +195,8 @@ fn run() -> ParserResult<Statements> {
 
 
     let v = V {};
+
+    println!("{:?}", &t);
 
     let r = v.statements(&t);
 

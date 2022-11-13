@@ -106,7 +106,7 @@ macro_rules! Parser {
                     )*
                     }
 
-                    type $rule_name = Recursive<struct_name, $rec_break>;
+                    type $rule_name = Vec<struct_name>;
 
                 });
                     
@@ -185,34 +185,45 @@ macro_rules! Parser {
                         
                         let __p = tokens.pin();
 
-                        let t = __p.get_pinned();
+                        let mut t = __p.get_pinned();
                         
                         $(
                             $(
                                 let a = mat!(t, $lex_rec_before$(($lex_rec_before_type))?, $lex_rec_before);
-                                return_end_if_missmatch!($rule_name, a, $rec_break, __p.get_pinned());
+                                return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $lex_rec_before_key = a?;)?
                             )?
                             $( 
                                 let a = mat!(t, #$rule_rec_before);
-                                return_end_if_missmatch!($rule_name, a, $rec_break, __p.get_pinned());
+                                return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_before_key = a?;)?
                             )?
                         )*
 
-                        let a = Self::$rule_name(&tokens);
+                        let __p2 = t.pin();
+                        let __t2 = __p2.get_pinned();
 
-                        let __rest = return_end_if_missmatch!($rule_name, a, $rec_break, __p.get_pinned());
+                        let __rest = match Self::$rule_name(&__t2){
+                            Ok(r) => {      
+                                r
+                            },
+                            Err(v) => {
+                                t = __p2.get_pinned();
+                                println!("{:?}", v);
+                                Box::new(vec![])
+                            }
+                        };
+                    
 
                         $(
                             $(
                                 let a = mat!(t, $lex_rec_after$(($lex_rec_after_type))?, $lex_rec_after);
-                                return_end_if_missmatch!($rule_name, a, $rec_break, __p.get_pinned());
+                                return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $lex_rec_after_key = a?;)?
                             )?
                             $( 
                                 let a = mat!(t, #$rule_rec_after);
-                                return_end_if_missmatch!($rule_name, a, $rec_break, __p.get_pinned());
+                                return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_after_key = a?;)?
                             )?
                         )*
@@ -239,8 +250,9 @@ macro_rules! Parser {
                         };
                         });
 
+                        let mut __r = vec![__this];
                     
-                        let __r = __rest.prepend(__this);
+                        __r.extend(*__rest);
                      
                 
                         Ok(Box::new(__r))
