@@ -54,10 +54,13 @@ Parser!(
     expressions = [ #value => value, #operator => operator, * ],
     ex = {#expressions => ex, #value => v, SEMI},
 
-    argument =  {IDENT(String) => arg,  COMMA, #arguments => rest},
-    arguments = (#argument | IDENT(String)),
+    argument =  [IDENT(String) => arg,  COMMA, *],
+    arguments = {BRACKETOPEN, #argument => arguments, IDENT(String) => last,  BRACKETCLOSE},
 
-    function = { IDENT(String) => name, BRACKETOPEN, #arguments => arguments,  BRACKETCLOSE, EQUAL, #ex => body},
+    no_arguments = {BRACKETOPEN, BRACKETCLOSE},
+    maybe_arguments =  (#arguments | #no_arguments),
+
+    function = { IDENT(String) => name, #maybe_arguments => arguments, EQUAL, #ex => body},
     variable = { IDENT(String) => name, EQUAL, #ex => body },
     statement = (#function | #variable),
     statements = [#statement => statement,  *]
@@ -93,43 +96,14 @@ struct Variable {
     name: String
 }
 
-macro_rules! map_nested {
-    (match $value:ident {
-        $($pattern:pat => $block:block)+
-    }
-    rest: $continue:path) => {
-        let mut __iter = $value;
 
-        loop {
-            match __iter {
-                $($pattern => $block)+
-            };
-
-            match __iter {
-                $continue(v) => { __iter = &v.rest; },
-                _ => { break; }
-            };
-        }
-
-    };
-}
 
 impl V {
     fn arguments(&self, args: &arguments) -> Vec<String> {
-        let mut vec: Vec<String> = vec![];
+        let mut vec: Vec<String> = args.arguments.iter().map(|a| a.arg.0.clone()).collect();
 
-        map_nested!(
-            match args {
-                arguments::argument(ar) => {
-                    vec.push(ar.arg.0.clone());
-                }
-                arguments::IDENT(str) => {
-                    vec.push(str.to_owned());
-                }
-
-            }
-            rest: arguments::argument
-        );
+        vec.push(args.last.0.clone());
+      
 
         vec
     }
@@ -137,7 +111,12 @@ impl V {
     fn function(&self, f: &function) -> Function {
         let name = f.name.0.to_owned();
 
-       let args = self.arguments(&f.arguments);
+        let args =  match *f.arguments.clone() {
+            maybe_arguments::arguments(a) => self.arguments(&a),
+            maybe_arguments::no_arguments(_) => vec![],
+        };
+
+      
         
         Function { name, args }
     }
@@ -186,8 +165,10 @@ fn run() -> ParserResult<Statements> {
 
     fn(a, b) = a + b;
 
-    
+    one(b) = a + b;
 
+    zero() = a + b;
+    
     ";
 
     // let a = "test = a";
