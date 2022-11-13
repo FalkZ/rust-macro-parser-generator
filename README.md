@@ -1,3 +1,7 @@
+![m1n logo](assets/m1n.svg)
+
+
+> A minimalistic programming language & drop in replacement for typescript
 ```
 
 PI = 3.16;

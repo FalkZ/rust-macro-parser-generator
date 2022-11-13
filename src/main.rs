@@ -55,10 +55,9 @@ Parser!(
     arguments = (#argument | IDENT(String)),
 
     function = { IDENT(String) => name, BRACKETOPEN, #arguments => arguments,  BRACKETCLOSE, EQUAL, #expressions => body},
-    variable = { IDENT(String) => name, EQUAL, IDENT(String) => body },
+    variable = { IDENT(String) => name, EQUAL, #expressions => body },
     statement = (#function | #variable),
-    s = {#statement => statement, #statements => rest},
-    statements = (#s | #statement)
+    statements = [#statement => statement,  * | #statement]
 );
 
 struct V;
@@ -160,17 +159,11 @@ impl V {
         let mut s = Statements::default();
 
         
-        map_nested!(match statements {
-            statements::statement(statement) => {
-                self.statement(&mut s, statement);      
-            }
-            statements::s(statements) => {
-                self.statement(&mut s, &statements.statement.to_owned());
-            }
-        }
-        rest: statements::s
-        );
-
+        statements.items.iter().for_each(|v|{ self.statement(&mut s, &v.statement)});
+       
+        let end = statements.end.as_ref().expect("no end at statement");
+        self.statement(&mut s, &end);
+  
         s
     }
 }
@@ -216,11 +209,12 @@ impl<R, B> Recursive<R, B> {
 
 
 
-fn run() -> ParserResult<Box<statements>> {
+fn run() -> ParserResult<Statements> {
     let a = "
     test(a, b) = 
         a + b
 
+    PI = 3
 
     ";
 
@@ -228,13 +222,15 @@ fn run() -> ParserResult<Box<statements>> {
 
     let t = Parser::new(a)?;
 
-    let t = Parser::statement(&t.tokens)?;
+    let t = Parser::statements(&t.tokens)?;
 
 
     let v = V {};
 
-    println!("{:?}", &t);
-    Err(ParserError::Unreachable)
+    let r = v.statements(&t);
+
+    
+    Ok(r)
 }
 
 fn main() {
