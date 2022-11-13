@@ -46,7 +46,7 @@ macro_rules! Parser {
                         $(  #$rule_rec_after:ident 
                             $(=> $rule_rec_after_key:ident)?
                         )?
-                    )* | #$rec_break:ident
+                    )*
                 ])?
             ),+
         

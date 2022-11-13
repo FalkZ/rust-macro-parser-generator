@@ -50,7 +50,7 @@ Parser!(
     operator = (PLUS | MINUS | DIVISION | IDENT(String) ),
     value = ( NUMBER(i64) | TEXTLITERAL(String) | IDENT(String)),
 
-    expressions = [ #value => value, #operator => operator, * | #value ],
+    expressions = [ #value => value, #operator => operator, * ],
     ex = {#expressions => ex, #value => v, SEMI},
 
     argument =  {IDENT(String) => arg,  COMMA, #arguments => rest},
@@ -59,7 +59,7 @@ Parser!(
     function = { IDENT(String) => name, BRACKETOPEN, #arguments => arguments,  BRACKETCLOSE, EQUAL, #ex => body},
     variable = { IDENT(String) => name, EQUAL, #ex => body },
     statement = (#function | #variable),
-    statements = [#statement => statement,  * | #statement]
+    statements = [#statement => statement,  *]
 );
 
 struct V;
@@ -181,7 +181,9 @@ fn run() -> ParserResult<Statements> {
     let a = "
     PI = a + b + c;
 
- 
+    Pi = 123;
+
+    fn(a, b) = a + b;
 
     
 
