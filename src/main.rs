@@ -7,7 +7,6 @@ mod traits;
 mod file;
 mod renderer;
 mod visitor;
-//mod example_parser;
 
 use file::compile_file;
 use result::{ParserError, ParserResult};
@@ -43,15 +42,10 @@ Lexer!(
             {"pub"} => PUB,
             {"cr"} => CR
         }
-        //NUMBER => { { 123 } => T123(i64) }
     }
 );
 
-// op = PLUS | MINUS | POWER | DIV
-// _term3 = term | NUMBER(String)
-// term = NUMBER(String) op _term3
 
-//expression = [#value => value, #operator => operator * | ],
 
 Parser!(
     operator = (PLUS | MINUS | DIVISION | IDENT(String) ),
@@ -76,9 +70,6 @@ Parser!(
     statement = (#function | #variable),
     statements = [#statement => statement,  *]
 );
-
-
-
 
 
 
