@@ -1,7 +1,7 @@
 
 use std::{fs, path::Path};
 
-use crate::{result::ParserResult, Parser, visitor::Visitor, renderer::{RenderContext, Render}};
+use crate::{result::ParserResult, grammar::Parser, visitor::Visitor, renderer::{RenderContext, Render}};
 
 
 pub fn compile_file(file_path: &str) -> ParserResult<()> {

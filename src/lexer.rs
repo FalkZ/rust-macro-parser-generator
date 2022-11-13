@@ -163,7 +163,7 @@ macro_rules! Lexer {
        
        $(
         #[derive(Debug, Clone)]
-            pub struct $token_name$(($type))?;
+            pub struct $token_name$((pub $type))?;
         )+
        
    };

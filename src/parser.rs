@@ -117,11 +117,11 @@ macro_rules! Parser {
 
             #[derive(Debug)]
             pub struct Parser {
-                tokens: Tokens<Lexer>,
+                pub tokens: Tokens<Lexer>,
             }
             
             impl Parser {
-                fn new(str: &str) -> ParserResult<Self> {
+                pub fn new(str: &str) -> ParserResult<Self> {
                     let tokens = Lexer::lex(str).or_err()?;
             
                     
@@ -133,7 +133,7 @@ macro_rules! Parser {
 
                 // OR RULES
                 $(
-                    fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
+                    pub fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
                         let pin = tokens.pin();
                         $(
                             $(
@@ -152,7 +152,7 @@ macro_rules! Parser {
                 )?
                 // AND RULES
                 $(
-                    fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
+                    pub fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
                         $(
                             $(
                                 $(let $enum_key =)? mat!(tokens, $lex_and$(($lex_and_type))?, $lex_and)? 
@@ -181,7 +181,7 @@ macro_rules! Parser {
                 
                 // RECURSIVE RULES
                 $(
-                    fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
+                    pub fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
                         
                         let __p = tokens.pin();
 
