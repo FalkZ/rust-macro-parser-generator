@@ -73,10 +73,10 @@ macro_rules! Parser {
                     $(
                         
                         $(
-                            $($enum_key: $lex_and,)?           
+                            $(pub $enum_key: $lex_and,)?           
                         )?
                         $(    
-                            $($rule_enum_key: Box<$rule_and>,)?
+                            $(pub $rule_enum_key: Box<$rule_and>,)?
                         )?         
                     )+
                     }
@@ -90,23 +90,23 @@ macro_rules! Parser {
                     pub struct struct_name {
                     $(                     
                         $(
-                            $($lex_rec_before_key:  $lex_rec_before,)?           
+                            $(pub $lex_rec_before_key:  $lex_rec_before,)?           
                         )?
                         $(    
-                            $($rule_rec_before_key: Box<$rule_rec_before>,)?
+                            $(pub $rule_rec_before_key: Box<$rule_rec_before>,)?
                         )?
                     )*
                     $(
                         $(
-                            $($lex_rec_after_key:  $lex_rec_after,)?           
+                            $(pub $lex_rec_after_key:  $lex_rec_after,)?           
                         )?
                         $(    
-                            $($rule_rec_after_key: Box<$rule_rec_after>,)?
+                            $(pub $rule_rec_after_key: Box<$rule_rec_after>,)?
                         )?          
                     )*
                     }
 
-                    type $rule_name = Vec<struct_name>;
+                    pub type $rule_name = Vec<struct_name>;
 
                 });
                     
@@ -116,7 +116,7 @@ macro_rules! Parser {
             )+
 
             #[derive(Debug)]
-            struct Parser {
+            pub struct Parser {
                 tokens: Tokens<Lexer>,
             }
             

@@ -1,0 +1,9 @@
+PI = a + b + 0.012;
+
+pub mut Pi = 123;
+
+fn(a, b) = a + b;
+
+one(b) = a + b;
+
+pub zero() = a + b;
