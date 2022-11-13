@@ -1,7 +1,7 @@
 
 use std::{fs, path::Path};
 
-use crate::{result::ParserResult, grammar::Parser, visitor::Visitor, renderer::{RenderContext, Render}};
+use crate::{result::ParserResult, grammar::Parser, visitor::Visitor, renderer::{RenderContext, Render}, command::prettier_format};
 
 
 pub fn compile_file(file_path: &str) -> ParserResult<()> {
@@ -20,14 +20,17 @@ pub fn compile_file(file_path: &str) -> ParserResult<()> {
     let r = v.statements(&t);
 
     let context = if name.chars().nth(0).unwrap().is_uppercase() {
-        RenderContext::Class
+        RenderContext::Class(name.replace(".m1n", ""))
     } else {
         RenderContext::Singleton
     };
 
     let out = r.render(&context);
+    let out_path = file_path.replace(".m1n", ".ts");
 
-    fs::write(file_path.replace(".m1n", ".ts"), out).unwrap();
+    fs::write(&out_path, out).unwrap();
+
+    prettier_format(&out_path);
 
     Ok(())
 }

@@ -1,36 +1,11 @@
 
 pub enum RenderContext {
-    Class,
+    Class(String),
     Singleton,
 }
 
 pub trait Render {
     fn render(&self, context: &RenderContext) -> String;
-}
-
-#[derive(Debug)]
-pub struct Statements {
-    pub functions: Vec<Function>,
-    pub variables: Vec<Variable>,
-}
-
-impl Default for Statements {
-    fn default() -> Self {
-        Statements {
-            functions: vec![],
-            variables: vec![],
-        }
-    }
-}
-
-impl Render for Statements {
-    fn render(&self, context: &RenderContext) -> String {
-        self.functions
-            .iter()
-            .map(|v| v.render(context))
-            .collect::<Vec<String>>()
-            .join("\n")
-    }
 }
 
 #[derive(Debug)]
@@ -43,7 +18,7 @@ pub struct Function {
 impl Render for Function {
     fn render(&self, context: &RenderContext) -> String {
         match context {
-            RenderContext::Class => format!(
+            RenderContext::Class(_) => format!(
                 "{modifiers} {name}({args}){{}}",
                 modifiers = self.modifiers.render(context),
                 name = self.name,
@@ -75,7 +50,7 @@ pub struct Modifiers {
 impl Render for Modifiers {
     fn render(&self, context: &RenderContext) -> String {
         match context {
-            RenderContext::Class => {
+            RenderContext::Class(_) => {
                 let mut s = vec![];
                 if self.public {
                     s.push("public")
@@ -100,5 +75,37 @@ impl Render for Modifiers {
                 s.join(" ")
             }
         }
+    }
+}
+
+
+#[derive(Debug)]
+pub struct Statements {
+    pub functions: Vec<Function>,
+    pub variables: Vec<Variable>,
+}
+
+impl Default for Statements {
+    fn default() -> Self {
+        Statements {
+            functions: vec![],
+            variables: vec![],
+        }
+    }
+}
+
+impl Render for Statements {
+    fn render(&self, context: &RenderContext) -> String {
+        let body = self.functions
+            .iter()
+            .map(|v| v.render(context))
+            .collect::<Vec<String>>()
+            .join("\n\n");
+
+
+            match context {
+                RenderContext::Class(name) => format!("export class {name} {{{body}}}", name=name, body=body),
+                RenderContext::Singleton => body,
+            }
     }
 }

@@ -8,6 +8,7 @@ mod file;
 mod renderer;
 mod visitor;
 mod grammar;
+mod command;
 
 use file::compile_file;
 
