@@ -15,7 +15,7 @@ use crate::tokens::Tokens;
 
 Lexer!(
     {
-        {'0'..='9' =>} => NUMBER(i64),
+        {'0'..='9' =>} => NUMBER(String),
         {'A'..='Z' | 'a'..='z' =>} => IDENT(String),
         {'"' | '\'' => '"' | '\''} => TEXTLITERAL(String),
         {';'} => SEMI,
@@ -41,14 +41,15 @@ Lexer!(
 );
 
 // op = PLUS | MINUS | POWER | DIV
-// _term3 = term | NUMBER(i64)
-// term = NUMBER(i64) op _term3
+// _term3 = term | NUMBER(String)
+// term = NUMBER(String) op _term3
 
 //expression = [#value => value, #operator => operator * | ],
 
 Parser!(
     operator = (PLUS | MINUS | DIVISION | IDENT(String) ),
-    value = ( NUMBER(i64) | TEXTLITERAL(String) | IDENT(String)),
+    float = {NUMBER(String) => whole, DOT, NUMBER(String) => float},
+    value = ( #float | NUMBER(String) | TEXTLITERAL(String) | IDENT(String)),
 
     expressions = [ #value => value, #operator => operator, * ],
     ex = {#expressions => ex, #value => v, SEMI},
@@ -179,7 +180,7 @@ impl V {
 
 fn run() -> ParserResult<Statements> {
     let a = "
-    PI = a + b + c;
+    PI = a + b + 0.012;
 
     Pi = 123;
 
