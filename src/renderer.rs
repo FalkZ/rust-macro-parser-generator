@@ -1,11 +1,39 @@
 use std::fmt::Display;
 
-use crate::grammar::{body, value, operator, name};
+use crate::grammar::{body, name, operator, value};
 
+pub struct Import {
+    pub file: String,
+    pub content: String,
+}
+
+#[derive(Default)]
+pub struct Imports(pub Vec<Import>);
+
+impl Imports {
+    fn add_import(&mut self, file: &str, content: &str) {
+        self.0.push(Import { file: file.to_string(), content: content.to_string() })
+    }
+}
+
+impl Render for Imports {
+    fn render(&self, context: &RenderContext) -> String {
+        let own_file = match context {
+            RenderContext::Class(v) => v,
+            RenderContext::Singleton(v) => v,
+        };
+
+        let s :Vec<String>=  self.0.iter().filter(|i|{ &i.file != own_file}).map(|i|{
+            format!("import {content} from './{file}'", content = i.content, file = i.file)
+        }).collect();
+
+        s.join("\n")
+    }
+}
 
 pub enum RenderContext {
     Class(String),
-    Singleton,
+    Singleton(String),
 }
 
 pub trait Render {
@@ -24,7 +52,7 @@ impl Render for value {
         match self {
             value::float(v) => format!("{}.{}", &v.whole, &v.float),
             value::NUMBER(v) => format!("{}", &v),
-            value::TEXTLITERAL(v) =>  format!("'{}'", &v),
+            value::TEXTLITERAL(v) => format!("'{}'", &v),
             value::IDENT(v) => format!("{}", &v),
             value::TYPESCRIPT(v) => format!("({})", &v[1..v.len() - 1]),
         }
@@ -35,7 +63,7 @@ impl Render for operator {
     fn render(&self, context: &RenderContext) -> String {
         match self {
             operator::PLUS => "math['+']".to_string(),
-            operator::MINUS =>"math['-']".to_string(),
+            operator::MINUS => "math['-']".to_string(),
             operator::DIVISION => "math['/']".to_string(),
             operator::IDENT(str) => str.clone(),
         }
@@ -46,27 +74,27 @@ impl Render for operator {
 pub struct Body(pub body);
 impl Render for Body {
     fn render(&self, context: &RenderContext) -> String {
-
         use crate::grammar::expressions_single;
-        
-        let r: Vec<expressions_single> = *self.0.expressions.to_owned();
 
-        
+        let r: Vec<expressions_single> = *self.0.expressions.to_owned();
 
         let mut v = self.0.value.render(context);
 
         r.iter().rev().for_each(|a: &expressions_single| {
-
             let value = &a.value;
             let op = &a.operator;
 
-            v = format!("op({}, {}, {})", &value.render(&context), &op.render(&context), &v);
+            v = format!(
+                "op({}, {}, {})",
+                &value.render(&context),
+                &op.render(&context),
+                &v
+            );
         });
 
         v
     }
 }
-
 
 impl Render for name {
     fn render(&self, context: &RenderContext) -> String {
@@ -95,23 +123,23 @@ impl Render for Function {
                 args = self.args.join(", "),
                 body = self.body.render(&context)
             ),
-            RenderContext::Singleton => {
+            RenderContext::Singleton(_) => {
                 let name = match &self.name {
-                    name::RAWIDENT(v) => format!("_{}", self.name.render(context)),
-                    name::IDENT(v) =>    format!(
-                        "{modifiers} const {name}",
+                    name::RAWIDENT(v) => format!("_{} = function", self.name.render(context)),
+                    name::IDENT(v) => format!(
+                        "{modifiers} function {name}",
                         modifiers = self.modifiers.render(context),
                         name = v,
                     ),
                 };
 
                 format!(
-                "{name} = ({args}) => ({body})",
-                name = name,
-                args = self.args.join(", "),
-                body = self.body.render(&context)
-            )
-        },
+                    "{name}({args}){{return ({body})}}",
+                    name = name,
+                    args = self.args.join(", "),
+                    body = self.body.render(&context)
+                )
+            }
         }
     }
 }
@@ -145,7 +173,7 @@ impl Render for Modifiers {
 
                 s.join(" ")
             }
-            RenderContext::Singleton => {
+            RenderContext::Singleton(_) => {
                 let mut s = vec![];
                 if self.public {
                     s.push("export")
@@ -159,7 +187,6 @@ impl Render for Modifiers {
         }
     }
 }
-
 
 #[derive(Debug)]
 pub struct Statements {
@@ -177,38 +204,52 @@ impl Default for Statements {
 }
 
 fn export_default(functions: &Vec<Function>, context: &RenderContext) -> String {
-    let keys: Vec<String> = 
-    functions.iter().filter(|v|{
-        v.modifiers.public
-    }).map(|v|{
-     match v.name {
-            name::RAWIDENT(_) => format!("{name}: _{name}", name=v.name.render(context)),
+    let keys: Vec<String> = functions
+        .iter()
+        .filter(|v| v.modifiers.public)
+        .map(|v| match v.name {
+            name::RAWIDENT(_) => format!("{name}: _{name}", name = v.name.render(context)),
             name::IDENT(_) => v.name.render(context),
-        }      
-    }).collect();
+        })
+        .collect();
 
     format!("export default {{{}}}", keys.join(", "))
 }
 
 impl Render for Statements {
     fn render(&self, context: &RenderContext) -> String {
-        let body = self.functions
+        let body = self
+            .functions
             .iter()
             .map(|v| v.render(context))
             .collect::<Vec<String>>()
             .join("\n\n");
 
+        let stm = match context {
+            RenderContext::Class(name) => {
+                format!("export class {name} {{{body}}}", name = name, body = body)
+            }
+            RenderContext::Singleton(_) => format!(
+                "const _ = {{}}\n\n{body}\n\n {export}",
+                body = &body,
+                export = export_default(&self.functions, context)
+            ),
+        };
 
-            let stm = match context {
-                RenderContext::Class(name) => format!("export class {name} {{{body}}}", name=name, body=body),
-                RenderContext::Singleton => format!("const _ = {{}}\n\n{body}\n\n {export}", body = &body, export = export_default(&self.functions, context)),
-            };
+        let mut imports = Imports::default();
 
-            format!("
-            import math from './math'
-            import {{op}} from './std'
+        imports.add_import("math", "math");
+        imports.add_import("std", "{ op }");
 
 
-            {}", stm)
+        format!(
+            "
+            {}
+
+
+            {}",
+            imports.render(context),
+            stm
+        )
     }
 }

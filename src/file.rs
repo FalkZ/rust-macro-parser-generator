@@ -22,7 +22,7 @@ pub fn compile_file(file_path: &str) -> ParserResult<()> {
     let context = if name.chars().nth(0).unwrap().is_uppercase() {
         RenderContext::Class(name.replace(".m1n", ""))
     } else {
-        RenderContext::Singleton
+        RenderContext::Singleton(name.replace(".m1n", ""))
     };
 
     let out = r.render(&context);

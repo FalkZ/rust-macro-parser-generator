@@ -2,7 +2,7 @@
 
 
 > A minimalistic programming language & drop in replacement for typescript
-```
+```python
 
 PI = 3.16;
 
