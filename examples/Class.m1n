@@ -4,6 +4,6 @@ pub mut Pi = 123;
 
 fn(a, b) = a + b;
 
-one(b) = a + b;
+one(b) = a + b + c;
 
 pub zero() = a + b;

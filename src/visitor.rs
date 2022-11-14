@@ -1,4 +1,4 @@
-use crate::{renderer::{Function, Variable, Modifiers, Statements}};
+use crate::{renderer::{Function, Variable, Modifiers, Statements, Body}};
 
 use crate::grammar::{arguments,  modifiers, modifiers_single, statements, maybe_arguments, function, variable, modifier, statement};
 
@@ -17,7 +17,7 @@ impl Visitor {
     }
 
     fn function(&self, f: &function) -> Function {
-        let name = f.name.0.to_owned();
+        let name = *f.name.to_owned();
 
         let args = match *f.arguments.clone() {
             maybe_arguments::arguments(a) => self.arguments(&a),
@@ -26,12 +26,15 @@ impl Visitor {
 
         let mut modifiers = self.modifiers(&f.modifiers);
 
+     
+
         modifiers.mutable = true;
 
         Function {
             name,
             args,
             modifiers,
+            body: Body(*f.body.to_owned())
         }
     }
 

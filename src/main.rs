@@ -17,6 +17,8 @@ use file::compile_file;
 
 
 fn main() {
+    compile_file("./examples/math.m1n");
+    compile_file("./examples/std.m1n");
     compile_file("./examples/Class.m1n");
-    compile_file("./examples/file.m1n");
+    compile_file("./examples/file.m1n");   
 }

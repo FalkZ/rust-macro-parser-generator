@@ -1,0 +1,7 @@
+pub [+](a, b) = #a + b#;
+
+pub [-](a, b) = #a - b#;
+
+pub [*](a, b) = #a * b#;
+
+pub [/](a, b) = #a / b#;
