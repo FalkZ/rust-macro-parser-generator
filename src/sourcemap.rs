@@ -110,6 +110,30 @@ impl Token{
    }
 }
 
+trait Pos {
+   fn position(&self)-> &Position;
+}
+
+impl Pos for Token {
+    fn position(&self)-> &Position {
+        &self.position
+    }
+}
+
+trait Render where Self: Pos {
+   fn render(&self);
+}
+
+trait RenderToContext {
+   fn render(&self, context: &mut RenderContext);
+}
+
+impl <T: Render> RenderToContext for T{
+    fn render(&self, context: &mut RenderContext) {
+        todo!()
+    }
+}
+
 
 trait SourceEntry {
    fn render(&self, context: &mut RenderContext);
