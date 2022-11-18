@@ -1,14 +1,3 @@
-pub trait FakeAsStr
-where
-    Self: Sized,
-{
-    fn as_str(self) -> Self {
-        self
-    }
-}
-
-impl<T: std::fmt::Binary> FakeAsStr for T {}
-
 #[macro_export]
 macro_rules! Lexer {
 
@@ -84,10 +73,7 @@ macro_rules! Lexer {
                                let _m = Lexer!(@MATCH: $matcher, it $(, continue $(, $until)?)?);
 
                                result.push(
-                                   Lexer::$token_name({
-                                       let val: String = _m.parse().unwrap();
-                                       val
-                                   })
+                                   Lexer::$token_name(_m)
                                );
                                continue;
                            }
@@ -126,14 +112,10 @@ macro_rules! Lexer {
                match l.clone() {
                    $(
                        Lexer::$matched_type(value) => {
-                           use $crate::lexer::FakeAsStr;
                            match value.as_str() {
                                $(
                                    $secondary_pattern => {
-                                       Lexer::$secondary_token_name({
-                                           let val: String = value.into();
-                                           val
-                                       })
+                                       Lexer::$secondary_token_name(value)
                                    }
                                )+
                                _ => {l}
@@ -211,7 +193,6 @@ macro_rules! Lexer {
                    $matched_type => {
                        $(
                            { $secondary_pattern } => $secondary_token_name
-
                        ),+
                    }
                ),*
@@ -220,16 +201,9 @@ macro_rules! Lexer {
 
 
            fn lex(input: &str) -> Result<Vec<Lexer>, String> {
-
                let first = Lexer::primary_pass(input)?;
-
-
                Ok(Lexer::secondary_pass(first))
-
            }
-
        }
-
    };
-
 }
