@@ -73,7 +73,7 @@ macro_rules! Lexer {
                                let _m = Lexer!(@MATCH: $matcher, it $(, continue $(, $until)?)?);
 
                                result.push(
-                                   Lexer::$token_name(_m)
+                                   Lexer::$token_name(TokenContent::new(_m))
                                );
                                continue;
                            }
@@ -139,13 +139,13 @@ macro_rules! Lexer {
 
        #[derive(Debug, Clone)]
        pub enum Lexer {
-           $($token_name(String)),+
+           $($token_name(TokenContent)),+
        }
 
        
        $(
         #[derive(Debug, Clone)]
-            pub struct $token_name(pub String);
+            pub struct $token_name(pub TokenContent);
         )+
        
    };
@@ -172,6 +172,7 @@ macro_rules! Lexer {
        }
    ) => {
 
+       type TokenContent = $crate::sourcemap::Token;
 
        Lexer!(
            @ENUM:

@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use std::fs::{File, self};
 
 use std::path::Path;
@@ -82,13 +83,31 @@ impl RenderContext {
 }
 
 
-struct Position{
-   column: u32,
-   line: u32,
+#[derive(Default, Clone, Debug)]
+pub struct Position{
+   pub column: u32,
+   pub line: u32,
 }
-struct Token {
-   token: String,
-   position: Position
+
+#[derive(Clone, Debug)]
+pub struct Token {
+   pub raw: String,
+   pub position: Position
+}
+
+impl Display for Token {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.raw)
+    }
+}
+
+impl Token{
+   pub fn new(raw: String)-> Self {
+      Self { raw, position: Position::default() }
+   }
+   pub fn as_str<'a>(&'a self) -> &'a str {
+      &self.raw
+   }
 }
 
 

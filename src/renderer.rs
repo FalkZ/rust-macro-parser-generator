@@ -58,7 +58,7 @@ pub trait Render {
 use crate::grammar::NUMBER;
 impl Display for NUMBER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
+        write!(f, "{}", self.0.as_str())
     }
 }
 
@@ -73,14 +73,14 @@ impl Render for function_call {
 
         args.push(self.arguments.last.render(&context));
 
-        let path: Vec<String> = self.path.iter().map(|v: &path_single| v.path.0.clone()).collect();
+        let path: Vec<String> = self.path.iter().map(|v: &path_single| v.path.0.as_str().to_string()).collect();
 
         let mut p =  path.join(".");
         if p.len()>0 {p += "."}
         format!(
             "{path}{name}({args})",
             path = p,
-            name = &self.name.0,
+            name = &self.name.0.as_str(),
             args = args.join(", ")
         )
     }
@@ -90,10 +90,15 @@ impl Render for value {
     fn render(&self, context: &RenderContext) -> String {
         match self {
             value::float(v) => format!("{}.{}", &v.whole, &v.float),
-            value::NUMBER(v) => format!("{}", &v),
-            value::TEXTLITERAL(v) => format!("`{}`", &v[1..v.len() - 1]),
+            value::NUMBER(v) => format!("{}", v),
+            value::TEXTLITERAL(r) => {
+               let v = r.as_str();
+                format!("`{}`", &v[1..v.len() - 1])
+            },
             value::IDENT(v) => format!("{}", &v),
-            value::TYPESCRIPT(v) => format!("({})", &v[1..v.len() - 1]),
+            value::TYPESCRIPT(r) => {          
+                let v = r.as_str();
+                format!("({})", &v[1..v.len() - 1])},
             value::function_call(f) => f.render(context),
         }
     }
@@ -105,7 +110,7 @@ impl Render for operator {
             operator::PLUS(_) => "math['+']".to_string(),
             operator::MINUS(_) => "math['-']".to_string(),
             operator::DIVISION(_) => "math['/']".to_string(),
-            operator::IDENT(str) => str.clone(),
+            operator::IDENT(str) => str.as_str().to_string(),
         }
     }
 }
@@ -146,7 +151,10 @@ impl Render for body {
 impl Render for name {
     fn render(&self, context: &RenderContext) -> String {
         match self {
-            name::RAWIDENT(v) => format!("['{}']", &v[1..v.len() - 1]),
+            name::RAWIDENT(r) =>  {          
+                let v = r.as_str();
+                format!("['{}']", &v[1..v.len() - 1])
+            },
             name::IDENT(v) => format!("{}", v),
         }
     }

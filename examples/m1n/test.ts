@@ -1,3 +1,5 @@
+import math from "./math";
+
 type Alternating<T extends readonly any[], A, B> = T extends readonly []
   ? T
   : T extends readonly [A]
@@ -14,3 +16,5 @@ export const op = <T extends readonly any[]>(
 ) => {};
 
 op(true, true, true);
+
+math["+"];

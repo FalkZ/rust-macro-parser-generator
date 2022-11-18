@@ -24,3 +24,8 @@ add3 =
     (PI + 2);
 
 ```
+
+## TODO
+- [ ] Inline Modifier
+- [ ] cr, eq modifier
+- [ ] header with traits?

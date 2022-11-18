@@ -53,7 +53,7 @@ macro_rules! Parser {
                     pub enum $rule_name {
                     $(
                         $(
-                            $lex_or(String)
+                            $lex_or(TokenContent)
                         
                         )?
                         $(    

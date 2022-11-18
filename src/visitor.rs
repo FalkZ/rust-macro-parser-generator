@@ -9,9 +9,9 @@ pub struct Visitor;
 
 impl Visitor {
     fn arguments(&self, args: &arguments) -> Vec<String> {
-        let mut vec: Vec<String> = args.arguments.iter().map(|a| a.arg.0.clone()).collect();
+        let mut vec: Vec<String> = args.arguments.iter().map(|a| a.arg.0.as_str().to_string()).collect();
 
-        vec.push(args.last.0.clone());
+        vec.push(args.last.0.as_str().to_string());
 
         vec
     }
@@ -39,7 +39,7 @@ impl Visitor {
     }
 
     fn variable(&self, f: &variable) -> Variable {
-        let name = f.name.0.to_owned();
+        let name = f.name.0.as_str().to_string();
         let modifiers = self.modifiers(&f.modifiers);
 
         Variable { name, modifiers }
