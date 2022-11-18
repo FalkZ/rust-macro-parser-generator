@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["math.m1n"],
+  "sourcesContent":["pub [+](a, b) = #a + b#;\n\npub [-](a, b) = #a - b#;\n\npub [*](a, b) = #a * b#;\n\npub [/](a, b) = #a / b#;"],
+  "mappings": ";;;;;;;;kBAoBU,GAAA,GAAA;AAAA,SAAA,IAAA;AAAA;;;;;",
+  "names": []
+}

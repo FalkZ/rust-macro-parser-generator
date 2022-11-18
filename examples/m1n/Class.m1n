@@ -1,0 +1,15 @@
+PI = a + b + 0.012;
+
+pub mut Pi = 123;
+
+fn(a, b) = a + b;
+
+one(b) = a + b + c;
+
+pub zero() = #(()=>{throw new Error("hello 2")})()#;
+
+multiline() = console.log("test space", "multi
+
+    line");
+
+nesting() = one(fn(a + b - c, 123.2));

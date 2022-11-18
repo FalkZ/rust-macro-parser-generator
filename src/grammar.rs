@@ -48,10 +48,17 @@ Parser!(
     modifiers = [#modifier => modifier, *],
 
     float = {NUMBER(String) => whole, DOT, NUMBER(String) => float},
-    value = ( #float | NUMBER(String) | TEXTLITERAL(String) | IDENT(String) | TYPESCRIPT(String)),
+    value = ( #function_call | #float | NUMBER(String) | TEXTLITERAL(String) | IDENT(String) | TYPESCRIPT(String)),
 
-    expressions = [ #value => value, #operator => operator, * ],
-    body = {#expressions => expressions, #value => value, SEMI},
+    path = [ IDENT(String) => path, DOT, * ],
+    function_call = { #path => path, IDENT(String) => name, #calls => arguments },
+
+    call =  [#body => arg,  COMMA, *],
+    calls = {BRACKETOPEN, #call => arguments, #body => last,  BRACKETCLOSE},
+
+
+    expressions = [ #operator => operator, #value => value, * ],
+    body = {#value => value, #expressions => expressions},
 
     argument =  [IDENT(String) => arg,  COMMA, *],
     arguments = {BRACKETOPEN, #argument => arguments, IDENT(String) => last,  BRACKETCLOSE},
@@ -61,8 +68,8 @@ Parser!(
 
     name = (RAWIDENT(String) | IDENT(String)),
 
-    function = { #modifiers => modifiers, #name => name, #maybe_arguments => arguments, EQUAL, #body => body},
-    variable = { #modifiers => modifiers, IDENT(String) => name, EQUAL, #body => body },
+    function = { #modifiers => modifiers, #name => name, #maybe_arguments => arguments, EQUAL, #body => body, SEMI},
+    variable = { #modifiers => modifiers, IDENT(String) => name, EQUAL, #body => body, SEMI},
     statement = (#function | #variable),
     statements = [#statement => statement,  *]
 );

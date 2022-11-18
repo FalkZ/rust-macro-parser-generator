@@ -1,6 +1,9 @@
 use std::fmt::Display;
 
-use crate::grammar::{body, name, operator, value};
+
+use crate::grammar::{
+    body, function_call, name, operator, path_single, value,
+};
 
 pub struct Import {
     pub file: String,
@@ -12,7 +15,10 @@ pub struct Imports(pub Vec<Import>);
 
 impl Imports {
     fn add_import(&mut self, file: &str, content: &str) {
-        self.0.push(Import { file: file.to_string(), content: content.to_string() })
+        self.0.push(Import {
+            file: file.to_string(),
+            content: content.to_string(),
+        })
     }
 }
 
@@ -23,9 +29,18 @@ impl Render for Imports {
             RenderContext::Singleton(v) => v,
         };
 
-        let s :Vec<String>=  self.0.iter().filter(|i|{ &i.file != own_file}).map(|i|{
-            format!("import {content} from './{file}'", content = i.content, file = i.file)
-        }).collect();
+        let s: Vec<String> = self
+            .0
+            .iter()
+            .filter(|i| &i.file != own_file)
+            .map(|i| {
+                format!(
+                    "import {content} from './{file}'",
+                    content = i.content,
+                    file = i.file
+                )
+            })
+            .collect();
 
         s.join("\n")
     }
@@ -47,14 +62,39 @@ impl Display for NUMBER {
     }
 }
 
+impl Render for function_call {
+    fn render(&self, context: &RenderContext) -> String {
+        let mut args: Vec<String> = self
+            .arguments
+            .arguments
+            .iter()
+            .map(|a| a.arg.render(&context))
+            .collect();
+
+        args.push(self.arguments.last.render(&context));
+
+        let path: Vec<String> = self.path.iter().map(|v: &path_single| v.path.0.clone()).collect();
+
+        let mut p =  path.join(".");
+        if p.len()>0 {p += "."}
+        format!(
+            "{path}{name}({args})",
+            path = p,
+            name = &self.name.0,
+            args = args.join(", ")
+        )
+    }
+}
+
 impl Render for value {
     fn render(&self, context: &RenderContext) -> String {
         match self {
             value::float(v) => format!("{}.{}", &v.whole, &v.float),
             value::NUMBER(v) => format!("{}", &v),
-            value::TEXTLITERAL(v) => format!("'{}'", &v),
+            value::TEXTLITERAL(v) => format!("`{}`", &v[1..v.len() - 1]),
             value::IDENT(v) => format!("{}", &v),
             value::TYPESCRIPT(v) => format!("({})", &v[1..v.len() - 1]),
+            value::function_call(f) => f.render(context),
         }
     }
 }
@@ -72,23 +112,30 @@ impl Render for operator {
 
 #[derive(Debug)]
 pub struct Body(pub body);
+
 impl Render for Body {
+    fn render(&self, context: &RenderContext) -> String {
+        self.0.render(&context)
+    }
+}
+
+impl Render for body {
     fn render(&self, context: &RenderContext) -> String {
         use crate::grammar::expressions_single;
 
-        let r: Vec<expressions_single> = *self.0.expressions.to_owned();
+        let r: Vec<expressions_single> = *self.expressions.to_owned();
 
-        let mut v = self.0.value.render(context);
+        let mut v = self.value.render(context);
 
-        r.iter().rev().for_each(|a: &expressions_single| {
+        r.iter().for_each(|a: &expressions_single| {
             let value = &a.value;
             let op = &a.operator;
 
             v = format!(
                 "op({}, {}, {})",
-                &value.render(&context),
+                &v,
                 &op.render(&context),
-                &v
+                &value.render(&context)
             );
         });
 
@@ -117,7 +164,7 @@ impl Render for Function {
     fn render(&self, context: &RenderContext) -> String {
         match context {
             RenderContext::Class(_) => format!(
-                "{modifiers} {name}({args}){{{body}}}",
+                "{modifiers} {name}({args}){{return {body}}}",
                 modifiers = self.modifiers.render(context),
                 name = self.name.render(context),
                 args = self.args.join(", "),
@@ -240,7 +287,6 @@ impl Render for Statements {
 
         imports.add_import("math", "math");
         imports.add_import("std", "{ op }");
-
 
         format!(
             "
