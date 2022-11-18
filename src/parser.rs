@@ -46,6 +46,7 @@ macro_rules! Parser {
             ),+
         
     ) => {
+            use $crate::sourcemap::Pos;
             use concat_idents::concat_idents;
             $(
                 $(
@@ -65,6 +66,7 @@ macro_rules! Parser {
                 $(
                     #[derive(Debug, Clone)]
                     pub struct $rule_name {
+                        position: $crate::sourcemap::Position,
                     $(
                         
                         $(
@@ -75,6 +77,12 @@ macro_rules! Parser {
                         )?         
                     )+
                     }
+
+                    impl $crate::sourcemap::Pos for $rule_name {
+                        fn position(&self)-> $crate::sourcemap::Position {
+                            self.position.clone()
+                        }
+                    }
                 )?
 
                  // RECURSION RULE
@@ -83,6 +91,7 @@ macro_rules! Parser {
                 concat_idents!(struct_name = $rule_name, _single {
                     #[derive(Debug, Clone)]
                     pub struct struct_name {
+                        position: $crate::sourcemap::Position,
                     $(                     
                         $(
                             $(pub $lex_rec_before_key:  $lex_rec_before,)?           
@@ -99,6 +108,11 @@ macro_rules! Parser {
                             $(pub $rule_rec_after_key: Box<$rule_rec_after>,)?
                         )?          
                     )*
+                    }
+                    impl $crate::sourcemap::Pos for struct_name {
+                        fn position(&self)-> $crate::sourcemap::Position {
+                            self.position.clone()
+                        }
                     }
 
                     pub type $rule_name = Vec<struct_name>;
@@ -128,7 +142,7 @@ macro_rules! Parser {
 
                 // OR RULES
                 $(
-                    pub fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
+                    pub fn $rule_name(tokens: &Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
                         let pin = tokens.pin();
                         $(
                             $(
@@ -147,7 +161,8 @@ macro_rules! Parser {
                 )?
                 // AND RULES
                 $(
-                    pub fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
+                    pub fn $rule_name(tokens: &Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
+                        let __p: Option<Position> = tokens.position();
                         $(
                             $(
                                 $(let $enum_key =)? mat!(tokens, $lex_and, $lex_and)? 
@@ -159,6 +174,7 @@ macro_rules! Parser {
 
 
                         let __r = $rule_name{
+                            position: __p.expect("couldn't get position for token"),
                         $(
                             $($(    
                                 $enum_key,
@@ -177,7 +193,7 @@ macro_rules! Parser {
                 // RECURSIVE RULES
                 $(
                     pub fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
-                        
+                        let __pos = tokens.position();
                         let __p = tokens.pin();
 
                         let mut t = __p.get_pinned();
@@ -226,6 +242,7 @@ macro_rules! Parser {
                         concat_idents!(struct_name = $rule_name, _single 
                         {
                         let __this = struct_name {
+                            position: __pos.expect("couldn't get position for token"),
                             $(
                                 $($(    
                                     $lex_rec_before_key,

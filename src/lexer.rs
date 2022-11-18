@@ -11,10 +11,10 @@ macro_rules! Lexer {
        {
            let mut str: String = "".to_string();
 
-           str.push(*$it.peek().expect("called with no chars left"));
+           str.push($it.peek().expect("called with no chars left"));
            $it.next();
 
-           while let Some(&c) = $it.peek() {
+           while let Some(c) = $it.peek() {
                match c {
                    $until => {
                        $it.next();
@@ -36,7 +36,7 @@ macro_rules! Lexer {
    (@MATCH: $matcher:pat, $it:ident, $repetition:ident) => {
    {
        let mut str: String = "".to_string();
-       while let Some(&c) = $it.peek() {
+       while let Some(c) = $it.peek() {
            match c {
                $matcher => {
                    $it.next();
@@ -64,16 +64,19 @@ macro_rules! Lexer {
            fn primary_pass(input: &str) -> Result<Vec<Lexer>, String> {
                let mut result = Vec::new();
 
-               let mut it = input.chars().peekable();
-               while let Some(&c) = it.peek() {
+               let mut it = $crate::source::Source::new(input);
+
+               while let Some(c) = it.peek() {
                    match c {
                        $(
                            $matcher => {
+                               
+                              let position = it.get_position();
 
-                               let _m = Lexer!(@MATCH: $matcher, it $(, continue $(, $until)?)?);
+                               let token = Lexer!(@MATCH: $matcher, it $(, continue $(, $until)?)?);
 
                                result.push(
-                                   Lexer::$token_name(TokenContent::new(_m))
+                                   Lexer::$token_name(TokenContent::new(token, position))
                                );
                                continue;
                            }
@@ -173,6 +176,7 @@ macro_rules! Lexer {
    ) => {
 
        type TokenContent = $crate::sourcemap::Token;
+       type Position = $crate::sourcemap::Position;
 
        Lexer!(
            @ENUM:
@@ -205,6 +209,17 @@ macro_rules! Lexer {
                let first = Lexer::primary_pass(input)?;
                Ok(Lexer::secondary_pass(first))
            }
+        
+           
+       }
+
+       impl Pos for Lexer {
+        fn position(&self) -> Position { 
+            match self {
+                $(Lexer::$token_name(v) => v.position.clone()),+,
+                _ => Position::default()
+            }
+        }
        }
    };
 }

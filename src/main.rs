@@ -10,6 +10,7 @@ mod visitor;
 mod grammar;
 mod command;
 mod sourcemap;
+mod source;
 
 use file::compile_file;
 
@@ -27,4 +28,6 @@ fn main() {
    compile_file("./examples/m1n/std.m1n");
    compile_file("./examples/m1n/Class.m1n");
    compile_file("./examples/m1n/file.m1n");   
+
+
 }

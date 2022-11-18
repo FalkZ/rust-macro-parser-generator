@@ -102,22 +102,30 @@ impl Display for Token {
 }
 
 impl Token{
-   pub fn new(raw: String)-> Self {
-      Self { raw, position: Position::default() }
+   pub fn new(raw: String, position: Position)-> Self {
+      Self { raw, position }
    }
    pub fn as_str<'a>(&'a self) -> &'a str {
       &self.raw
    }
 }
 
-trait Pos {
-   fn position(&self)-> &Position;
+pub trait Pos {
+   fn position(&self)-> Position;
 }
 
 impl Pos for Token {
-    fn position(&self)-> &Position {
-        &self.position
+    fn position(&self)-> Position {
+        self.position.clone()
     }
+}
+
+
+impl <T: Pos> Pos for Vec<T>{
+   fn position(&self)-> Position {
+         // TODO sensible default
+         self.get(0).map(|v| v.position()).unwrap_or_default()
+  }
 }
 
 trait Render where Self: Pos {
