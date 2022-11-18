@@ -102,9 +102,9 @@ impl Render for value {
 impl Render for operator {
     fn render(&self, context: &RenderContext) -> String {
         match self {
-            operator::PLUS => "math['+']".to_string(),
-            operator::MINUS => "math['-']".to_string(),
-            operator::DIVISION => "math['/']".to_string(),
+            operator::PLUS(_) => "math['+']".to_string(),
+            operator::MINUS(_) => "math['-']".to_string(),
+            operator::DIVISION(_) => "math['/']".to_string(),
             operator::IDENT(str) => str.clone(),
         }
     }

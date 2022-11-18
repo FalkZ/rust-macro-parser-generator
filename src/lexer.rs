@@ -67,7 +67,7 @@ macro_rules! Lexer {
 
    (@PRIMARY:
        $(
-           $token_name:ident, $matcher:pat, $($type:ty)?, $(=> $(($until:pat))?)?
+           $token_name:ident, $matcher:pat, $(=> $(($until:pat))?)?
        ),+
        $(, ($skip:pat))?
    ) => {
@@ -84,10 +84,10 @@ macro_rules! Lexer {
                                let _m = Lexer!(@MATCH: $matcher, it $(, continue $(, $until)?)?);
 
                                result.push(
-                                   Lexer::$token_name$(({
-                                       let val: $type = _m.parse().unwrap();
+                                   Lexer::$token_name({
+                                       let val: String = _m.parse().unwrap();
                                        val
-                                   }))?
+                                   })
                                );
                                continue;
                            }
@@ -113,7 +113,7 @@ macro_rules! Lexer {
        $(
            $matched_type:ident => {
                $(
-                   { $secondary_pattern:pat } => $secondary_token_name:ident$(($secondary_type:ty))?
+                   { $secondary_pattern:pat } => $secondary_token_name:ident
 
                ),+
            }
@@ -130,10 +130,10 @@ macro_rules! Lexer {
                            match value.as_str() {
                                $(
                                    $secondary_pattern => {
-                                       Lexer::$secondary_token_name$(({
-                                           let val: $secondary_type = value.into();
+                                       Lexer::$secondary_token_name({
+                                           let val: String = value.into();
                                            val
-                                       }))?
+                                       })
                                    }
                                )+
                                _ => {l}
@@ -151,19 +151,19 @@ macro_rules! Lexer {
 
    (@ENUM:
        $(
-           $token_name:ident, $($type:ty)?
+           $token_name:ident
        ),+
    ) => {
 
        #[derive(Debug, Clone)]
        pub enum Lexer {
-           $($token_name$(($type))?),+
+           $($token_name(String)),+
        }
 
        
        $(
         #[derive(Debug, Clone)]
-            pub struct $token_name$((pub $type))?;
+            pub struct $token_name(pub String);
         )+
        
    };
@@ -172,7 +172,7 @@ macro_rules! Lexer {
    (
        { // FIRST PASS
           $(
-               { $matcher:pat $(=> $($until:pat)? )? } => $token_name:ident$(($type:ty))?
+               { $matcher:pat $(=> $($until:pat)? )? } => $token_name:ident
            ),+
        }
 
@@ -183,7 +183,7 @@ macro_rules! Lexer {
            $(
                $matched_type:ident => {
                    $(
-                       { $secondary_pattern:pat } => $secondary_token_name:ident$(($secondary_type:ty))?
+                       { $secondary_pattern:pat } => $secondary_token_name:ident
                    ),+
                }
            ),*
@@ -193,15 +193,15 @@ macro_rules! Lexer {
 
        Lexer!(
            @ENUM:
-           $($token_name, $($type)?),+
-           $(,$( $secondary_token_name, $($secondary_type)?),*)*
+           $($token_name),+
+           $(,$( $secondary_token_name),*)*
        );
 
        impl Lexer {
 
            Lexer!(@PRIMARY:
                $(
-                   $token_name, $matcher, $($type)?, $(=> $(($until))?)?
+                   $token_name, $matcher, $(=> $(($until))?)?
                ),+
                $(, ($skip))?
            );
@@ -210,7 +210,7 @@ macro_rules! Lexer {
                $(
                    $matched_type => {
                        $(
-                           { $secondary_pattern } => $secondary_token_name$(($secondary_type))?
+                           { $secondary_pattern } => $secondary_token_name
 
                        ),+
                    }

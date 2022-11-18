@@ -10,11 +10,11 @@ use crate::{mat, return_end_if_missmatch, return_if_match};
 
 Lexer!(
     {
-        {'0'..='9' =>} => NUMBER(String),
-        {'A'..='Z' | 'a'..='z' =>} => IDENT(String),
-        {'[' => ']'} => RAWIDENT(String),
-        {'"' | '\'' => '"' | '\''} => TEXTLITERAL(String),
-        {'#' => '#'} => TYPESCRIPT(String),
+        {'0'..='9' =>} => NUMBER,
+        {'A'..='Z' | 'a'..='z' =>} => IDENT,
+        {'[' => ']'} => RAWIDENT,
+        {'"' | '\'' => '"' | '\''} => TEXTLITERAL,
+        {'#' => '#'} => TYPESCRIPT,
         {';'} => SEMI,
         {'.'} => DOT,
         {'+'} => PLUS,

@@ -34,7 +34,7 @@ macro_rules! mat {
             let next = tokens.next().or_message("next on EOF")?;
      
             match next {
-                Lexer::$name => Ok($name_out),                 
+                Lexer::$name(val) =>  Ok($name_out(val.clone().into())),                  
                 _ => Err(ParserError::Mismatch)
             }
         }

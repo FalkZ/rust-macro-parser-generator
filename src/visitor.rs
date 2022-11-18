@@ -49,9 +49,9 @@ impl Visitor {
         let mut r = Modifiers::default();
         m.iter().for_each(|b: &modifiers_single| {
             match *b.modifier {
-                modifier::CR => r.cr = true,
-                modifier::MUT => r.mutable = true,
-                modifier::PUB => r.public = true,
+                modifier::CR(_) => r.cr = true,
+                modifier::MUT(_) => r.mutable = true,
+                modifier::PUB(_) => r.public = true,
             };
         });
 
