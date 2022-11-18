@@ -40,18 +40,6 @@ macro_rules! mat {
         }
     };
 
-    ($pinned_tokens:expr, $name:ident ($_:ty), $name_out:path) => {
-        {
-            let tokens = $pinned_tokens;
-            let next = tokens.next().or_message("next on EOF")?;
-     
-            match next {
-                Lexer::$name(val) =>  Ok($name_out(val.clone().into())),      
-                _ =>  Err(ParserError::Mismatch)
-            }
-        }
-    };
-
     ($pinned_tokens:expr, #$name:ident, $name_out:path) => {
         {
             match Self::$name($pinned_tokens) {

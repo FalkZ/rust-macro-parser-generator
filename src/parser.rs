@@ -6,9 +6,7 @@ macro_rules! Parser {
                 $rule_name:ident = 
                 $((
                     $(
-                        $($lex_or:ident
-                            $(($lex_or_type:ty))?
-                        )?
+                        $($lex_or:ident)?
                         $(#$rule_or:ident)?
                     )|+
                 ))? 
@@ -16,7 +14,6 @@ macro_rules! Parser {
                     $(
                         $(
                             $lex_and:ident
-                            $(($lex_and_type:ty))?
                             $(=> $enum_key:ident)?
                         )?
                         $(  #$rule_and:ident 
@@ -29,7 +26,6 @@ macro_rules! Parser {
                     $(
                         $(
                             $lex_rec_before:ident
-                            $(($lex_rec_before_type:ty))?
                             $(=> $lex_rec_before_key:ident)?
                         )?
                         $(  #$rule_rec_before:ident 
@@ -40,7 +36,6 @@ macro_rules! Parser {
                     $(,
                         $(
                             $lex_rec_after:ident
-                            $(($lex_rec_after_type:ty))?
                             $(=> $lex_rec_after_key:ident)?
                         )?
                         $(  #$rule_rec_after:ident 
@@ -137,7 +132,7 @@ macro_rules! Parser {
                         let pin = tokens.pin();
                         $(
                             $(
-                                let a = mat!(pin.get_pinned(), $lex_or$(($lex_or_type))?, $rule_name::$lex_or);
+                                let a = mat!(pin.get_pinned(), $lex_or, $rule_name::$lex_or);
                                 return_if_match!(a);
                             )?
                             
@@ -155,7 +150,7 @@ macro_rules! Parser {
                     pub fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
                         $(
                             $(
-                                $(let $enum_key =)? mat!(tokens, $lex_and$(($lex_and_type))?, $lex_and)? 
+                                $(let $enum_key =)? mat!(tokens, $lex_and, $lex_and)? 
                             )?
                             $( 
                                 $(let $rule_enum_key =)? mat!(tokens, #$rule_and)?
@@ -189,7 +184,7 @@ macro_rules! Parser {
                         
                         $(
                             $(
-                                let a = mat!(t, $lex_rec_before$(($lex_rec_before_type))?, $lex_rec_before);
+                                let a = mat!(t, $lex_rec_before, $lex_rec_before);
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $lex_rec_before_key = a?;)?
                             )?
@@ -217,7 +212,7 @@ macro_rules! Parser {
 
                         $(
                             $(
-                                let a = mat!(t, $lex_rec_after$(($lex_rec_after_type))?, $lex_rec_after);
+                                let a = mat!(t, $lex_rec_after, $lex_rec_after);
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $lex_rec_after_key = a?;)?
                             )?

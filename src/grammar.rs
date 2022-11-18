@@ -42,16 +42,16 @@ Lexer!(
 );
 
 Parser!(
-    operator = (PLUS | MINUS | DIVISION | IDENT(String) ),
+    operator = (PLUS | MINUS | DIVISION | IDENT ),
 
     modifier = ( MUT | PUB | CR ),
     modifiers = [#modifier => modifier, *],
 
-    float = {NUMBER(String) => whole, DOT, NUMBER(String) => float},
-    value = ( #function_call | #float | NUMBER(String) | TEXTLITERAL(String) | IDENT(String) | TYPESCRIPT(String)),
+    float = {NUMBER => whole, DOT, NUMBER => float},
+    value = ( #function_call | #float | NUMBER | TEXTLITERAL | IDENT | TYPESCRIPT ),
 
-    path = [ IDENT(String) => path, DOT, * ],
-    function_call = { #path => path, IDENT(String) => name, #calls => arguments },
+    path = [ IDENT => path, DOT, * ],
+    function_call = { #path => path, IDENT => name, #calls => arguments },
 
     call =  [#body => arg,  COMMA, *],
     calls = {BRACKETOPEN, #call => arguments, #body => last,  BRACKETCLOSE},
@@ -60,16 +60,16 @@ Parser!(
     expressions = [ #operator => operator, #value => value, * ],
     body = {#value => value, #expressions => expressions},
 
-    argument =  [IDENT(String) => arg,  COMMA, *],
-    arguments = {BRACKETOPEN, #argument => arguments, IDENT(String) => last,  BRACKETCLOSE},
+    argument =  [IDENT => arg,  COMMA, *],
+    arguments = {BRACKETOPEN, #argument => arguments, IDENT => last,  BRACKETCLOSE},
 
     no_arguments = {BRACKETOPEN, BRACKETCLOSE},
     maybe_arguments =  (#arguments | #no_arguments),
 
-    name = (RAWIDENT(String) | IDENT(String)),
+    name = (RAWIDENT | IDENT),
 
     function = { #modifiers => modifiers, #name => name, #maybe_arguments => arguments, EQUAL, #body => body, SEMI},
-    variable = { #modifiers => modifiers, IDENT(String) => name, EQUAL, #body => body, SEMI},
+    variable = { #modifiers => modifiers, IDENT => name, EQUAL, #body => body, SEMI},
     statement = (#function | #variable),
     statements = [#statement => statement,  *]
 );
