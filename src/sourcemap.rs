@@ -6,7 +6,7 @@ use std::path::Path;
 use sourcemap::SourceMapBuilder;
 
 
-struct RenderContext {
+pub struct RenderContext {
    src_file_path: String,
    src_file_name: String,
    sourcemap: SourceMapBuilder,
@@ -14,7 +14,7 @@ struct RenderContext {
 }
 
 impl RenderContext {
-   fn new(src_file_path: &str) -> Self{
+   pub fn new(src_file_path: &str) -> Self{
 
       let src_file_name: String = Path::new(&src_file_path).file_name().unwrap().to_str().unwrap().to_string();
 
@@ -28,18 +28,18 @@ impl RenderContext {
       }
    }
 
-   fn add_soucemap_entry(&mut self, pos: &Position){
+   pub fn add_soucemap_entry(&mut self, pos: &Position){
       self.sourcemap.add( self.current_line(),  self.current_column() ,pos.line,pos.column, Some(&self.src_file_name), None);
 
    }
 
-   fn add_token(&mut self, str: &str, pos: &Position){
+   pub fn add_token(&mut self, str: &str, pos: &Position){
       self.add_soucemap_entry(pos);
       self.add_string(str);
 
    }
 
-   fn add_string(&mut self, str: &str){
+   pub fn add_string(&mut self, str: &str){
 
       let mut var: Vec<String> = str.split("\n").into_iter().map(str::to_string).collect();
 
@@ -60,7 +60,7 @@ impl RenderContext {
       (self.rows.len() -1) as u32
    }
 
-   fn write_file(self, source_content: Option<&str>){
+   pub fn write_file(self, source_content: Option<&str>){
 
       let out = self.src_file_path.replace(".m1n", ".ts");
 

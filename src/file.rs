@@ -1,9 +1,9 @@
 
-use std::{fs::{self}, path::Path, thread::sleep, time::Duration};
+use std::{fs::{self}, path::Path};
 
 
 
-use crate::{result::ParserResult, grammar::Parser, visitor::Visitor, renderer::{RenderContext, Render}, command::{prettier_format, esbuild}};
+use crate::{result::ParserResult, grammar::Parser, visitor::Visitor, renderer::{RenderContext, Render}, command::{prettier_format, esbuild}, new_renderer::renderer};
 
 
 
@@ -41,19 +41,10 @@ pub fn compile_file(file_path: &str) -> ParserResult<()> {
     esbuild(&out_path);
     prettier_format(&out_path);
 
-    sleep(Duration::from_secs(1));
+    renderer(&file_path, &contents, &t);
 
 
-    let p = format!("{}.map", out_path.replace(".ts", ".js"));
 
-    let c = fs::read_to_string(&p).expect("couldn't read file");
-
-    let src = format!("\"sourcesContent\":[\"{}\"]", &contents.replace("\n", "\\n").replace("\"", "\\\""));
-
-    let c = c.replace("\"sourcesContent\": [null]", &src );
-
-
-    fs::write(&p, &c).unwrap();
 
 
     Ok(())
