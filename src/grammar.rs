@@ -51,25 +51,25 @@ Parser!(
     value = ( #function_call | #float | NUMBER | TEXTLITERAL | IDENT | TYPESCRIPT ),
 
     path = [ IDENT => path, DOT, * ],
-    function_call = { #path => path, IDENT => name, #calls => arguments },
+    function_call = { *path => path, IDENT => name, #calls => arguments },
 
     call =  [#body => arg,  COMMA, *],
-    calls = {BRACKETOPEN, #call => arguments, #body => last,  BRACKETCLOSE},
+    calls = {BRACKETOPEN, *call => arguments, #body => last,  BRACKETCLOSE},
 
 
     expressions = [ #operator => operator, #value => value, * ],
-    body = {#value => value, #expressions => expressions},
+    body = {#value => value, *expressions => expressions},
 
     argument =  [IDENT => arg,  COMMA, *],
-    arguments = {BRACKETOPEN, #argument => arguments, IDENT => last,  BRACKETCLOSE},
+    arguments = {BRACKETOPEN, *argument => arguments, IDENT => last,  BRACKETCLOSE},
 
     no_arguments = {BRACKETOPEN, BRACKETCLOSE},
     maybe_arguments =  (#arguments | #no_arguments),
 
     name = (RAWIDENT | IDENT),
 
-    function = { #modifiers => modifiers, #name => name, #maybe_arguments => arguments, EQUAL, #body => body, SEMI},
-    variable = { #modifiers => modifiers, IDENT => name, EQUAL, #body => body, SEMI},
+    function = { *modifiers => modifiers, #name => name, #maybe_arguments => arguments, EQUAL, #body => body, SEMI},
+    variable = { *modifiers => modifiers, IDENT => name, EQUAL, #body => body, SEMI},
     statement = (#function | #variable),
     statements = [#statement => statement,  *]
 );

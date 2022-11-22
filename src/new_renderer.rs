@@ -1,4 +1,4 @@
-use crate::{source::Source, grammar::{statements, statement, function, variable, maybe_arguments, arguments, argument_single}, sourcemap::{RenderContext, Pos, Position, Token}, render};
+use crate::{grammar::{statements, statement, function, variable, maybe_arguments, arguments, argument, }, sourcemap::{RenderContext, Pos, Position, Token}, render};
 
 
 #[macro_export]
@@ -13,7 +13,7 @@ macro_rules! renderer {
             $context.add_token(strings.next().unwrap(), &own_pos);
 
             $(
-                $ins.ren($context, $($arg)?);
+                $ins.render($context, $($arg)?);
                 $context.add_string(strings.next().unwrap());
             )*
         }     
@@ -21,63 +21,67 @@ macro_rules! renderer {
 }
 
 pub trait Render: Pos {
-    fn ren(&self, context: &mut RenderContext);
+    fn render(&self, context: &mut RenderContext);
 }
 
 
 
 pub trait ContextRender<T>: Pos {
-    fn ren(&self, s: &mut RenderContext, context: T);
+    fn render(&self, context: &mut RenderContext, context: T);
 }
 
 
-impl Render for argument_single {
-    fn ren(&self, s: &mut RenderContext) {
-        renderer!(self, s, "{}", self.arg);
+impl Render for argument {
+    fn render(&self, context: &mut RenderContext) {
+        renderer!(self, context, "{}", self.arg);
+    }
+}
+
+impl Render for Vec<argument> {
+    fn render(&self, context: &mut RenderContext) {
+        self.iter().for_each(|v| renderer!(self, context, "{},", v));
     }
 }
 
 impl Render for arguments {
-    fn ren(&self, s: &mut RenderContext) {
-        self.arguments.iter().for_each(|v| renderer!(self, s, "{},", v));
-
-        renderer!(self, s, "{}", self.last);
+    fn render(&self, context: &mut RenderContext) {
+        renderer!(self, context, "{}{}", self.arguments, self.last);
     }
 }
 
 impl Render for maybe_arguments {
-    fn ren(&self, s: &mut RenderContext) {
+    fn render(&self, context: &mut RenderContext) {
         match self {
-            maybe_arguments::no_arguments(_) => renderer!(self, s, "()"),
-            maybe_arguments::arguments(v) => renderer!(self, s, "({})", v)
+            maybe_arguments::no_arguments(_) => renderer!(self, context, "()"),
+            maybe_arguments::arguments(v) => renderer!(self, context, "({})", v)
         }
     }
 }
 
 impl Render for function  {
-    fn ren(&self, s: &mut RenderContext) {      
-        renderer!(self, s, "fn{} \n",  self.arguments)
+    fn render(&self, context: &mut RenderContext) {      
+        renderer!(self, context, "fn{} \n",  self.arguments)
     }
 }
 
 impl Render for variable  {
-    fn ren(&self, s: &mut RenderContext) {
-        renderer!(self, s, "var \n")
+    fn render(&self, context: &mut RenderContext) {
+        renderer!(self, context, "var \n")
     }
 }
 
 
-impl Render for statements  {
-    fn ren(&self, s: &mut RenderContext) {
+impl Render for Vec<statements>  {
+    fn render(&self, context: &mut RenderContext) {
         self
         .iter()
         .for_each(|v| match *v.statement.to_owned() {
             statement::function(v) => {
-                renderer!(self, s, "statement: {}", v);
+                renderer!(self, context, "statement: {}", v);
             }
 
             statement::variable(v) => {
-                renderer!(self, s, "statement: {}", v);
+                renderer!(self, context, "statement: {}", v);
             }
 
         });
@@ -87,11 +91,11 @@ impl Render for statements  {
 
 
 
-pub fn renderer(source_path: &str, source_content: &str,s: &statements){
+pub fn renderer(source_path: &str, source_content: &str,s: &Vec<statements>){
 
     let mut src = RenderContext::new(source_path);
 
-    s.ren(&mut src);
+    s.render(&mut src);
 
 
     src.write_file(Some(source_content));

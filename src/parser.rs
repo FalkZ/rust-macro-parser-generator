@@ -69,6 +69,9 @@ macro_rules! Parser {
                         $(    
                             $rule_or(Box<$rule_or>)
                         )?
+                        $(    
+                            $rule_or_iter(Vec<$rule_or_iter>)
+                        )?
                     ,)+
                     } 
 
@@ -81,6 +84,9 @@ macro_rules! Parser {
                                     )?
                                     $(    
                                         $rule_name::$rule_or(v) => v.position()
+                                    )?
+                                    $(    
+                                        $rule_name::$rule_or_iter(v) => v.position()
                                     )?
                                 ,)+
                             }
@@ -99,6 +105,9 @@ macro_rules! Parser {
                         )?
                         $(    
                             $(pub $rule_enum_key: Box<$rule_and>,)?
+                        )?
+                        $(    
+                            $(pub $rule_enum_key_iter: Vec<$rule_and_iter>,)?
                         )?         
                     )+
                     }
@@ -111,11 +120,9 @@ macro_rules! Parser {
                 )?
 
                  // RECURSION RULE
-                $(                   
-                    
-                concat_idents!(struct_name = $rule_name, _single {
+                $(                            
                     #[derive(Debug, Clone)]
-                    pub struct struct_name {
+                    pub struct $rule_name {
                         position: $crate::sourcemap::Position,
                     $(                     
                         $(
@@ -124,6 +131,9 @@ macro_rules! Parser {
                         $(    
                             $(pub $rule_rec_before_key: Box<$rule_rec_before>,)?
                         )?
+                        $(    
+                            $(pub $rule_rec_before_key_iter: Vec<$rule_rec_before_iter>,)?
+                        )?
                     )*
                     $(
                         $(
@@ -131,22 +141,19 @@ macro_rules! Parser {
                         )?
                         $(    
                             $(pub $rule_rec_after_key: Box<$rule_rec_after>,)?
-                        )?          
+                        )?  
+                        $(    
+                            $(pub $rule_rec_after_key_iter: Vec<$rule_rec_after_iter>,)?
+                        )?            
                     )*
                     }
-                    impl $crate::sourcemap::Pos for struct_name {
+                    impl $crate::sourcemap::Pos for $rule_name {
                         fn position(&self)-> $crate::sourcemap::Position {
                             self.position.clone()
                         }
                     }
-
-                    pub type $rule_name = Vec<struct_name>;
-
-                });
                     
-                )?
-                
-                                       
+                )?                                                
             )+
 
             #[derive(Debug)]
@@ -179,6 +186,11 @@ macro_rules! Parser {
                                 let a = mat!(pin.get_pinned(), #$rule_or, $rule_name::$rule_or);
                                 return_if_match!(a); 
                             )?
+
+                            $(   
+                                let a = mat!(pin.get_pinned(), #$rule_or_iter, $rule_name::$rule_or_iter);
+                                return_if_match!(a); 
+                            )?
                         )+
 
                         Err(ParserError::UnreachableAt(stringify!($rule_name).to_string()))
@@ -195,6 +207,9 @@ macro_rules! Parser {
                             $( 
                                 $(let $rule_enum_key =)? mat!(tokens, #$rule_and)?
                             )?
+                            $( 
+                                $(let $rule_enum_key_iter =)? mat!(tokens, #$rule_and_iter)?
+                            )?
                         ;)+
 
 
@@ -207,6 +222,9 @@ macro_rules! Parser {
                             $($(    
                                 $rule_enum_key,
                             )?)?
+                            $($(    
+                                $rule_enum_key_iter,
+                            )?)?
                         )+
                         };
                      
@@ -217,7 +235,7 @@ macro_rules! Parser {
                 
                 // RECURSIVE RULES
                 $(
-                    pub fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Box<$rule_name>> {
+                    pub fn $rule_name(tokens: & Tokens<Lexer>) -> ParserResult<Vec<$rule_name>> {
                         let __pos = tokens.position();
                         let __p = tokens.pin();
 
@@ -234,6 +252,11 @@ macro_rules! Parser {
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_before_key = a?;)?
                             )?
+                            $( 
+                                let a = mat!(t, #$rule_rec_before_iter);
+                                return_end_if_missmatch!($rule_name, a, __p);
+                                $(let $rule_rec_before_key_iter = a?;)?
+                            )?
                         )*
 
                         let __p2 = t.pin();
@@ -246,7 +269,7 @@ macro_rules! Parser {
                             Err(v) => {
                                 t = __p2.get_pinned();
                                 println!("{:?}", v);
-                                Box::new(vec![])
+                                vec![]
                             }
                         };
                     
@@ -262,11 +285,15 @@ macro_rules! Parser {
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_after_key = a?;)?
                             )?
+                            $( 
+                                let a = mat!(t, #$rule_rec_after_iter);
+                                return_end_if_missmatch!($rule_name, a, __p);
+                                $(let $rule_rec_after_key_iter = a?;)?
+                            )?
                         )*
 
-                        concat_idents!(struct_name = $rule_name, _single 
-                        {
-                        let __this = struct_name {
+                        
+                        let __this = $rule_name {
                             position: __pos.expect("couldn't get position for token"),
                             $(
                                 $($(    
@@ -284,15 +311,14 @@ macro_rules! Parser {
                                     $rule_rec_after_key,
                                 )?)?
                             )*
-                        };
-                        });
+                        };                     
 
                         let mut __r = vec![__this];
                     
-                        __r.extend(*__rest);
+                        __r.extend(__rest);
                      
                 
-                        Ok(Box::new(__r))
+                        Ok(__r)
                     }
                 )? 
             )+

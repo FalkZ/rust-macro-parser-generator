@@ -56,7 +56,7 @@ impl <T: RawToken> Pos for T {
 }
 
 impl <T: RawToken> Render for T {
-    fn ren(&self, context: &mut crate::sourcemap::RenderContext){
+    fn render(&self, context: &mut crate::sourcemap::RenderContext){
         let raw = self.raw_token();
         context.add_token(raw.as_str(), &raw.position)
 

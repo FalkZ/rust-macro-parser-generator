@@ -3,7 +3,7 @@ use std::{fs::{self}, path::Path};
 
 
 
-use crate::{result::ParserResult, grammar::Parser, visitor::Visitor, renderer::{RenderContext, Render}, command::{prettier_format, esbuild}, new_renderer::renderer};
+use crate::{result::ParserResult, grammar::Parser, command::{prettier_format, esbuild}, new_renderer::renderer};
 
 
 
@@ -20,6 +20,7 @@ pub fn compile_file(file_path: &str) -> ParserResult<()> {
 
     let t = Parser::statements(&t.tokens)?;
 
+    /* 
     let v = Visitor {};
 
     let r = v.statements(&t);
@@ -37,9 +38,14 @@ pub fn compile_file(file_path: &str) -> ParserResult<()> {
 
     fs::write(&out_path, out).unwrap();
 
+    
+
+
 
     esbuild(&out_path);
     prettier_format(&out_path);
+
+    */
 
     renderer(&file_path, &contents, &t);
 

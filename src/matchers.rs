@@ -18,8 +18,7 @@ macro_rules! return_end_if_missmatch {
             }
             Err(_e) => {
                 $pin.get_pinned();
-                return Ok(Box::new(
-                    $rule_name::new()));
+                return Ok(vec![]);
             }
          }
     }
