@@ -14,14 +14,14 @@ macro_rules! renderer {
 
             $(
                 $ins.ren($context, $($arg)?);
-                $context.add_token(strings.next().unwrap(), &own_pos);
+                $context.add_string(strings.next().unwrap());
             )*
         }     
     };
 }
 
 pub trait Render: Pos {
-    fn ren(&self, s: &mut RenderContext);
+    fn ren(&self, context: &mut RenderContext);
 }
 
 
@@ -31,24 +31,9 @@ pub trait ContextRender<T>: Pos {
 }
 
 
-
-impl Pos for maybe_arguments{
-    fn position(&self)-> Position {
-        Position::default()
-    }
-}
-
-
-
 impl Render for argument_single {
     fn ren(&self, s: &mut RenderContext) {
-        renderer!(self, s, "{}", self.arg.0);
-    }
-}
-
-impl Render for Token{
-    fn ren(&self, s: &mut RenderContext) {
-        renderer!(self, s, self.raw);
+        renderer!(self, s, "{}", self.arg);
     }
 }
 
@@ -56,7 +41,7 @@ impl Render for arguments {
     fn ren(&self, s: &mut RenderContext) {
         self.arguments.iter().for_each(|v| renderer!(self, s, "{},", v));
 
-        renderer!(self, s, "{}", self.last.0);
+        renderer!(self, s, "{}", self.last);
     }
 }
 

@@ -145,10 +145,24 @@ macro_rules! Lexer {
            $($token_name(TokenContent)),+
        }
 
+       impl $crate::traits::RawToken for Lexer {
+        fn raw_token(&self) -> TokenContent { 
+            match self {
+                $(Lexer::$token_name(v) => v.clone()),+
+            }
+        }
+       }
+
        
        $(
         #[derive(Debug, Clone)]
             pub struct $token_name(pub TokenContent);
+
+            impl $crate::traits::RawToken for $token_name {
+                fn raw_token(&self) -> TokenContent { 
+                    self.0.clone()
+                }
+            }
         )+
        
    };
@@ -211,15 +225,6 @@ macro_rules! Lexer {
            }
         
            
-       }
-
-       impl Pos for Lexer {
-        fn position(&self) -> Position { 
-            match self {
-                $(Lexer::$token_name(v) => v.position.clone()),+,
-                _ => Position::default()
-            }
-        }
        }
    };
 }

@@ -1,4 +1,4 @@
-use crate::result::{ParserResult, ParserError};
+use crate::{result::{ParserResult, ParserError}, sourcemap::{Token, Pos}, new_renderer::Render};
 
 pub trait T<V> {
     fn or_message(self, str: &str) -> ParserResult<V>;
@@ -42,4 +42,23 @@ pub trait T3<V> {
             Err(e) => ParserError::error(&e.into()),
         }
     }
+}
+
+
+pub trait RawToken {
+    fn raw_token(&self) -> Token;
+}
+
+impl <T: RawToken> Pos for T {
+    fn position(&self)-> crate::sourcemap::Position {
+        self.raw_token().position()
+    }
+}
+
+impl <T: RawToken> Render for T {
+    fn ren(&self, context: &mut crate::sourcemap::RenderContext){
+        let raw = self.raw_token();
+        context.add_token(raw.as_str(), &raw.position)
+
+    }  
 }

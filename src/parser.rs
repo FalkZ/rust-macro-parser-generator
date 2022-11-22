@@ -8,6 +8,7 @@ macro_rules! Parser {
                     $(
                         $($lex_or:ident)?
                         $(#$rule_or:ident)?
+                        $(*$rule_or_iter:ident)?
                     )|+
                 ))? 
                 $({
@@ -18,6 +19,9 @@ macro_rules! Parser {
                         )?
                         $(  #$rule_and:ident 
                             $(=> $rule_enum_key:ident)?
+                        )?
+                        $(  *$rule_and_iter:ident 
+                            $(=> $rule_enum_key_iter:ident)?
                         )?
                     ),+
                 })?
@@ -31,6 +35,9 @@ macro_rules! Parser {
                         $(  #$rule_rec_before:ident 
                             $(=> $rule_rec_before_key:ident)?
                         )?
+                        $(  *$rule_rec_before_iter:ident 
+                            $(=> $rule_rec_before_key_iter:ident)?
+                        )?
                     ,)*
                     *
                     $(,
@@ -41,12 +48,14 @@ macro_rules! Parser {
                         $(  #$rule_rec_after:ident 
                             $(=> $rule_rec_after_key:ident)?
                         )?
+                        $(  *$rule_rec_after_iter:ident 
+                            $(=> $rule_rec_after_key_iter:ident)?
+                        )?
                     )*
                 ])?
             ),+
         
     ) => {
-            use $crate::sourcemap::Pos;
             use concat_idents::concat_idents;
             $(
                 $(
@@ -62,7 +71,23 @@ macro_rules! Parser {
                         )?
                     ,)+
                     } 
+
+                    impl $crate::sourcemap::Pos for $rule_name {
+                        fn position(&self)-> $crate::sourcemap::Position {
+                            match self {
+                                $(
+                                    $(
+                                        $rule_name::$lex_or(v) => v.position()
+                                    )?
+                                    $(    
+                                        $rule_name::$rule_or(v) => v.position()
+                                    )?
+                                ,)+
+                            }
+                        }
+                    }
                 )? 
+
                 $(
                     #[derive(Debug, Clone)]
                     pub struct $rule_name {

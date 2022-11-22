@@ -89,7 +89,7 @@ pub struct Position{
    pub line: u32,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Default, Clone, Debug)]
 pub struct Token {
    pub raw: String,
    pub position: Position
@@ -128,36 +128,8 @@ impl <T: Pos> Pos for Vec<T>{
   }
 }
 
-trait Render where Self: Pos {
-   fn render(&self);
-}
-
-trait RenderToContext {
-   fn render(&self, context: &mut RenderContext);
-}
-
-impl <T: Render> RenderToContext for T{
-    fn render(&self, context: &mut RenderContext) {
-        todo!()
-    }
-}
 
 
-trait SourceEntry {
-   fn render(&self, context: &mut RenderContext);
-}
-
-impl SourceEntry for &str {
-    fn render(&self, context: &mut RenderContext) {
-        context.add_string(self);
-    }
-}
-
-impl SourceEntry for Vec<Box<dyn SourceEntry>> {
-   fn render(&self, context: &mut RenderContext) {
-      self.iter().for_each(|s|{s.render(context)});
-   }
-}
 
 pub fn test_source_map(file_name: &str, c: &str){
    let mut r = RenderContext::new(file_name);
@@ -176,9 +148,7 @@ pub fn test_source_map(file_name: &str, c: &str){
    r.write_file(Some(&c));
 }
 
-struct Source {
-   template: Vec<Box<dyn SourceEntry>>
-}
+
 
 pub fn create_source_map(file_name: &str, c: &str){
    let mut s = SourceMapBuilder::new(Some(&file_name.replace(".m1n", ".ts")));
