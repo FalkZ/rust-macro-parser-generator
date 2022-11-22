@@ -1,3 +1,5 @@
+use super::traits::RawToken;
+
 
 #[derive(Default, Clone, Debug)]
 pub struct Position{
@@ -13,4 +15,10 @@ impl <T: GetPosition> GetPosition for Vec<T>{
          // TODO sensible default
          self.get(0).map(|v| v.position()).unwrap_or_default()
   }
+}
+
+impl <T: RawToken> GetPosition for T {
+   fn position(&self)-> Position {
+       self.raw_token().position()
+   }
 }

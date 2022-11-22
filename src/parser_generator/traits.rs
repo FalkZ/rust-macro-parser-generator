@@ -54,16 +54,3 @@ pub trait RawToken {
     fn raw_token(&self) -> Token;
 }
 
-impl <T: RawToken> GetPosition for T {
-    fn position(&self)-> Position {
-        self.raw_token().position()
-    }
-}
-
-impl <T: RawToken> Render for T {
-    fn render(&self, context: &mut RenderContext){
-        let raw = self.raw_token();
-        context.add_token(raw.as_str(), &raw.position)
-
-    }  
-}

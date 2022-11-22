@@ -1,9 +1,7 @@
 use super::{grammar::{statements, statement, function, variable, maybe_arguments, arguments, argument }};
 
-use crate::parser_generator::{sourcemap::{RenderContext}, render::Render};
+use crate::parser_generator::{sourcemap::{RenderContext}, render::{Render}};
 use crate::render;
-
-
 
 
 impl Render for argument {
@@ -72,7 +70,5 @@ pub fn render(source_path: &str, source_content: &str,s: &Vec<statements>){
 
     s.render(&mut src);
 
-
     src.write_file(Some(source_content));
-
 }

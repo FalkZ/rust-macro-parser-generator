@@ -1,3 +1,5 @@
+#[feature(specialization)]
+
 mod m1n;
 mod parser_generator;
 
