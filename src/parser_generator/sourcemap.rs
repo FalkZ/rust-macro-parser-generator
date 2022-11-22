@@ -5,6 +5,8 @@ use std::path::Path;
 
 use sourcemap::SourceMapBuilder;
 
+use super::position::{Position, GetPosition};
+
 
 pub struct RenderContext {
    src_file_path: String,
@@ -83,11 +85,7 @@ impl RenderContext {
 }
 
 
-#[derive(Default, Clone, Debug)]
-pub struct Position{
-   pub column: u32,
-   pub line: u32,
-}
+
 
 #[derive(Default, Clone, Debug)]
 pub struct Token {
@@ -110,22 +108,15 @@ impl Token{
    }
 }
 
-pub trait Pos {
-   fn position(&self)-> Position;
-}
 
-impl Pos for Token {
+
+impl GetPosition for Token {
     fn position(&self)-> Position {
         self.position.clone()
     }
 }
 
 
-impl <T: Pos> Pos for Vec<T>{
-   fn position(&self)-> Position {
-         // TODO sensible default
-         self.get(0).map(|v| v.position()).unwrap_or_default()
-  }
-}
+
 
 

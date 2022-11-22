@@ -1,13 +1,5 @@
 use crate::{Lexer, Parser};
 
-use crate::result::{ParserError, ParserResult};
-use crate::traits::*;
-
-use crate::tokens::Tokens;
-
-use crate::{mat, return_end_if_missmatch, return_if_match};
-
-
 Lexer!(
     {
         {'0'..='9' =>} => NUMBER,

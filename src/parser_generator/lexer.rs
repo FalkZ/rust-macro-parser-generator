@@ -64,7 +64,7 @@ macro_rules! Lexer {
            fn primary_pass(input: &str) -> Result<Vec<Lexer>, String> {
                let mut result = Vec::new();
 
-               let mut it = $crate::source::Source::new(input);
+               let mut it = $crate::parser_generator::source::Source::new(input);
 
                while let Some(c) = it.peek() {
                    match c {
@@ -145,7 +145,7 @@ macro_rules! Lexer {
            $($token_name(TokenContent)),+
        }
 
-       impl $crate::traits::RawToken for Lexer {
+       impl $crate::parser_generator::traits::RawToken for Lexer {
         fn raw_token(&self) -> TokenContent { 
             match self {
                 $(Lexer::$token_name(v) => v.clone()),+
@@ -158,7 +158,7 @@ macro_rules! Lexer {
         #[derive(Debug, Clone)]
             pub struct $token_name(pub TokenContent);
 
-            impl $crate::traits::RawToken for $token_name {
+            impl $crate::parser_generator::traits::RawToken for $token_name {
                 fn raw_token(&self) -> TokenContent { 
                     self.0.clone()
                 }
@@ -189,8 +189,8 @@ macro_rules! Lexer {
        }
    ) => {
 
-       type TokenContent = $crate::sourcemap::Token;
-       type Position = $crate::sourcemap::Position;
+       type TokenContent = $crate::parser_generator::sourcemap::Token;
+       type Position = $crate::parser_generator::position::Position;
 
        Lexer!(
            @ENUM:

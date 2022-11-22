@@ -56,6 +56,10 @@ macro_rules! Parser {
             ),+
         
     ) => {
+            type P = $crate::parser_generator::position::Position;
+            use $crate::parser_generator::{position::GetPosition, tokens::Tokens, result::{ParserResult, ParserError}, traits::{OrErr, OrErrString}};
+            use $crate::{match_or_err, return_if_match, return_end_if_missmatch};
+
             $(
                 $(
                     #[derive(Debug, Clone)]
@@ -74,8 +78,8 @@ macro_rules! Parser {
                     ,)+
                     } 
 
-                    impl $crate::sourcemap::Pos for $rule_name {
-                        fn position(&self)-> $crate::sourcemap::Position {
+                    impl GetPosition for $rule_name {
+                        fn position(&self)-> P {
                             match self {
                                 $(
                                     $(
@@ -96,7 +100,7 @@ macro_rules! Parser {
                 $(
                     #[derive(Debug, Clone)]
                     pub struct $rule_name {
-                        position: $crate::sourcemap::Position,
+                        position: P,
                     $(
                         
                         $(
@@ -111,8 +115,8 @@ macro_rules! Parser {
                     )+
                     }
 
-                    impl $crate::sourcemap::Pos for $rule_name {
-                        fn position(&self)-> $crate::sourcemap::Position {
+                    impl GetPosition for $rule_name {
+                        fn position(&self)-> P {
                             self.position.clone()
                         }
                     }
@@ -122,7 +126,7 @@ macro_rules! Parser {
                 $(                            
                     #[derive(Debug, Clone)]
                     pub struct $rule_name {
-                        position: $crate::sourcemap::Position,
+                        position: P,
                     $(                     
                         $(
                             $(pub $lex_rec_before_key:  $lex_rec_before,)?           
@@ -146,8 +150,8 @@ macro_rules! Parser {
                         )?            
                     )*
                     }
-                    impl $crate::sourcemap::Pos for $rule_name {
-                        fn position(&self)-> $crate::sourcemap::Position {
+                    impl GetPosition for $rule_name {
+                        fn position(&self)-> P {
                             self.position.clone()
                         }
                     }
@@ -177,17 +181,17 @@ macro_rules! Parser {
                         let pin = tokens.pin();
                         $(
                             $(
-                                let a = mat!(pin.get_pinned(), $lex_or, $rule_name::$lex_or);
+                                let a = match_or_err!(pin.get_pinned(), $lex_or, $rule_name::$lex_or);
                                 return_if_match!(a);
                             )?
                             
                             $(   
-                                let a = mat!(pin.get_pinned(), #$rule_or, $rule_name::$rule_or);
+                                let a = match_or_err!(pin.get_pinned(), #$rule_or, $rule_name::$rule_or);
                                 return_if_match!(a); 
                             )?
 
                             $(   
-                                let a = mat!(pin.get_pinned(), #$rule_or_iter, $rule_name::$rule_or_iter);
+                                let a = match_or_err!(pin.get_pinned(), #$rule_or_iter, $rule_name::$rule_or_iter);
                                 return_if_match!(a); 
                             )?
                         )+
@@ -201,13 +205,13 @@ macro_rules! Parser {
                         let __p: Option<Position> = tokens.position();
                         $(
                             $(
-                                $(let $enum_key =)? mat!(tokens, $lex_and, $lex_and)? 
+                                $(let $enum_key =)? match_or_err!(tokens, $lex_and, $lex_and)? 
                             )?
                             $( 
-                                $(let $rule_enum_key =)? mat!(tokens, #$rule_and)?
+                                $(let $rule_enum_key =)? match_or_err!(tokens, #$rule_and)?
                             )?
                             $( 
-                                $(let $rule_enum_key_iter =)? mat!(tokens, #$rule_and_iter)?
+                                $(let $rule_enum_key_iter =)? match_or_err!(tokens, #$rule_and_iter)?
                             )?
                         ;)+
 
@@ -242,17 +246,17 @@ macro_rules! Parser {
                         
                         $(
                             $(
-                                let a = mat!(t, $lex_rec_before, $lex_rec_before);
+                                let a = match_or_err!(t, $lex_rec_before, $lex_rec_before);
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $lex_rec_before_key = a?;)?
                             )?
                             $( 
-                                let a = mat!(t, #$rule_rec_before);
+                                let a = match_or_err!(t, #$rule_rec_before);
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_before_key = a?;)?
                             )?
                             $( 
-                                let a = mat!(t, #$rule_rec_before_iter);
+                                let a = match_or_err!(t, #$rule_rec_before_iter);
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_before_key_iter = a?;)?
                             )?
@@ -275,17 +279,17 @@ macro_rules! Parser {
 
                         $(
                             $(
-                                let a = mat!(t, $lex_rec_after, $lex_rec_after);
+                                let a = match_or_err!(t, $lex_rec_after, $lex_rec_after);
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $lex_rec_after_key = a?;)?
                             )?
                             $( 
-                                let a = mat!(t, #$rule_rec_after);
+                                let a = match_or_err!(t, #$rule_rec_after);
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_after_key = a?;)?
                             )?
                             $( 
-                                let a = mat!(t, #$rule_rec_after_iter);
+                                let a = match_or_err!(t, #$rule_rec_after_iter);
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_after_key_iter = a?;)?
                             )?

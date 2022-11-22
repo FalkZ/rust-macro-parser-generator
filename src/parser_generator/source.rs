@@ -1,6 +1,8 @@
 use std::iter::Peekable;
 
-use crate::sourcemap::Position;
+use super::position::Position;
+
+
 
 pub struct Source {
    position: Position,

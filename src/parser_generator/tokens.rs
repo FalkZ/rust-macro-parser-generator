@@ -1,7 +1,7 @@
 use std::{cell::RefCell, fmt::Display, rc::Rc};
 use itertools::Itertools;
 
-use crate::sourcemap::Pos;
+use super::position::{Position, GetPosition};
 
 #[derive(Debug, Clone)]
 
@@ -26,7 +26,7 @@ pub struct Tokens<T> {
     tokens: Vec<T>,
 }
 
-impl<T: Pos> Tokens<T> {
+impl<T: GetPosition> Tokens<T> {
     pub fn new(tokens: Vec<T>) -> Self {
         Self {
             index: Rc::new(RefCell::new(0)),
@@ -61,14 +61,14 @@ impl<T: Pos> Tokens<T> {
         return next;
     }
 
-    pub fn position(&self)-> Option<crate::sourcemap::Position> {
+    pub fn position(&self)-> Option<Position> {
         let t = &self.peek()?;
         
         Some(t.position().clone())
     }
 }
 
-impl<T: std::fmt::Debug + Pos> Display for Tokens<T> {
+impl<T: std::fmt::Debug + GetPosition> Display for Tokens<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let s: String = self.tokens.iter().enumerate().map(|(i, t)| {
             if i == self.index() {

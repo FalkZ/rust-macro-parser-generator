@@ -26,9 +26,11 @@ macro_rules! return_end_if_missmatch {
 
 
 #[macro_export]
-macro_rules! mat {
+macro_rules! match_or_err {
     ($pinned_tokens:expr, $name:ident, $name_out:path) => {
         {
+            use $crate::parser_generator::traits::OrMessage;
+            
             let tokens = $pinned_tokens;
             let next = tokens.next().or_message("next on EOF")?;
      

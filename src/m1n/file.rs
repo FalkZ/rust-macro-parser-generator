@@ -3,7 +3,9 @@ use std::{fs::{self}, path::Path};
 
 
 
-use crate::{result::ParserResult, grammar::Parser, new_renderer::renderer};
+use crate::parser_generator::{result::ParserResult};
+
+use super::{grammar::Parser, renderer::render};
 
 
 
@@ -47,7 +49,7 @@ pub fn compile_file(file_path: &str) -> ParserResult<()> {
 
     */
 
-    renderer(&file_path, &contents, &t);
+    render(&file_path, &contents, &t);
 
 
 
