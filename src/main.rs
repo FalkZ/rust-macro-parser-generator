@@ -11,17 +11,9 @@ mod grammar;
 mod command;
 mod sourcemap;
 mod source;
-mod render_macro;
 mod new_renderer;
 
 use file::compile_file;
-
-use crate::sourcemap::test_source_map;
-
-use crate::sourcemap::{create_source_map};
-
-
-
 
 
 fn main() {

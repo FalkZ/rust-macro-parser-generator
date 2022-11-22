@@ -56,7 +56,6 @@ macro_rules! Parser {
             ),+
         
     ) => {
-            use concat_idents::concat_idents;
             $(
                 $(
                     #[derive(Debug, Clone)]

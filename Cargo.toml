@@ -8,6 +8,5 @@ edition = "2021"
 [dependencies]
 regex = "1.6.0"
 anyhow = "1.0.66"
-concat-idents = "1.1.4"
 itertools = "0.10.5"
 sourcemap = "6.2.0"

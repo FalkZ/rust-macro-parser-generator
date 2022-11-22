@@ -1,4 +1,4 @@
-use crate::{grammar::{statements, statement, function, variable, maybe_arguments, arguments, argument, }, sourcemap::{RenderContext, Pos, Position, Token}, render};
+use crate::{grammar::{statements, statement, function, variable, maybe_arguments, arguments, argument, }, sourcemap::{RenderContext, Pos, Position, Token}};
 
 
 #[macro_export]
@@ -26,8 +26,8 @@ pub trait Render: Pos {
 
 
 
-pub trait ContextRender<T>: Pos {
-    fn render(&self, context: &mut RenderContext, context: T);
+pub trait RenderWithArg<Arg>: Pos {
+    fn render(&self, context: &mut RenderContext, arg: Arg);
 }
 
 

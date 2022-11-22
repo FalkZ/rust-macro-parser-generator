@@ -3,7 +3,7 @@ use std::{fs::{self}, path::Path};
 
 
 
-use crate::{result::ParserResult, grammar::Parser, command::{prettier_format, esbuild}, new_renderer::renderer};
+use crate::{result::ParserResult, grammar::Parser, new_renderer::renderer};
 
 
 
