@@ -6,6 +6,8 @@ use std::path::Path;
 use sourcemap::SourceMapBuilder;
 
 use super::position::{Position, GetPosition};
+use super::render::Render;
+use super::traits::RawToken;
 
 
 pub struct RenderContext {
@@ -35,6 +37,12 @@ impl RenderContext {
 
    }
 
+   fn add_posititon(&mut self, pos: Option<Position>){
+      if let Some(pos) = pos {
+       self.sourcemap.add( self.current_line(),  self.current_column() ,pos.line,pos.column, Some(&self.src_file_name), None);
+      }
+   }
+
    pub fn add_token(&mut self, str: &str, pos: &Position){
       self.add_soucemap_entry(pos);
       self.add_string(str);
@@ -54,6 +62,38 @@ impl RenderContext {
       self.rows.append(&mut var);
       
    }
+
+   pub fn str(&mut self, content: &dyn Display) -> &mut Self {
+      self.add_string(&format!("{}", content));
+
+      self
+   }
+
+   pub fn render_raw(&mut self, content: &dyn RawToken) -> &mut Self {
+      let t = content.raw_token();
+      self.add_soucemap_entry(&t.position);
+      self.add_string(&t.raw);
+
+      self
+   }
+
+   pub fn render(&mut self, content: &dyn Render) -> &mut Self  {
+      self.add_posititon(content.try_position());
+      content.render(self);
+
+       self
+   }
+
+   pub fn join<T: Render>(&mut self, content: Vec<T>, separator: &dyn Display) -> &mut Self {
+      use crate::parser_generator::position::TryGetPosition;
+
+      self.add_posititon(content.try_position());
+     
+
+      self
+   }
+
+   fn apply(){}
 
    fn current_column(&self)-> u32 {
       self.rows[ self.rows.len()-1].len() as u32

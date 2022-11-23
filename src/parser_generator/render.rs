@@ -1,4 +1,4 @@
-use super::{position::GetPosition, sourcemap::RenderContext, traits::RawToken};
+use super::{position::{GetPosition, TryGetPosition}, sourcemap::RenderContext, traits::RawToken};
 
 #[macro_export]
 macro_rules! render {
@@ -6,6 +6,7 @@ macro_rules! render {
         {
             use $crate::parser_generator::{position::GetPosition};
 
+            /* 
             let own_pos = $self.position();
 
             let mut strings =  $template.split("{}");
@@ -17,33 +18,20 @@ macro_rules! render {
                 $ins.render($context, $($arg)?);
                 $context.add_string(strings.next().unwrap());
             )*
+
+            */
         }
     };
 }
 
-pub trait RenderDefault: GetPosition {
-    fn render_default(&self, context: &mut RenderContext);
-}
 
-impl<T: Render> RenderDefault for Vec<T> {
-    fn render_default(&self, context: &mut RenderContext) {
-        self.iter().for_each(|v| {
-            render!(self, context, "{}", v);
-        });
-    }
-}
 
-pub trait Render: GetPosition {
+pub trait Render: TryGetPosition {
     fn render(&self, context: &mut RenderContext);
 }
 
-pub trait RenderWithArg<Arg>: GetPosition {
+pub trait RenderWithArg<Arg>: TryGetPosition {
     fn render(&self, context: &mut RenderContext, arg: Arg);
 }
 
-impl<T: RawToken> Render for T {
-    fn render(&self, context: &mut RenderContext) {
-        let raw = self.raw_token();
-        context.add_token(raw.as_str(), &raw.position)
-    }
-}
+

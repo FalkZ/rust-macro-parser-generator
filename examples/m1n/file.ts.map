@@ -1,1 +1,0 @@
-{"version":3,"sources":["file.m1n"],"sourcesContent":["PI = a + b + 0.012;\n\npub mut Pi = 123;\n\nfn(a, b) = a + b;\n\none(b) = console.log(b);\n\npub zero() = a + b;"],"names":[],"mappings":"AAAA,WAAA;AAAA,WAEA;AAFA,WAIA,EAAE,CAAA,AAAC,EAAG;AAJN,WAMA,EAAG,CAAA,AAAC;AANJ,WAQA,EAAQ"}
