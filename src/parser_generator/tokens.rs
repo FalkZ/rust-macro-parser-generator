@@ -1,6 +1,6 @@
 use std::{cell::RefCell, fmt::{Display, Debug}, rc::Rc};
 
-use super::{position::{Position, GetPosition}, traits::RawToken};
+use super::{position::{Position, GetPosition}};
 
 #[derive(Debug, Clone)]
 
@@ -18,6 +18,28 @@ impl<'a, T> Pin<'a, T> {
         self.tokens
     }
 }
+
+#[derive(Default, Clone, Debug)]
+pub struct Token {
+   pub raw: String,
+   pub position: Position
+}
+
+impl Display for Token {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.raw)
+    }
+}
+
+impl Token{
+   pub fn new(raw: String, position: Position)-> Self {
+      Self { raw, position }
+   }
+   pub fn as_str<'a>(&'a self) -> &'a str {
+      &self.raw
+   }
+}
+
 
 #[derive(Debug, Clone)]
 pub struct Tokens<T> {
@@ -80,5 +102,16 @@ impl<T: GetPosition + Display> Display for Tokens<T> {
         }).collect::<Vec<String>>().join(", ");
         
         write!(f, "{}", s)
+    }
+}
+
+
+pub trait RawToken: Clone {
+    fn raw_token(&self) -> Token;
+}
+
+impl <T: Into<Token> + Clone> RawToken for T {
+    fn raw_token(&self) -> Token {
+       self.clone().into()
     }
 }

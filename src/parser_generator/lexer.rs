@@ -145,7 +145,7 @@ macro_rules! Lexer {
            $($token_name(TokenContent)),+
        }
 
-       type T =  $crate::parser_generator::sourcemap::Token;
+       type T =  $crate::parser_generator::tokens::Token;
        impl Into<T> for Lexer{
             fn into(self) -> T {
                 match self {
@@ -156,7 +156,7 @@ macro_rules! Lexer {
 
        impl std::fmt::Display for Lexer {
             fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                use $crate::parser_generator::traits::RawToken;
+                use $crate::parser_generator::tokens::RawToken;
 
                 let name = format!("{:?}", self);
                 let name = name.split("(").next().unwrap_or(&name);
@@ -169,7 +169,7 @@ macro_rules! Lexer {
         #[derive(Debug, Clone)]
             pub struct $token_name(pub TokenContent);
 
-            impl $crate::parser_generator::traits::RawToken for $token_name {
+            impl $crate::parser_generator::tokens::RawToken for $token_name {
                 fn raw_token(&self) -> TokenContent { 
                     self.0.clone()
                 }
@@ -200,7 +200,7 @@ macro_rules! Lexer {
        }
    ) => {
 
-       type TokenContent = $crate::parser_generator::sourcemap::Token;
+       type TokenContent = $crate::parser_generator::tokens::Token;
        type Position = $crate::parser_generator::position::Position;
 
        Lexer!(

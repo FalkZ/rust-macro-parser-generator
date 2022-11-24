@@ -22,26 +22,16 @@ pub fn compile_file(file_path: &str) -> ParserResult<()> {
 
     let t = Parser::statements(&t.tokens)?;
 
-    /* 
-    let v = Visitor {};
+    //println!("{:#?}", &t); // AST
 
-    let r = v.statements(&t);
+    /* 
+
 
     let context = if name.chars().nth(0).unwrap().is_uppercase() {
         RenderContext::Class(name.replace(".m1n", ""))
     } else {
         RenderContext::Singleton(name.replace(".m1n", ""))
-    };
-
-    let mut out = r.render(&context);
-    let out_path = file_path.replace(".m1n", ".ts");
-
-    out = format!("{}\n//# sourceMappingURL={}.map", &out, &name);
-
-    fs::write(&out_path, out).unwrap();
-
-    
-
+    };  
 
 
     esbuild(&out_path);

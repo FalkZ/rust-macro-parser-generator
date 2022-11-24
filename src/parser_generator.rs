@@ -5,6 +5,5 @@ pub mod position;
 pub mod render;
 pub mod result;
 pub mod source;
-pub mod sourcemap;
 pub mod traits;
 pub mod tokens;

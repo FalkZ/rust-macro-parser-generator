@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use super::{result::{ParserError, ParserResult}, sourcemap::{Token}};
+use super::{result::{ParserError, ParserResult}, tokens::{Token}};
 
 
 
@@ -48,17 +48,3 @@ pub trait OrErrString<V> {
         }
     }
 }
-
-
-
-
-pub trait RawToken: Clone {
-    fn raw_token(&self) -> Token;
-}
-
-impl <T: Into<Token> + Clone> RawToken for T {
-    fn raw_token(&self) -> Token {
-       self.clone().into()
-    }
-}
-

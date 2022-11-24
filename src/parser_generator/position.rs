@@ -1,4 +1,4 @@
-use super::traits::RawToken;
+use super::tokens::RawToken;
 
 #[derive(Default, Clone, Debug)]
 pub struct Position {
