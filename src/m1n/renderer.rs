@@ -33,31 +33,32 @@ impl Render for maybe_arguments {
 
 impl Render for function  {
     fn render(&self, context: &mut RenderContext) {      
-        render!(self, context, "fn{} \n",  self.arguments)
+        context.str("fn{} \n");
     }
 }
 
 impl Render for variable  {
     fn render(&self, context: &mut RenderContext) {
-        render!(self, context, "var \n")
+       context.str("var \n");
     }
 }
 
+impl Render for statements  {
+    fn render(&self, context: &mut RenderContext) {
+        
+        match *self.statement.to_owned() {
+            statement::function(v) => 
+                context.render(*v),
+            statement::variable(v) =>  context.render(*v),
+        };
+
+    }
+}
 
 impl Render for Vec<statements>  {
     fn render(&self, context: &mut RenderContext) {
-        self
-        .iter()
-        .for_each(|v| match *v.statement.to_owned() {
-            statement::function(v) => {
-                render!(self, context, "statement: {}", v);
-            }
 
-            statement::variable(v) => {
-                render!(self, context, "statement: {}", v);
-            }
-
-        });
+        context.join(self, &"\n\n");
         
     }
 }

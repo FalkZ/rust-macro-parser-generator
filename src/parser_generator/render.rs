@@ -30,6 +30,10 @@ pub trait Render: TryGetPosition {
     fn render(&self, context: &mut RenderContext);
 }
 
+
+
+
+
 pub trait RenderWithArg<Arg>: TryGetPosition {
     fn render(&self, context: &mut RenderContext, arg: Arg);
 }

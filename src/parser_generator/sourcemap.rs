@@ -63,7 +63,7 @@ impl RenderContext {
       
    }
 
-   pub fn str(&mut self, content: &dyn Display) -> &mut Self {
+   pub fn str<D: Display>(&mut self, content: D) -> &mut Self {
       self.add_string(&format!("{}", content));
 
       self
@@ -77,17 +77,23 @@ impl RenderContext {
       self
    }
 
-   pub fn render(&mut self, content: &dyn Render) -> &mut Self  {
+   pub fn render<T: Render>(&mut self, content: T) -> &mut Self  {
       self.add_posititon(content.try_position());
       content.render(self);
 
        self
    }
 
-   pub fn join<T: Render>(&mut self, content: Vec<T>, separator: &dyn Display) -> &mut Self {
+   pub fn join<T: Render>(&mut self, content: &Vec<T>, separator: &dyn Display) -> &mut Self {
       use crate::parser_generator::position::TryGetPosition;
 
       self.add_posititon(content.try_position());
+
+      content.iter().for_each(|v| {v.render(self);
+      
+      self.str(separator);
+   
+      });
      
 
       self
