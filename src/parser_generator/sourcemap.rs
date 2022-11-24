@@ -1,6 +1,7 @@
 use std::fmt::Display;
 use std::fs::{File, self};
 
+use std::ops::Deref;
 use std::path::Path;
 
 use sourcemap::SourceMapBuilder;
@@ -69,7 +70,7 @@ impl RenderContext {
       self
    }
 
-   pub fn render_raw<R: RawToken>(&mut self, content: R) -> &mut Self {
+   pub fn render_raw<R: RawToken>(&mut self, content: &R) -> &mut Self {
       let t = content.raw_token();
       self.add_soucemap_entry(&t.position);
       self.add_string(&t.raw);
@@ -84,14 +85,14 @@ impl RenderContext {
        self
    }
 
-   pub fn join<T: Render>(&mut self, content: &Vec<T>, separator: &dyn Display) -> &mut Self {
+   pub fn join<T: Render, S: Display>(&mut self, content: &Vec<T>, separator: S) -> &mut Self {
       use crate::parser_generator::position::TryGetPosition;
 
       self.add_posititon(content.try_position());
 
       content.iter().for_each(|v| {v.render(self);
       
-      self.str(separator);
+      self.str(format!("{}", separator));
    
       });
      

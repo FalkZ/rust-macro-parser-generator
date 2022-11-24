@@ -20,6 +20,9 @@ macro_rules! Parser {
                         $(  #$rule_and:ident 
                             $(=> $rule_enum_key:ident)?
                         )?
+                        $(  ?$rule_and_opt:ident 
+                            $(=> $rule_enum_key_opt:ident)?
+                        )?
                         $(  *$rule_and_iter:ident 
                             $(=> $rule_enum_key_iter:ident)?
                         )?
@@ -35,6 +38,9 @@ macro_rules! Parser {
                         $(  #$rule_rec_before:ident 
                             $(=> $rule_rec_before_key:ident)?
                         )?
+                        $(  ?$rule_rec_before_opt:ident 
+                            $(=> $rule_rec_before_key_opt:ident)?
+                        )?
                         $(  *$rule_rec_before_iter:ident 
                             $(=> $rule_rec_before_key_iter:ident)?
                         )?
@@ -48,6 +54,9 @@ macro_rules! Parser {
                         $(  #$rule_rec_after:ident 
                             $(=> $rule_rec_after_key:ident)?
                         )?
+                        $(  ?$rule_rec_after_opt:ident 
+                            $(=> $rule_rec_after_key_opt:ident)?
+                        )?
                         $(  *$rule_rec_after_iter:ident 
                             $(=> $rule_rec_after_key_iter:ident)?
                         )?
@@ -58,7 +67,7 @@ macro_rules! Parser {
     ) => {
             type P = $crate::parser_generator::position::Position;
             use $crate::parser_generator::{position::GetPosition, tokens::Tokens, result::{ParserResult, ParserError}, traits::{OrErrString}};
-            use $crate::{match_or_err, return_if_match, return_end_if_missmatch};
+            use $crate::{match_or_err, match_opt, return_if_match, return_end_if_missmatch};
 
             $(
                 $(
@@ -112,6 +121,9 @@ macro_rules! Parser {
                             $(pub $rule_enum_key: Box<$rule_and>,)?
                         )?
                         $(    
+                            $(pub $rule_enum_key_opt: Option<Box<$rule_and_opt>>,)?
+                        )?
+                        $(    
                             $(pub $rule_enum_key_iter: Vec<$rule_and_iter>,)?
                         )?         
                     )+
@@ -138,6 +150,9 @@ macro_rules! Parser {
                             $(pub $rule_rec_before_key: Box<$rule_rec_before>,)?
                         )?
                         $(    
+                            $(pub $rule_rec_before_key_opt: Option<Box<$rule_rec_before_opt>>,)?
+                        )?
+                        $(    
                             $(pub $rule_rec_before_key_iter: Vec<$rule_rec_before_iter>,)?
                         )?
                     )*
@@ -147,6 +162,9 @@ macro_rules! Parser {
                         )?
                         $(    
                             $(pub $rule_rec_after_key: Box<$rule_rec_after>,)?
+                        )?
+                        $(    
+                            $(pub $rule_rec_after_key_opt: Option<Box<$rule_rec_after_opt>>,)?
                         )?  
                         $(    
                             $(pub $rule_rec_after_key_iter: Vec<$rule_rec_after_iter>,)?
@@ -214,6 +232,9 @@ macro_rules! Parser {
                                 $(let $rule_enum_key =)? match_or_err!(tokens, #$rule_and)?
                             )?
                             $( 
+                                $(let $rule_enum_key_opt =)? match_opt!(tokens, $rule_and_opt)
+                            )?
+                            $( 
                                 $(let $rule_enum_key_iter =)? match_or_err!(tokens, #$rule_and_iter)?
                             )?
                         ;)+
@@ -227,6 +248,9 @@ macro_rules! Parser {
                             )?)?
                             $($(    
                                 $rule_enum_key,
+                            )?)?
+                            $($(    
+                                $rule_enum_key_opt,
                             )?)?
                             $($(    
                                 $rule_enum_key_iter,
@@ -257,6 +281,9 @@ macro_rules! Parser {
                                 let a = match_or_err!(t, #$rule_rec_before);
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_before_key = a?;)?
+                            )?
+                            $( 
+                                $(let $rule_rec_before_key_opt =)? match_opt!(t, $rule_rec_before_opt);
                             )?
                             $( 
                                 let a = match_or_err!(t, #$rule_rec_before_iter);
@@ -292,6 +319,9 @@ macro_rules! Parser {
                                 $(let $rule_rec_after_key = a?;)?
                             )?
                             $( 
+                                $(let $rule_rec_after_key_opt =)? match_opt!(t, $rule_rec_after_opt);
+                            )?
+                            $( 
                                 let a = match_or_err!(t, #$rule_rec_after_iter);
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_after_key_iter = a?;)?
@@ -308,6 +338,12 @@ macro_rules! Parser {
                                 $($(    
                                     $rule_rec_before_key,
                                 )?)?
+                                $($(    
+                                    $rule_rec_before_key_opt,
+                                )?)?
+                                $($(    
+                                    $rule_rec_before_key_iter,
+                                )?)?
                             )*
                             $(
                                 $($(    
@@ -315,6 +351,12 @@ macro_rules! Parser {
                                 )?)?
                                 $($(    
                                     $rule_rec_after_key,
+                                )?)?
+                                $($(    
+                                    $rule_rec_after_key_opt,
+                                )?)?
+                                $($(    
+                                    $rule_rec_after_key_iter,
                                 )?)?
                             )*
                         };                     

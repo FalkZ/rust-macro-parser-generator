@@ -53,14 +53,14 @@ Parser!(
     body = {#value => value, *expressions => expressions},
 
     argument =  [IDENT => arg,  COMMA, *],
-    arguments = {BRACKETOPEN, *argument => arguments, IDENT => last,  BRACKETCLOSE},
+    arguments = {*argument => arguments, IDENT => last},
 
     no_arguments = {BRACKETOPEN, BRACKETCLOSE},
     maybe_arguments =  (#arguments | #no_arguments),
 
     name = (RAWIDENT | IDENT),
 
-    function = { *modifiers => modifiers, #name => name, #maybe_arguments => arguments, EQUAL, #body => body, SEMI},
+    function = { *modifiers => modifiers, #name => name, BRACKETOPEN, ?arguments => arguments, BRACKETCLOSE, EQUAL, #body => body, SEMI},
     variable = { *modifiers => modifiers, IDENT => name, EQUAL, #body => body, SEMI},
     statement = (#function | #variable),
     statements = [#statement => statement,  *]

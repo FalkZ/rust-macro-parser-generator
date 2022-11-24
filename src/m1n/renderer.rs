@@ -1,39 +1,37 @@
 use super::{grammar::{statements, statement, function, variable, maybe_arguments, arguments, argument }};
 
 use crate::parser_generator::{sourcemap::{RenderContext}, render::{Render}};
-use crate::render;
 
 
 impl Render for argument {
     fn render(&self, context: &mut RenderContext) {
-        render!(self, context, "{}", self.arg);
+       context.render_raw(&self.arg).str(", ");
     }
 }
 
-impl Render for Vec<argument> {
-    fn render(&self, context: &mut RenderContext) {
-        self.iter().for_each(|v| render!(self, context, "{},", v));
-    }
-}
 
 impl Render for arguments {
     fn render(&self, context: &mut RenderContext) {
-        render!(self, context, "{}{}", self.arguments, self.last);
+
+        context.str("(")
+        .join(&self.arguments, "")
+        .render_raw(&self.last)
+        .str(")");    
     }
 }
 
-impl Render for maybe_arguments {
-    fn render(&self, context: &mut RenderContext) {
-        match self {
-            maybe_arguments::no_arguments(_) => render!(self, context, "()"),
-            maybe_arguments::arguments(v) => render!(self, context, "({})", v)
-        }
-    }
-}
+
 
 impl Render for function  {
     fn render(&self, context: &mut RenderContext) {      
         context.str("fn{} \n");
+        
+        match &self.arguments {
+            Some(v) => context.render(*v.clone()),
+            None => context.str("()")
+        };
+        
+        
     }
 }
 

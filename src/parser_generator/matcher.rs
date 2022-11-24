@@ -57,3 +57,20 @@ macro_rules! match_or_err {
         }
     };
 }
+
+#[macro_export]
+macro_rules! match_opt {
+    ($pinned_tokens:expr, $name:ident) => {
+        {
+            let __pin = $pinned_tokens.pin();
+
+            match Self::$name($pinned_tokens) {
+                Ok(val) => Some(val),
+                _ =>  {
+                    __pin.get_pinned();
+                    None
+                }
+            }
+        }
+    };
+}
