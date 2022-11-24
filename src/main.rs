@@ -1,4 +1,4 @@
-#[feature(specialization)]
+#![allow(dead_code)]
 
 mod m1n;
 mod parser_generator;
@@ -11,6 +11,6 @@ fn main() {
   // compile_file("./examples/m1n/math.m1n");
   // compile_file("./examples/m1n/std.m1n");
    //compile_file("./examples/m1n/Class.m1n");
-   compile_file("./examples/m1n/file.m1n");   
+   compile_file("./examples/m1n/file.m1n").expect("couldn't compile file");   
 
 }

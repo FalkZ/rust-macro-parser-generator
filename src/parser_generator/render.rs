@@ -1,11 +1,9 @@
-use super::{position::{GetPosition, TryGetPosition}, sourcemap::RenderContext, traits::RawToken};
+use super::{position::{TryGetPosition}, sourcemap::RenderContext};
 
 #[macro_export]
 macro_rules! render {
     ($self:ident, $context:ident, $template:expr $(,$ins:expr$(=>$arg:expr)?)*) => {
         {
-            use $crate::parser_generator::{position::GetPosition};
-
             /* 
             let own_pos = $self.position();
 

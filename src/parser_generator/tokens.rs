@@ -1,5 +1,4 @@
 use std::{cell::RefCell, fmt::Display, rc::Rc};
-use itertools::Itertools;
 
 use super::position::{Position, GetPosition};
 
@@ -76,7 +75,7 @@ impl<T: std::fmt::Debug + GetPosition> Display for Tokens<T> {
             } else {
                 format!("{:?}", t)
             }
-        }).intersperse(", ".to_string()).collect();
+        }).collect::<Vec<String>>().join(", ");
         
         write!(f, "{}", s)
     }

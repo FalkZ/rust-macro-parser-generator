@@ -57,11 +57,12 @@ macro_rules! Parser {
         
     ) => {
             type P = $crate::parser_generator::position::Position;
-            use $crate::parser_generator::{position::GetPosition, tokens::Tokens, result::{ParserResult, ParserError}, traits::{OrErr, OrErrString}};
+            use $crate::parser_generator::{position::GetPosition, tokens::Tokens, result::{ParserResult, ParserError}, traits::{OrErrString}};
             use $crate::{match_or_err, return_if_match, return_end_if_missmatch};
 
             $(
                 $(
+                    #[allow(non_camel_case_types)]
                     #[derive(Debug, Clone)]
                     pub enum $rule_name {
                     $(
@@ -98,6 +99,7 @@ macro_rules! Parser {
                 )? 
 
                 $(
+                    #[allow(non_camel_case_types)]
                     #[derive(Debug, Clone)]
                     pub struct $rule_name {
                         position: P,
@@ -124,6 +126,7 @@ macro_rules! Parser {
 
                  // RECURSION RULE
                 $(                            
+                    #[allow(non_camel_case_types)]
                     #[derive(Debug, Clone)]
                     pub struct $rule_name {
                         position: P,
@@ -242,7 +245,7 @@ macro_rules! Parser {
                         let __pos = tokens.position();
                         let __p = tokens.pin();
 
-                        let mut t = __p.get_pinned();
+                        let t = __p.get_pinned();
                         
                         $(
                             $(
@@ -270,7 +273,7 @@ macro_rules! Parser {
                                 r
                             },
                             Err(v) => {
-                                t = __p2.get_pinned();
+                                __p2.get_pinned();
                                 println!("{:?}", v);
                                 vec![]
                             }

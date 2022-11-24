@@ -22,7 +22,7 @@ impl RenderContext {
 
       let src_file_name: String = Path::new(&src_file_path).file_name().unwrap().to_str().unwrap().to_string();
 
-      let mut sourcemap = SourceMapBuilder::new(None);
+      let sourcemap = SourceMapBuilder::new(None);
 
       Self {
          src_file_path: src_file_path.to_string(),
@@ -114,7 +114,7 @@ impl RenderContext {
 
       let out_sourcemap = format!("{}.map", &out);
 
-      let mut f = File::create(&out_sourcemap).expect("couldn't open map file");
+      let f = File::create(&out_sourcemap).expect("couldn't open map file");
       
       let content = self.rows.join("\n");
       

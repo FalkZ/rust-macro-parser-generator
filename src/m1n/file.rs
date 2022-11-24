@@ -1,5 +1,5 @@
 
-use std::{fs::{self}, path::Path};
+use std::{fs::{self}};
 
 
 
@@ -14,7 +14,7 @@ pub fn compile_file(file_path: &str) -> ParserResult<()> {
 
 
 
-    let name = Path::new(&file_path).file_name().unwrap().to_str().unwrap();
+    //let name = Path::new(&file_path).file_name().unwrap().to_str().unwrap();
 
     let t = Parser::new(&contents)?;
 

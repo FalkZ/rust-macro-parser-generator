@@ -24,7 +24,7 @@ impl Error for ParserError {
 
     fn cause(&self) -> Option<&dyn Error> {
         match &self {
-            ParserError::Err(e) => Some(self),
+            ParserError::Err(_) => Some(self),
             _ => None,
         }
     }
@@ -32,7 +32,7 @@ impl Error for ParserError {
 
 
 #[derive(Debug, Clone)]
-struct TextError {
+pub struct TextError {
     message: String
 }
 
