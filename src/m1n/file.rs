@@ -18,7 +18,7 @@ pub fn compile_file(file_path: &str) -> ParserResult<()> {
 
     let t = Parser::new(&contents)?;
 
-    println!("{:?}", &t.tokens);
+    println!("{}", &t.tokens);
 
     let t = Parser::statements(&t.tokens)?;
 

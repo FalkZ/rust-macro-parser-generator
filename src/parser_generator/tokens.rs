@@ -1,6 +1,6 @@
-use std::{cell::RefCell, fmt::Display, rc::Rc};
+use std::{cell::RefCell, fmt::{Display, Debug}, rc::Rc};
 
-use super::position::{Position, GetPosition};
+use super::{position::{Position, GetPosition}, traits::RawToken};
 
 #[derive(Debug, Clone)]
 
@@ -67,13 +67,15 @@ impl<T: GetPosition> Tokens<T> {
     }
 }
 
-impl<T: std::fmt::Debug + GetPosition> Display for Tokens<T> {
+
+
+impl<T: GetPosition + Display> Display for Tokens<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let s: String = self.tokens.iter().enumerate().map(|(i, t)| {
             if i == self.index() {
-                format!("|> {:?} <|", t)
+                format!("|> {} <|", t)
             } else {
-                format!("{:?}", t)
+                format!("{}", t)
             }
         }).collect::<Vec<String>>().join(", ");
         

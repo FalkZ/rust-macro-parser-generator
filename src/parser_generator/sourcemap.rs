@@ -69,7 +69,7 @@ impl RenderContext {
       self
    }
 
-   pub fn render_raw(&mut self, content: &dyn RawToken) -> &mut Self {
+   pub fn render_raw<R: RawToken>(&mut self, content: R) -> &mut Self {
       let t = content.raw_token();
       self.add_soucemap_entry(&t.position);
       self.add_string(&t.raw);
@@ -156,11 +156,6 @@ impl Token{
 
 
 
-impl GetPosition for Token {
-    fn position(&self)-> Position {
-        self.position.clone()
-    }
-}
 
 
 

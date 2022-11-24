@@ -21,7 +21,7 @@ impl<T: TryGetPosition> TryGetPosition for Vec<T> {
 
 impl<T: RawToken> GetPosition for T {
     fn position(&self) -> Position {
-        self.raw_token().position()
+        self.raw_token().position
     }
 }
 
