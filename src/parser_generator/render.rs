@@ -82,12 +82,7 @@ pub struct RenderContext<C: Clone> {
  }
  
  impl<C: Clone> RenderContext<C> {
-    pub fn new(src_file_path: &str, context: C) -> Self {
- 
-       let src_file_name: String = Path::new(&src_file_path).file_name().unwrap().to_str().unwrap().to_string();
- 
-       let sourcemap = SourceMapBuilder::new(None);
- 
+    pub fn new(context: C) -> Self {
        Self {
           context: Box::new(context),
           static_context: Rc::new(RefCell::new(StaticContext::new()))

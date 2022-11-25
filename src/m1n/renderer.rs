@@ -111,7 +111,7 @@ pub fn render(source_path: &str) -> ParserResult<()> {
 
     let context = Context{file_type, name};
 
-    let mut src = RenderContext::new(source_path, context);
+    let mut src = RenderContext::new(context);
 
     statements.render(&mut src);
 
