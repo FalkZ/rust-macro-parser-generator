@@ -6,15 +6,15 @@ use crate::parser_generator::{render::{Render, RenderContext}};
 
  
 
-impl Render for argument {
-    fn render(&self, context: &mut RenderContext) {
+impl Render<()> for argument {
+    fn render(&self, context: &mut RenderContext<()>) {
        context.render_raw(&self.arg).str(", ");
     }
 }
 
 
-impl Render for arguments {
-    fn render(&self, context: &mut RenderContext) {
+impl Render<()> for arguments {
+    fn render(&self, context: &mut RenderContext<()>) {
 
         context.str("(")
         .join(&self.arguments, "")
@@ -25,8 +25,8 @@ impl Render for arguments {
 
 
 
-impl Render for function  {
-    fn render(&self, context: &mut RenderContext) {      
+impl Render<()> for function  {
+    fn render(&self, context: &mut RenderContext<()>) {      
         context.str("fn{} \n");
         
         match &self.arguments {
@@ -38,14 +38,14 @@ impl Render for function  {
     }
 }
 
-impl Render for variable  {
-    fn render(&self, context: &mut RenderContext) {
+impl Render<()> for variable  {
+    fn render(&self, context: &mut RenderContext<()>) {
        context.str("var \n");
     }
 }
 
-impl Render for statements  {
-    fn render(&self, context: &mut RenderContext) {
+impl Render<()> for statements  {
+    fn render(&self, context: &mut RenderContext<()>) {
         
         match *self.statement.to_owned() {
             statement::function(v) => 
@@ -56,8 +56,8 @@ impl Render for statements  {
     }
 }
 
-impl Render for Vec<statements>  {
-    fn render(&self, context: &mut RenderContext) {
+impl Render<()> for Vec<statements>  {
+    fn render(&self, context: &mut RenderContext<()>) {
 
         context.join(self, &"\n\n");
         
@@ -67,9 +67,9 @@ impl Render for Vec<statements>  {
 
 pub fn render(source_path: &str, source_content: &str,s: &Vec<statements>){
 
-    let mut src = RenderContext::new(source_path);
+    let mut src = RenderContext::new(source_path, ());
 
     s.render(&mut src);
 
-    src.write_file(Some(source_content));
+    src.write_files(source_path, Some(source_content));
 }
