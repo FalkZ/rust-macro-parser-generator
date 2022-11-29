@@ -67,9 +67,9 @@ Parser!(
 
     definition = {IDENT => name, COL, *call=>arguments, SEMI},
 
-    import_item = [ #name => item, (COMMA), *],
+    import_item = [ #name => item, (COMMA) *],
     import_items = { CBRACKETOPEN, *import_item=>items, CBRACKETCLOSE },
-    import = [ RAWIDENT=>path, ?import_items=>import_items, (COMMA), * ],
+    import = [ RAWIDENT=>path, ?import_items=>import_items, (COMMA) * ],
     imports = { IMPORT, COL, *import=>imports, SEMI },
 
     statement = (#imports | #definition | #function | #variable),

@@ -43,11 +43,14 @@ macro_rules! Parser {
                         $(  *$rule_rec_before_iter:ident
                             $(=> $rule_rec_before_key_iter:ident)?
                         )?
-                        $(
-                            ($lex_rec_before_not_last:ident)
-                        )?
                     ,)*
+                    $(
+                        ($lex_rec_before_not_last:ident)
+                    )?
                     *
+                    $(
+                        ($lex_rec_after_not_last:ident)
+                    )?
                     $(,
                         $(
                             $lex_rec_after:ident
@@ -62,9 +65,7 @@ macro_rules! Parser {
                         $(  *$rule_rec_after_iter:ident
                             $(=> $rule_rec_after_key_iter:ident)?
                         )?
-                        $(
-                            ($lex_rec_after_not_last:ident)
-                        )?
+
                     )*
                 ])?
             ),+
@@ -295,23 +296,44 @@ macro_rules! Parser {
                                 return_end_if_missmatch!($rule_name, a, __p);
                                 $(let $rule_rec_before_key_iter = a?;)?
                             )?
-                            $(
-                                match_maybe!(t, $lex_rec_before_not_last);
-                            )?
                         )*
 
                         let __p2 = t.pin();
                         let __t2 = __p2.get_pinned();
 
-                        let __rest = match Self::$rule_name(&__t2){
-                            Ok(r) => {
-                                r
-                            },
-                            Err(v) => {
-                                __p2.get_pinned();
-                                println!("{:?}", v);
-                                vec![]
+                        let __matched =
+                            $(
+                                match_maybe!(t, $lex_rec_before_not_last);
+                            )?
+                        true;
+
+                        let __rest = if __matched
+                            {
+                            match Self::$rule_name(&__t2){
+                                Ok(r) => {
+
+                                    let __matched =
+                                    $(
+                                        match_maybe!(t, $lex_rec_after_not_last);
+                                    )?
+                                    true;
+
+                                    if __matched {
+                                        r
+
+                                    } else {
+                                        __p2.get_pinned();
+                                        vec![]
+                                    }
+                                },
+                                Err(v) => {
+                                    __p2.get_pinned();
+                                    println!("{:?}", v);
+                                    vec![]
+                                }
                             }
+                        } else {
+                            vec![]
                         };
 
 

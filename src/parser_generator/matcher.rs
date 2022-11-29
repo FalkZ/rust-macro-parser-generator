@@ -73,9 +73,10 @@ macro_rules! match_maybe {
         let next = __pin.get_pinned().next().or_message("next on EOF")?;
 
         match next {
-            Lexer::$name(_) => {}
+            Lexer::$name(_) => true,
             _ => {
                 __pin.get_pinned();
+                false
             }
         }
     }};

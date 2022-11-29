@@ -1,0 +1,6 @@
+matchExample(v) =
+    v match (
+        > 1 => _ + 1,
+        == "a string" => 0,
+        == -2 => 2
+    );

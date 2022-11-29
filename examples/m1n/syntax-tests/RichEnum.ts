@@ -22,5 +22,6 @@ class A extends Rich {
 class B extends Rich {
   public readonly type = Types.B as const;
 
+  public valA: boolean = true;
   public valB: boolean = true;
 }
