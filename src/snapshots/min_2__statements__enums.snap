@@ -223,13 +223,13 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 4,
+            column: 0,
             line: 13,
         },
         statement: function(
             function {
                 position: Position {
-                    column: 4,
+                    column: 0,
                     line: 13,
                 },
                 modifiers: [],
@@ -237,7 +237,7 @@ expression: "&r.statements"
                     Token {
                         raw: "fnForAll",
                         position: Position {
-                            column: 4,
+                            column: 0,
                             line: 13,
                         },
                     },
@@ -245,7 +245,7 @@ expression: "&r.statements"
                 arguments: Some(
                     arguments {
                         position: Position {
-                            column: 13,
+                            column: 9,
                             line: 13,
                         },
                         arguments: [],
@@ -253,7 +253,7 @@ expression: "&r.statements"
                             Token {
                                 raw: "a",
                                 position: Position {
-                                    column: 13,
+                                    column: 9,
                                     line: 13,
                                 },
                             },
@@ -262,14 +262,14 @@ expression: "&r.statements"
                 ),
                 body: body {
                     position: Position {
-                        column: 18,
+                        column: 14,
                         line: 13,
                     },
                     value: IDENT(
                         Token {
                             raw: "this",
                             position: Position {
-                                column: 18,
+                                column: 14,
                                 line: 13,
                             },
                         },
@@ -277,14 +277,14 @@ expression: "&r.statements"
                     expressions: [
                         expressions {
                             position: Position {
-                                column: 23,
+                                column: 19,
                                 line: 13,
                             },
                             operator: PLUS(
                                 Token {
                                     raw: "+",
                                     position: Position {
-                                        column: 23,
+                                        column: 19,
                                         line: 13,
                                     },
                                 },
@@ -293,7 +293,7 @@ expression: "&r.statements"
                                 Token {
                                     raw: "a",
                                     position: Position {
-                                        column: 25,
+                                        column: 21,
                                         line: 13,
                                     },
                                 },

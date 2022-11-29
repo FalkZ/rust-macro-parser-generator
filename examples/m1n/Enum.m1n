@@ -8,4 +8,4 @@
     );
 
 
-    fnForAll(a) = this + a;
+fnForAll(a) = this + a;

@@ -5,40 +5,45 @@ mod parser_generator;
 
 fn main() {}
 
-#[test]
-fn test_enum() {
-    let r = crate::m1n::renderer::render("./examples/m1n/Enum.m1n").expect("couldn't compile file");
-
-    insta::assert_debug_snapshot!(&r.tokens);
-    insta::assert_debug_snapshot!(&r.statements);
-    insta::assert_display_snapshot!(&r.typescript);
+// This is a simple macro named `say_hello`.
+macro_rules! tests {
+    (@debug: $name:ident, $t:ident, $str:literal) => {
+        #[test]
+        fn $name() {
+            let r = crate::m1n::renderer::render($str).expect("couldn't compile file");
+            insta::assert_debug_snapshot!(&r.$t);
+        }
+    };
+    (@display: $name:ident, $t:ident, $str:literal) => {
+        #[test]
+        fn $name() {
+            let r = crate::m1n::renderer::render($str).expect("couldn't compile file");
+            insta::assert_display_snapshot!(&r.$t);
+        }
+    };
+    // `()` indicates that the macro takes no argument.
+    ($($name:ident: $str:literal),*) => {
+        mod tokens {
+            $(
+                tests!(@debug: $name, tokens, $str);
+            )*
+        }
+        mod statements {
+            $(
+                tests!(@debug: $name, statements, $str);
+            )*
+        }
+        mod typescript {
+            $(
+                tests!(@display: $name, typescript, $str);
+            )*
+        }
+    };
 }
 
-#[test]
-fn test_class() {
-    let r =
-        crate::m1n::renderer::render("./examples/m1n/Class.m1n").expect("couldn't compile file");
-
-    insta::assert_debug_snapshot!(&r.tokens);
-    insta::assert_debug_snapshot!(&r.statements);
-    insta::assert_display_snapshot!(&r.typescript);
-}
-
-#[test]
-fn test_file() {
-    let r = crate::m1n::renderer::render("./examples/m1n/file.m1n").expect("couldn't compile file");
-
-    insta::assert_debug_snapshot!(&r.tokens);
-    insta::assert_debug_snapshot!(&r.statements);
-    insta::assert_display_snapshot!(&r.typescript);
-}
-
-#[test]
-fn test_math() {
-    let r =
-        crate::m1n::renderer::render("./examples/m1n/std/math.m1n").expect("couldn't compile file");
-
-    insta::assert_debug_snapshot!(&r.tokens);
-    insta::assert_debug_snapshot!(&r.statements);
-    insta::assert_display_snapshot!(&r.typescript);
-}
+tests!(
+    enums: "./examples/m1n/Enum.m1n",
+    class: "./examples/m1n/Class.m1n",
+    file: "./examples/m1n/file.m1n",
+    math: "./examples/m1n/std/math.m1n"
+);
