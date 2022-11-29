@@ -2,7 +2,7 @@ use std::ops::Sub;
 
 use super::{substring::Substring, Context};
 use crate::{
-    m1n::grammar::{arguments, body, call, calls, expressions, operator, path, value},
+    m1n::grammar::{arguments, body, calls, expressions, operator, path, value},
     parser_generator::{
         render::{Render, RenderContext},
         tokens::RawToken,
@@ -15,15 +15,9 @@ impl Render<Context> for path {
     }
 }
 
-impl Render<Context> for call {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        context.render_boxed(&self.arg).str(", ");
-    }
-}
-
 impl Render<Context> for calls {
     fn render(&self, context: &mut RenderContext<Context>) {
-        context.join(&self.arguments, "").render_boxed(&self.last);
+        context.render_boxed(&self.argument);
     }
 }
 
@@ -46,7 +40,7 @@ impl Render<Context> for value {
                     .join(&v.path, "")
                     .render_raw(&v.name)
                     .str("(")
-                    .render_boxed(&v.arguments)
+                    .join(&v.arguments, ", ")
                     .str(")");
             }
             value::float(v) => {

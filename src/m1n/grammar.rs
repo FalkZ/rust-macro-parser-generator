@@ -45,11 +45,9 @@ Parser!(
     value = ( #function_call | #float | NUMBER | TEXTLITERAL | IDENT | TYPESCRIPT ),
 
     path = [ IDENT => path, DOT, * ],
-    function_call = { *path => path, IDENT => name, BRACKETOPEN, #calls => arguments, BRACKETCLOSE },
+    function_call = { *path => path, IDENT => name, BRACKETOPEN, *calls => arguments, BRACKETCLOSE },
 
-    call =  [#body => arg, COMMA, *],
-    calls = { *call => arguments, #body => last},
-
+    calls =  [#body => argument, (COMMA) *],
 
     expressions = [ #operator => operator, #value => value, * ],
     body = {#value => value, *expressions => expressions},
@@ -65,7 +63,7 @@ Parser!(
     function = { *modifiers => modifiers, #name => name, BRACKETOPEN, ?arguments => arguments, BRACKETCLOSE, EQUAL, #body => body, SEMI},
     variable = { *modifiers => modifiers, IDENT => name, EQUAL, #body => body, SEMI},
 
-    definition = {IDENT => name, COL, *call=>arguments, SEMI},
+    definition = {IDENT => name, COL, *calls=>arguments, SEMI},
 
     import_item = [ #name => item, (COMMA) *],
     import_items = { CBRACKETOPEN, *import_item=>items, CBRACKETCLOSE },
