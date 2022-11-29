@@ -67,6 +67,18 @@ matchExample(v) =
         == -2 => 2
     );
 
+```
 
+# Rich enum
+
+```python
+
+|   A(
+        pub test = "fsldkjf";
+    );
+
+|   B(
+        val = false;
+    );
 
 ```

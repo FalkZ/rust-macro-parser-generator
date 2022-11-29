@@ -1,0 +1,825 @@
+---
+source: src/main.rs
+expression: "&r.statements"
+---
+[
+    statements {
+        position: Position {
+            column: 0,
+            line: 1,
+        },
+        statement: imports(
+            imports {
+                position: Position {
+                    column: 0,
+                    line: 1,
+                },
+                imports: [
+                    import {
+                        position: Position {
+                            column: 8,
+                            line: 1,
+                        },
+                        path: RAWIDENT(
+                            Token {
+                                raw: "`@std/util`",
+                                position: Position {
+                                    column: 8,
+                                    line: 1,
+                                },
+                            },
+                        ),
+                        import_items: Some(
+                            import_items {
+                                position: Position {
+                                    column: 19,
+                                    line: 1,
+                                },
+                                items: [
+                                    import_item {
+                                        position: Position {
+                                            column: 21,
+                                            line: 1,
+                                        },
+                                        item: IDENT(
+                                            Token {
+                                                raw: "pipe",
+                                                position: Position {
+                                                    column: 21,
+                                                    line: 1,
+                                                },
+                                            },
+                                        ),
+                                    },
+                                ],
+                            },
+                        ),
+                    },
+                    import {
+                        position: Position {
+                            column: 4,
+                            line: 2,
+                        },
+                        path: RAWIDENT(
+                            Token {
+                                raw: "`@std/math`",
+                                position: Position {
+                                    column: 4,
+                                    line: 2,
+                                },
+                            },
+                        ),
+                        import_items: None,
+                    },
+                ],
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 3,
+        },
+        statement: variable(
+            variable {
+                position: Position {
+                    column: 0,
+                    line: 3,
+                },
+                modifiers: [],
+                name: IDENT(
+                    Token {
+                        raw: "PI",
+                        position: Position {
+                            column: 0,
+                            line: 3,
+                        },
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 5,
+                        line: 3,
+                    },
+                    value: IDENT(
+                        Token {
+                            raw: "a",
+                            position: Position {
+                                column: 5,
+                                line: 3,
+                            },
+                        },
+                    ),
+                    expressions: [
+                        expressions {
+                            position: Position {
+                                column: 7,
+                                line: 3,
+                            },
+                            operator: PLUS(
+                                Token {
+                                    raw: "+",
+                                    position: Position {
+                                        column: 7,
+                                        line: 3,
+                                    },
+                                },
+                            ),
+                            value: IDENT(
+                                Token {
+                                    raw: "b",
+                                    position: Position {
+                                        column: 9,
+                                        line: 3,
+                                    },
+                                },
+                            ),
+                        },
+                        expressions {
+                            position: Position {
+                                column: 11,
+                                line: 3,
+                            },
+                            operator: PLUS(
+                                Token {
+                                    raw: "+",
+                                    position: Position {
+                                        column: 11,
+                                        line: 3,
+                                    },
+                                },
+                            ),
+                            value: float(
+                                float {
+                                    position: Position {
+                                        column: 13,
+                                        line: 3,
+                                    },
+                                    whole: NUMBER(
+                                        Token {
+                                            raw: "0",
+                                            position: Position {
+                                                column: 13,
+                                                line: 3,
+                                            },
+                                        },
+                                    ),
+                                    float: NUMBER(
+                                        Token {
+                                            raw: "012",
+                                            position: Position {
+                                                column: 15,
+                                                line: 3,
+                                            },
+                                        },
+                                    ),
+                                },
+                            ),
+                        },
+                    ],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 5,
+        },
+        statement: variable(
+            variable {
+                position: Position {
+                    column: 0,
+                    line: 5,
+                },
+                modifiers: [
+                    modifiers {
+                        position: Position {
+                            column: 0,
+                            line: 5,
+                        },
+                        modifier: PUB(
+                            Token {
+                                raw: "pub",
+                                position: Position {
+                                    column: 0,
+                                    line: 5,
+                                },
+                            },
+                        ),
+                    },
+                    modifiers {
+                        position: Position {
+                            column: 4,
+                            line: 5,
+                        },
+                        modifier: MUT(
+                            Token {
+                                raw: "mut",
+                                position: Position {
+                                    column: 4,
+                                    line: 5,
+                                },
+                            },
+                        ),
+                    },
+                ],
+                name: IDENT(
+                    Token {
+                        raw: "Pi",
+                        position: Position {
+                            column: 8,
+                            line: 5,
+                        },
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 13,
+                        line: 5,
+                    },
+                    value: NUMBER(
+                        Token {
+                            raw: "123",
+                            position: Position {
+                                column: 13,
+                                line: 5,
+                            },
+                        },
+                    ),
+                    expressions: [],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 7,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 0,
+                    line: 7,
+                },
+                modifiers: [],
+                name: IDENT(
+                    Token {
+                        raw: "fn",
+                        position: Position {
+                            column: 0,
+                            line: 7,
+                        },
+                    },
+                ),
+                arguments: Some(
+                    arguments {
+                        position: Position {
+                            column: 3,
+                            line: 7,
+                        },
+                        arguments: [
+                            argument {
+                                position: Position {
+                                    column: 3,
+                                    line: 7,
+                                },
+                                arg: IDENT(
+                                    Token {
+                                        raw: "a",
+                                        position: Position {
+                                            column: 3,
+                                            line: 7,
+                                        },
+                                    },
+                                ),
+                            },
+                        ],
+                        last: IDENT(
+                            Token {
+                                raw: "b",
+                                position: Position {
+                                    column: 6,
+                                    line: 7,
+                                },
+                            },
+                        ),
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 11,
+                        line: 7,
+                    },
+                    value: IDENT(
+                        Token {
+                            raw: "a",
+                            position: Position {
+                                column: 11,
+                                line: 7,
+                            },
+                        },
+                    ),
+                    expressions: [
+                        expressions {
+                            position: Position {
+                                column: 13,
+                                line: 7,
+                            },
+                            operator: PLUS(
+                                Token {
+                                    raw: "+",
+                                    position: Position {
+                                        column: 13,
+                                        line: 7,
+                                    },
+                                },
+                            ),
+                            value: IDENT(
+                                Token {
+                                    raw: "b",
+                                    position: Position {
+                                        column: 15,
+                                        line: 7,
+                                    },
+                                },
+                            ),
+                        },
+                    ],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 9,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 0,
+                    line: 9,
+                },
+                modifiers: [],
+                name: IDENT(
+                    Token {
+                        raw: "one",
+                        position: Position {
+                            column: 0,
+                            line: 9,
+                        },
+                    },
+                ),
+                arguments: Some(
+                    arguments {
+                        position: Position {
+                            column: 4,
+                            line: 9,
+                        },
+                        arguments: [],
+                        last: IDENT(
+                            Token {
+                                raw: "b",
+                                position: Position {
+                                    column: 4,
+                                    line: 9,
+                                },
+                            },
+                        ),
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 9,
+                        line: 9,
+                    },
+                    value: IDENT(
+                        Token {
+                            raw: "a",
+                            position: Position {
+                                column: 9,
+                                line: 9,
+                            },
+                        },
+                    ),
+                    expressions: [
+                        expressions {
+                            position: Position {
+                                column: 11,
+                                line: 9,
+                            },
+                            operator: PLUS(
+                                Token {
+                                    raw: "+",
+                                    position: Position {
+                                        column: 11,
+                                        line: 9,
+                                    },
+                                },
+                            ),
+                            value: IDENT(
+                                Token {
+                                    raw: "b",
+                                    position: Position {
+                                        column: 13,
+                                        line: 9,
+                                    },
+                                },
+                            ),
+                        },
+                        expressions {
+                            position: Position {
+                                column: 15,
+                                line: 9,
+                            },
+                            operator: PLUS(
+                                Token {
+                                    raw: "+",
+                                    position: Position {
+                                        column: 15,
+                                        line: 9,
+                                    },
+                                },
+                            ),
+                            value: IDENT(
+                                Token {
+                                    raw: "c",
+                                    position: Position {
+                                        column: 17,
+                                        line: 9,
+                                    },
+                                },
+                            ),
+                        },
+                    ],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 11,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 0,
+                    line: 11,
+                },
+                modifiers: [
+                    modifiers {
+                        position: Position {
+                            column: 0,
+                            line: 11,
+                        },
+                        modifier: PUB(
+                            Token {
+                                raw: "pub",
+                                position: Position {
+                                    column: 0,
+                                    line: 11,
+                                },
+                            },
+                        ),
+                    },
+                ],
+                name: IDENT(
+                    Token {
+                        raw: "zero",
+                        position: Position {
+                            column: 4,
+                            line: 11,
+                        },
+                    },
+                ),
+                arguments: None,
+                body: body {
+                    position: Position {
+                        column: 13,
+                        line: 11,
+                    },
+                    value: TYPESCRIPT(
+                        Token {
+                            raw: "#(()=>{throw new Error(\"hello 2\")})()#",
+                            position: Position {
+                                column: 13,
+                                line: 11,
+                            },
+                        },
+                    ),
+                    expressions: [],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 13,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 0,
+                    line: 13,
+                },
+                modifiers: [],
+                name: IDENT(
+                    Token {
+                        raw: "multiline",
+                        position: Position {
+                            column: 0,
+                            line: 13,
+                        },
+                    },
+                ),
+                arguments: None,
+                body: body {
+                    position: Position {
+                        column: 14,
+                        line: 13,
+                    },
+                    value: function_call(
+                        function_call {
+                            position: Position {
+                                column: 14,
+                                line: 13,
+                            },
+                            path: [
+                                path {
+                                    position: Position {
+                                        column: 14,
+                                        line: 13,
+                                    },
+                                    path: IDENT(
+                                        Token {
+                                            raw: "console",
+                                            position: Position {
+                                                column: 14,
+                                                line: 13,
+                                            },
+                                        },
+                                    ),
+                                },
+                            ],
+                            name: IDENT(
+                                Token {
+                                    raw: "log",
+                                    position: Position {
+                                        column: 22,
+                                        line: 13,
+                                    },
+                                },
+                            ),
+                            arguments: [
+                                calls {
+                                    position: Position {
+                                        column: 26,
+                                        line: 13,
+                                    },
+                                    argument: body {
+                                        position: Position {
+                                            column: 26,
+                                            line: 13,
+                                        },
+                                        value: TEXTLITERAL(
+                                            Token {
+                                                raw: "\"test space\"",
+                                                position: Position {
+                                                    column: 26,
+                                                    line: 13,
+                                                },
+                                            },
+                                        ),
+                                        expressions: [],
+                                    },
+                                },
+                                calls {
+                                    position: Position {
+                                        column: 40,
+                                        line: 13,
+                                    },
+                                    argument: body {
+                                        position: Position {
+                                            column: 40,
+                                            line: 13,
+                                        },
+                                        value: TEXTLITERAL(
+                                            Token {
+                                                raw: "\"multi\n\n    line\"",
+                                                position: Position {
+                                                    column: 40,
+                                                    line: 13,
+                                                },
+                                            },
+                                        ),
+                                        expressions: [],
+                                    },
+                                },
+                            ],
+                        },
+                    ),
+                    expressions: [],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 17,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 0,
+                    line: 17,
+                },
+                modifiers: [],
+                name: IDENT(
+                    Token {
+                        raw: "nesting",
+                        position: Position {
+                            column: 0,
+                            line: 17,
+                        },
+                    },
+                ),
+                arguments: None,
+                body: body {
+                    position: Position {
+                        column: 12,
+                        line: 17,
+                    },
+                    value: function_call(
+                        function_call {
+                            position: Position {
+                                column: 12,
+                                line: 17,
+                            },
+                            path: [],
+                            name: IDENT(
+                                Token {
+                                    raw: "one",
+                                    position: Position {
+                                        column: 12,
+                                        line: 17,
+                                    },
+                                },
+                            ),
+                            arguments: [
+                                calls {
+                                    position: Position {
+                                        column: 16,
+                                        line: 17,
+                                    },
+                                    argument: body {
+                                        position: Position {
+                                            column: 16,
+                                            line: 17,
+                                        },
+                                        value: function_call(
+                                            function_call {
+                                                position: Position {
+                                                    column: 16,
+                                                    line: 17,
+                                                },
+                                                path: [],
+                                                name: IDENT(
+                                                    Token {
+                                                        raw: "fn",
+                                                        position: Position {
+                                                            column: 16,
+                                                            line: 17,
+                                                        },
+                                                    },
+                                                ),
+                                                arguments: [
+                                                    calls {
+                                                        position: Position {
+                                                            column: 19,
+                                                            line: 17,
+                                                        },
+                                                        argument: body {
+                                                            position: Position {
+                                                                column: 19,
+                                                                line: 17,
+                                                            },
+                                                            value: IDENT(
+                                                                Token {
+                                                                    raw: "a",
+                                                                    position: Position {
+                                                                        column: 19,
+                                                                        line: 17,
+                                                                    },
+                                                                },
+                                                            ),
+                                                            expressions: [
+                                                                expressions {
+                                                                    position: Position {
+                                                                        column: 21,
+                                                                        line: 17,
+                                                                    },
+                                                                    operator: PLUS(
+                                                                        Token {
+                                                                            raw: "+",
+                                                                            position: Position {
+                                                                                column: 21,
+                                                                                line: 17,
+                                                                            },
+                                                                        },
+                                                                    ),
+                                                                    value: IDENT(
+                                                                        Token {
+                                                                            raw: "b",
+                                                                            position: Position {
+                                                                                column: 23,
+                                                                                line: 17,
+                                                                            },
+                                                                        },
+                                                                    ),
+                                                                },
+                                                                expressions {
+                                                                    position: Position {
+                                                                        column: 25,
+                                                                        line: 17,
+                                                                    },
+                                                                    operator: MINUS(
+                                                                        Token {
+                                                                            raw: "-",
+                                                                            position: Position {
+                                                                                column: 25,
+                                                                                line: 17,
+                                                                            },
+                                                                        },
+                                                                    ),
+                                                                    value: IDENT(
+                                                                        Token {
+                                                                            raw: "c",
+                                                                            position: Position {
+                                                                                column: 27,
+                                                                                line: 17,
+                                                                            },
+                                                                        },
+                                                                    ),
+                                                                },
+                                                            ],
+                                                        },
+                                                    },
+                                                    calls {
+                                                        position: Position {
+                                                            column: 30,
+                                                            line: 17,
+                                                        },
+                                                        argument: body {
+                                                            position: Position {
+                                                                column: 30,
+                                                                line: 17,
+                                                            },
+                                                            value: float(
+                                                                float {
+                                                                    position: Position {
+                                                                        column: 30,
+                                                                        line: 17,
+                                                                    },
+                                                                    whole: NUMBER(
+                                                                        Token {
+                                                                            raw: "123",
+                                                                            position: Position {
+                                                                                column: 30,
+                                                                                line: 17,
+                                                                            },
+                                                                        },
+                                                                    ),
+                                                                    float: NUMBER(
+                                                                        Token {
+                                                                            raw: "2",
+                                                                            position: Position {
+                                                                                column: 34,
+                                                                                line: 17,
+                                                                            },
+                                                                        },
+                                                                    ),
+                                                                },
+                                                            ),
+                                                            expressions: [],
+                                                        },
+                                                    },
+                                                ],
+                                            },
+                                        ),
+                                        expressions: [],
+                                    },
+                                },
+                            ],
+                        },
+                    ),
+                    expressions: [],
+                },
+            },
+        ),
+    },
+]

@@ -1,0 +1,438 @@
+---
+source: src/main.rs
+expression: "&r.statements"
+---
+[
+    statements {
+        position: Position {
+            column: 0,
+            line: 1,
+        },
+        statement: imports(
+            imports {
+                position: Position {
+                    column: 0,
+                    line: 1,
+                },
+                imports: [
+                    import {
+                        position: Position {
+                            column: 8,
+                            line: 1,
+                        },
+                        path: RAWIDENT(
+                            Token {
+                                raw: "`@std/util`",
+                                position: Position {
+                                    column: 8,
+                                    line: 1,
+                                },
+                            },
+                        ),
+                        import_items: Some(
+                            import_items {
+                                position: Position {
+                                    column: 19,
+                                    line: 1,
+                                },
+                                items: [
+                                    import_item {
+                                        position: Position {
+                                            column: 21,
+                                            line: 1,
+                                        },
+                                        item: IDENT(
+                                            Token {
+                                                raw: "pipe",
+                                                position: Position {
+                                                    column: 21,
+                                                    line: 1,
+                                                },
+                                            },
+                                        ),
+                                    },
+                                ],
+                            },
+                        ),
+                    },
+                    import {
+                        position: Position {
+                            column: 4,
+                            line: 2,
+                        },
+                        path: RAWIDENT(
+                            Token {
+                                raw: "`@std/math`",
+                                position: Position {
+                                    column: 4,
+                                    line: 2,
+                                },
+                            },
+                        ),
+                        import_items: None,
+                    },
+                ],
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 3,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 0,
+                    line: 3,
+                },
+                modifiers: [
+                    modifiers {
+                        position: Position {
+                            column: 0,
+                            line: 3,
+                        },
+                        modifier: PUB(
+                            Token {
+                                raw: "pub",
+                                position: Position {
+                                    column: 0,
+                                    line: 3,
+                                },
+                            },
+                        ),
+                    },
+                ],
+                name: RAWIDENT(
+                    Token {
+                        raw: "`+`",
+                        position: Position {
+                            column: 4,
+                            line: 3,
+                        },
+                    },
+                ),
+                arguments: Some(
+                    arguments {
+                        position: Position {
+                            column: 8,
+                            line: 3,
+                        },
+                        arguments: [
+                            argument {
+                                position: Position {
+                                    column: 8,
+                                    line: 3,
+                                },
+                                arg: IDENT(
+                                    Token {
+                                        raw: "a",
+                                        position: Position {
+                                            column: 8,
+                                            line: 3,
+                                        },
+                                    },
+                                ),
+                            },
+                        ],
+                        last: IDENT(
+                            Token {
+                                raw: "b",
+                                position: Position {
+                                    column: 11,
+                                    line: 3,
+                                },
+                            },
+                        ),
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 16,
+                        line: 3,
+                    },
+                    value: TYPESCRIPT(
+                        Token {
+                            raw: "#a + b#",
+                            position: Position {
+                                column: 16,
+                                line: 3,
+                            },
+                        },
+                    ),
+                    expressions: [],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 5,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 0,
+                    line: 5,
+                },
+                modifiers: [
+                    modifiers {
+                        position: Position {
+                            column: 0,
+                            line: 5,
+                        },
+                        modifier: PUB(
+                            Token {
+                                raw: "pub",
+                                position: Position {
+                                    column: 0,
+                                    line: 5,
+                                },
+                            },
+                        ),
+                    },
+                ],
+                name: RAWIDENT(
+                    Token {
+                        raw: "`-`",
+                        position: Position {
+                            column: 4,
+                            line: 5,
+                        },
+                    },
+                ),
+                arguments: Some(
+                    arguments {
+                        position: Position {
+                            column: 8,
+                            line: 5,
+                        },
+                        arguments: [
+                            argument {
+                                position: Position {
+                                    column: 8,
+                                    line: 5,
+                                },
+                                arg: IDENT(
+                                    Token {
+                                        raw: "a",
+                                        position: Position {
+                                            column: 8,
+                                            line: 5,
+                                        },
+                                    },
+                                ),
+                            },
+                        ],
+                        last: IDENT(
+                            Token {
+                                raw: "b",
+                                position: Position {
+                                    column: 11,
+                                    line: 5,
+                                },
+                            },
+                        ),
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 16,
+                        line: 5,
+                    },
+                    value: TYPESCRIPT(
+                        Token {
+                            raw: "#a - b#",
+                            position: Position {
+                                column: 16,
+                                line: 5,
+                            },
+                        },
+                    ),
+                    expressions: [],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 7,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 0,
+                    line: 7,
+                },
+                modifiers: [
+                    modifiers {
+                        position: Position {
+                            column: 0,
+                            line: 7,
+                        },
+                        modifier: PUB(
+                            Token {
+                                raw: "pub",
+                                position: Position {
+                                    column: 0,
+                                    line: 7,
+                                },
+                            },
+                        ),
+                    },
+                ],
+                name: RAWIDENT(
+                    Token {
+                        raw: "`*`",
+                        position: Position {
+                            column: 4,
+                            line: 7,
+                        },
+                    },
+                ),
+                arguments: Some(
+                    arguments {
+                        position: Position {
+                            column: 8,
+                            line: 7,
+                        },
+                        arguments: [
+                            argument {
+                                position: Position {
+                                    column: 8,
+                                    line: 7,
+                                },
+                                arg: IDENT(
+                                    Token {
+                                        raw: "a",
+                                        position: Position {
+                                            column: 8,
+                                            line: 7,
+                                        },
+                                    },
+                                ),
+                            },
+                        ],
+                        last: IDENT(
+                            Token {
+                                raw: "b",
+                                position: Position {
+                                    column: 11,
+                                    line: 7,
+                                },
+                            },
+                        ),
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 16,
+                        line: 7,
+                    },
+                    value: TYPESCRIPT(
+                        Token {
+                            raw: "#a * b#",
+                            position: Position {
+                                column: 16,
+                                line: 7,
+                            },
+                        },
+                    ),
+                    expressions: [],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 9,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 0,
+                    line: 9,
+                },
+                modifiers: [
+                    modifiers {
+                        position: Position {
+                            column: 0,
+                            line: 9,
+                        },
+                        modifier: PUB(
+                            Token {
+                                raw: "pub",
+                                position: Position {
+                                    column: 0,
+                                    line: 9,
+                                },
+                            },
+                        ),
+                    },
+                ],
+                name: RAWIDENT(
+                    Token {
+                        raw: "`/`",
+                        position: Position {
+                            column: 4,
+                            line: 9,
+                        },
+                    },
+                ),
+                arguments: Some(
+                    arguments {
+                        position: Position {
+                            column: 8,
+                            line: 9,
+                        },
+                        arguments: [
+                            argument {
+                                position: Position {
+                                    column: 8,
+                                    line: 9,
+                                },
+                                arg: IDENT(
+                                    Token {
+                                        raw: "a",
+                                        position: Position {
+                                            column: 8,
+                                            line: 9,
+                                        },
+                                    },
+                                ),
+                            },
+                        ],
+                        last: IDENT(
+                            Token {
+                                raw: "b",
+                                position: Position {
+                                    column: 11,
+                                    line: 9,
+                                },
+                            },
+                        ),
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 16,
+                        line: 9,
+                    },
+                    value: TYPESCRIPT(
+                        Token {
+                            raw: "#a / b#",
+                            position: Position {
+                                column: 16,
+                                line: 9,
+                            },
+                        },
+                    ),
+                    expressions: [],
+                },
+            },
+        ),
+    },
+]

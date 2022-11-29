@@ -1,0 +1,11 @@
+
+|   A(
+        pub test = "fsldkjf";
+    );
+
+|   B(
+        val = false;
+    );
+
+
+    fnForAll(a) = this + a;

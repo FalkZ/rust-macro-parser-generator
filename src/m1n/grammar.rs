@@ -15,6 +15,7 @@ Lexer!(
         {'='} => EQUAL,
         {','} => COMMA,
         {'/'} => DIVISION,
+        {'|'} => PIPE,
         {'*'} => MULTIPLICATION,
         {'('} => BRACKETOPEN,
         {')'} => BRACKETCLOSE,
@@ -70,6 +71,10 @@ Parser!(
     import = [ RAWIDENT=>path, ?import_items=>import_items, (COMMA) * ],
     imports = { IMPORT, COL, *import=>imports, SEMI },
 
-    statement = (#imports | #definition | #function | #variable),
+    enum_statement = (#function | #variable),
+    enum_statements = [#enum_statement => statement,  *],
+    enum_version = { PIPE, IDENT => name, BRACKETOPEN, *enum_statements => statements, BRACKETCLOSE, SEMI },
+
+    statement = (#imports | #definition | #enum_version | #function | #variable),
     statements = [#statement => statement,  *]
 );

@@ -1,8 +1,11 @@
 mod body;
 mod definitions;
-mod shell;
+mod enums;
+mod functions;
+mod modifiers;
 mod statements;
 pub mod substring;
+mod variables;
 
 use std::{
     fs::{self, File},
@@ -11,21 +14,21 @@ use std::{
 
 use sourcemap::SourceMapBuilder;
 
-use super::grammar::{
-    argument, arguments, function, maybe_arguments, modifiers, name, statement, variable,
-};
+use super::grammar::{argument, arguments, function, maybe_arguments, name, statement, variable};
 
 use crate::{
     m1n::{command::prettier_format, grammar::Parser},
     parser_generator::{
         render::{Render, RenderContext},
         result::ParserResult,
+        tokens::Tokens,
     },
 };
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 enum FileType {
     Class,
+    Enum(Vec<String>),
     Singleton,
 }
 
@@ -44,7 +47,13 @@ struct Context {
     name: String,
 }
 
-pub fn render(source_path: &str) -> ParserResult<()> {
+pub struct Return {
+    pub tokens: Tokens<super::grammar::Lexer>,
+    pub statements: Vec<super::grammar::statements>,
+    pub typescript: String,
+}
+
+pub fn render(source_path: &str) -> ParserResult<Return> {
     let source_content = fs::read_to_string(source_path).expect("couldn't read file");
 
     let source_content = format!(
@@ -90,7 +99,14 @@ import: `@std/util`{{ pipe }},
 
     src.write_files(source_path, Some(&source_content));
 
-    prettier_format(&source_path.replace(".m1n", ".ts"));
+    let out_file_name = source_path.replace(".m1n", ".ts");
+    prettier_format(&out_file_name);
 
-    Ok(())
+    let typescript = fs::read_to_string(&out_file_name).expect("couldn't read file");
+
+    Ok(Return {
+        typescript,
+        tokens: t.tokens,
+        statements,
+    })
 }
