@@ -1,13 +1,21 @@
-import math from "./math";
-import { op } from "./std";
+import util, { pipe } from "@std/util";
+import math from "@std/math";
 
 export class Class {
+  private readonly PI = pipe(a)
+    .op(math["+"], b)
+    .op(math["+"], 0.012).end;
+
+  public Pi = 123;
+
   private fn(a, b) {
-    return op(a, math["+"], b);
+    return pipe(a).op(math["+"], b).end;
   }
 
   private one(b) {
-    return op(op(a, math["+"], b), math["+"], c);
+    return pipe(a)
+      .op(math["+"], b)
+      .op(math["+"], c).end;
   }
 
   public zero() {
@@ -28,10 +36,10 @@ export class Class {
   private nesting() {
     return one(
       fn(
-        op(op(a, math["+"], b), math["-"], c),
+        pipe(a).op(math["+"], b).op(math["-"], c)
+          .end,
         123.2
       )
     );
   }
 }
-//# sourceMappingURL=Class.m1n.map

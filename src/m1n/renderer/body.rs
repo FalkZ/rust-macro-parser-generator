@@ -17,13 +17,13 @@ impl Render<Context> for path {
 
 impl Render<Context> for call {
     fn render(&self, context: &mut RenderContext<Context>) {
-        context.render_boxed(&self.arg);
+        context.render_boxed(&self.arg).str(", ");
     }
 }
 
 impl Render<Context> for calls {
     fn render(&self, context: &mut RenderContext<Context>) {
-        context.join(&self.arguments, ", ").render_boxed(&self.last);
+        context.join(&self.arguments, "").render_boxed(&self.last);
     }
 }
 
