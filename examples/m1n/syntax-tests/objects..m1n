@@ -1,0 +1,12 @@
+import std/math;
+
+obj = {
+       PI = a + b + 0.012,
+       Pi = 123
+    };
+
+arr = [
+    test,
+    123
+];
+

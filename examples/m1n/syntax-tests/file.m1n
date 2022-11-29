@@ -1,5 +1,4 @@
-version: 0,;
-derive: equal,;
+import std/math;
 
 PI = a + b + 0.012;
 

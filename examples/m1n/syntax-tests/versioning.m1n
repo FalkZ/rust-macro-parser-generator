@@ -1,5 +1,13 @@
-version: 0,;
-derive: equal,;
+v1
+---
+import
+"/std/math"
+{ [+] } = "/std/math"
+---
+derive
+equals
+
+---
 
 PI = a + b + 0.012;
 

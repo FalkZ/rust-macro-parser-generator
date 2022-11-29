@@ -1,90 +1,59 @@
-use std::{fs::{File, self}, path::Path};
+mod body;
+mod definitions;
+mod shell;
+mod statements;
+pub mod substring;
+
+use std::{
+    fs::{self, File},
+    path::Path,
+};
 
 use sourcemap::SourceMapBuilder;
 
-use super::{grammar::{statements, statement, function, variable, maybe_arguments, arguments, argument }};
+use super::grammar::{
+    argument, arguments, function, maybe_arguments, modifiers, name, statement, variable,
+};
 
-use crate::{parser_generator::{render::{Render, RenderContext}, result::ParserResult}, m1n::grammar::Parser};
-
- 
-
-impl Render<Context> for argument {
-    fn render(&self, context: &mut RenderContext<Context>) {
-       context.render_raw(&self.arg).str(", ");
-    }
-}
-
-
-impl Render<Context> for arguments {
-    fn render(&self, context: &mut RenderContext<Context>) {
-
-        context.str("(")
-        .join(&self.arguments, "")
-        .render_raw(&self.last)
-        .str(")");    
-    }
-}
-
-
-
-impl Render<Context> for function  {
-    fn render(&self, context: &mut RenderContext<Context>) {      
-        context.str("fn{} \n");
-        
-        match &self.arguments {
-            Some(v) => context.render(*v.clone()),
-            None => context.str("()")
-        };
-        
-        
-    }
-}
-
-impl Render<Context> for variable  {
-    fn render(&self, context: &mut RenderContext<Context>) {
-       context.str("var \n");
-    }
-}
-
-impl Render<Context> for statements  {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        
-        match *self.statement.to_owned() {
-            statement::function(v) => 
-                context.render(*v),
-            statement::variable(v) =>  context.render(*v),
-        };
-
-    }
-}
-
-impl Render<Context> for Vec<statements>  {
-    fn render(&self, context: &mut RenderContext<Context>) {
-
-        context.join(self, &"\n\n");
-        
-    }
-}
-
+use crate::{
+    m1n::{command::prettier_format, grammar::Parser},
+    parser_generator::{
+        render::{Render, RenderContext},
+        result::ParserResult,
+    },
+};
 
 #[derive(Clone)]
 enum FileType {
     Class,
-    Singleton
+    Singleton,
+}
+
+#[derive(Clone)]
+enum StatementType {
+    Variable,
+    RawFunction,
+    Function,
+    None,
 }
 
 #[derive(Clone)]
 struct Context {
+    statement_type: StatementType,
     file_type: FileType,
-    name: String
-
+    name: String,
 }
 
-
 pub fn render(source_path: &str) -> ParserResult<()> {
-
     let source_content = fs::read_to_string(source_path).expect("couldn't read file");
 
+    let source_content = format!(
+        "
+import: `@std/util`{{ pipe }},
+    `@std/math`;
+{}",
+        source_content
+    );
 
     let t = Parser::new(&source_content)?;
 
@@ -92,30 +61,36 @@ pub fn render(source_path: &str) -> ParserResult<()> {
 
     let statements = Parser::statements(&t.tokens)?;
 
-    //println!("{:#?}", &t); // AST
+    println!("{:#?}", &statements); // AST
 
-    
-
-    let name = Path::new(&source_path).file_name().unwrap().to_str().unwrap().replace(".m1n", "");
+    let name = Path::new(&source_path)
+        .file_name()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .replace(".m1n", "");
 
     let file_type: FileType = if name.chars().nth(0).unwrap().is_uppercase() {
         FileType::Class
-    } else { 
-        FileType::Singleton   
-    };  
-
+    } else {
+        FileType::Singleton
+    };
 
     //esbuild(&out_path);
-    //prettier_format(&out_path);
 
-
-    let context = Context{file_type, name};
+    let context = Context {
+        file_type,
+        name,
+        statement_type: StatementType::None,
+    };
 
     let mut src = RenderContext::new(context);
 
     statements.render(&mut src);
 
     src.write_files(source_path, Some(&source_content));
+
+    prettier_format(&source_path.replace(".m1n", ".ts"));
 
     Ok(())
 }

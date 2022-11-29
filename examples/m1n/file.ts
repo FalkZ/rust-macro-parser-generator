@@ -1,15 +1,23 @@
-var 
+import util, { pipe } from "@std/util";
+import math from "@std/math";
 
+const PI = pipe(a)
+  .op(math["+"], b)
+  .op(math["+"], 0.012).end;
 
-var 
+export let Pi = 123;
 
+const self = {};
 
-fn{} 
-(a, b)
+function fn(a, b) {
+  return pipe(a).op(math["+"], b).end;
+}
 
-fn{} 
-(b)
+function one(b) {
+  return console.log(b);
+}
 
-fn{} 
-()
-
+export function zero() {
+  return pipe(a).op(math["+"], b).end;
+}
+export default { ...self, zero };

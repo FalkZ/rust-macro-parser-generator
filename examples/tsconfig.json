@@ -13,7 +13,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "m1n",
+    "paths": {
+      "@std/*": ["std/*"]
+    }
   },
   "include": ["src", "m1n"]
 }

@@ -4,10 +4,11 @@ Lexer!(
     {
         {'0'..='9' =>} => NUMBER,
         {'A'..='Z' | 'a'..='z' =>} => IDENT,
-        {'[' => ']'} => RAWIDENT,
+        {'`' => '`'} => RAWIDENT,
         {'"' | '\'' => '"' | '\''} => TEXTLITERAL,
         {'#' => '#'} => TYPESCRIPT,
         {';'} => SEMI,
+        {':'} => COL,
         {'.'} => DOT,
         {'+'} => PLUS,
         {'-'} => MINUS,
@@ -26,6 +27,7 @@ Lexer!(
     {
         IDENT => {
             {"if"} => IF,
+            {"import"} => IMPORT,
             {"mut"} => MUT,
             {"pub"} => PUB,
             {"cr"} => CR
@@ -43,16 +45,16 @@ Parser!(
     value = ( #function_call | #float | NUMBER | TEXTLITERAL | IDENT | TYPESCRIPT ),
 
     path = [ IDENT => path, DOT, * ],
-    function_call = { *path => path, IDENT => name, #calls => arguments },
+    function_call = { *path => path, IDENT => name, BRACKETOPEN, #calls => arguments, BRACKETCLOSE },
 
-    call =  [#body => arg,  COMMA, *],
-    calls = {BRACKETOPEN, *call => arguments, #body => last,  BRACKETCLOSE},
+    call =  [#body => arg, COMMA, *],
+    calls = { *call => arguments, #body => last},
 
 
     expressions = [ #operator => operator, #value => value, * ],
     body = {#value => value, *expressions => expressions},
 
-    argument =  [IDENT => arg,  COMMA, *],
+    argument =  [IDENT => arg, COMMA, *],
     arguments = {*argument => arguments, IDENT => last},
 
     no_arguments = {BRACKETOPEN, BRACKETCLOSE},
@@ -62,6 +64,14 @@ Parser!(
 
     function = { *modifiers => modifiers, #name => name, BRACKETOPEN, ?arguments => arguments, BRACKETCLOSE, EQUAL, #body => body, SEMI},
     variable = { *modifiers => modifiers, IDENT => name, EQUAL, #body => body, SEMI},
-    statement = (#function | #variable),
+
+    definition = {IDENT => name, COL, *call=>arguments, SEMI},
+
+    import_item = [ #name => item, (COMMA), *],
+    import_items = { CBRACKETOPEN, *import_item=>items, CBRACKETCLOSE },
+    import = [ RAWIDENT=>path, ?import_items=>import_items, (COMMA), * ],
+    imports = { IMPORT, COL, *import=>imports, SEMI },
+
+    statement = (#imports | #definition | #function | #variable),
     statements = [#statement => statement,  *]
 );
