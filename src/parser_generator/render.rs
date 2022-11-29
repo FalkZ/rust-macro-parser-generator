@@ -172,7 +172,7 @@ impl<C: Clone> RenderContext<C> {
         content: &Vec<Box<T>>,
         separator: S,
     ) -> &mut Self {
-        use crate::parser_generator::position::TryGetPosition;
+        
 
         let last = content.len();
         content.iter().enumerate().for_each(|(i, v)| {

@@ -1,19 +1,16 @@
-use sourcemap::SourceMapBuilder;
+
 
 use crate::m1n::grammar::{
-    argument, arguments, function, maybe_arguments, modifier, modifiers, name, statement,
-    statements, variable,
+    modifier, modifiers,
 };
 
 use crate::{
-    m1n::grammar::Parser,
     parser_generator::{
         render::{Render, RenderContext},
-        result::ParserResult,
     },
 };
 
-use super::substring::Substring;
+
 use super::{Context, FileType, StatementType};
 
 #[derive(Debug, Default)]
@@ -45,7 +42,7 @@ impl Modifiers {
 
 impl Render<Context> for Vec<modifiers> {
     fn render(&self, context: &mut RenderContext<Context>) {
-        let mut m = Modifiers::new(&self);
+        let m = Modifiers::new(&self);
 
         let c = context.get_context();
 

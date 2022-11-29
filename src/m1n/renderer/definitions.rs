@@ -29,7 +29,7 @@ impl Render<Context> for import {
 
         context
             .str("import ")
-            .apply(&self.path, |v: &RAWIDENT| &name);
+            .apply(&self.path, |_v: &RAWIDENT| &name);
 
         if let Some(args) = &self.import_items {
             context.render_boxed(args);
@@ -37,7 +37,7 @@ impl Render<Context> for import {
 
         context
             .str(" from ")
-            .apply(&self.path, |v: &RAWIDENT| format!("'{}'", &path))
+            .apply(&self.path, |_v: &RAWIDENT| format!("'{}'", &path))
             .str(";");
     }
 }

@@ -1,13 +1,11 @@
 use crate::m1n::grammar::{
-    argument, arguments, enum_version, function, maybe_arguments, modifier, modifiers, name,
-    statement, statements, variable,
+    name,
+    statement, statements,
 };
 
 use crate::{
-    m1n::{command::prettier_format, grammar::Parser},
     parser_generator::{
         render::{Render, RenderContext},
-        result::ParserResult,
     },
 };
 
@@ -15,7 +13,7 @@ use super::modifiers::Modifiers;
 use super::{Context, FileType};
 
 impl Render<Context> for statements {
-    fn render(&self, context: &mut RenderContext<Context>) {}
+    fn render(&self, _context: &mut RenderContext<Context>) {}
 }
 
 impl Render<Context> for Vec<statements> {
