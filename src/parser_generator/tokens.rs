@@ -4,7 +4,10 @@ use std::{
     rc::Rc,
 };
 
-use super::position::{GetPosition, Position};
+use super::{
+    lexer::Lexer,
+    position::{GetPosition, Position},
+};
 
 #[derive(Debug, Clone)]
 
@@ -50,7 +53,7 @@ pub struct Tokens<T> {
     tokens: Vec<T>,
 }
 
-impl<T: GetPosition> Tokens<T> {
+impl<T: GetPosition + Lexer> Tokens<T> {
     pub fn new(tokens: Vec<T>) -> Self {
         Self {
             index: Rc::new(RefCell::new(0)),
@@ -70,13 +73,33 @@ impl<T: GetPosition> Tokens<T> {
         *reference
     }
 
+    pub fn next_skipable(&self) -> Option<&T> {
+        let next = self.tokens.get(self.index()).clone();
+
+        {
+            let mut reference = self.index.borrow_mut();
+            *reference += 1;
+        }
+
+        next
+    }
+
     pub fn next(&self) -> Option<&T> {
         let next = self.tokens.get(self.index()).clone();
 
-        let mut reference = self.index.borrow_mut();
-        *reference += 1;
+        {
+            let mut reference = self.index.borrow_mut();
+            *reference += 1;
+        }
 
-        return next;
+        next.map(|v| {
+            if v.is_skipable() {
+                self.next()
+            } else {
+                Some(v)
+            }
+        })
+        .flatten()
     }
 
     pub fn peek(&self) -> Option<&T> {
@@ -92,7 +115,7 @@ impl<T: GetPosition> Tokens<T> {
     }
 }
 
-impl<T: GetPosition + Display> Display for Tokens<T> {
+impl<T: GetPosition + Display + Lexer> Display for Tokens<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let s: String = self
             .tokens

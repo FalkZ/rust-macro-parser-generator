@@ -6,19 +6,19 @@ expression: "&r.statements"
     statements {
         position: Position {
             column: 0,
-            line: 1,
+            line: 0,
         },
         statement: imports(
             imports {
                 position: Position {
                     column: 0,
-                    line: 1,
+                    line: 0,
                 },
                 imports: [
                     import {
                         position: Position {
-                            column: 4,
-                            line: 2,
+                            column: 7,
+                            line: 1,
                         },
                         path: RAWIDENT(
                             Token {
@@ -38,7 +38,7 @@ expression: "&r.statements"
                                 items: [
                                     import_item {
                                         position: Position {
-                                            column: 17,
+                                            column: 16,
                                             line: 2,
                                         },
                                         item: IDENT(
@@ -57,8 +57,8 @@ expression: "&r.statements"
                     },
                     import {
                         position: Position {
-                            column: 4,
-                            line: 3,
+                            column: 24,
+                            line: 2,
                         },
                         path: RAWIDENT(
                             Token {
@@ -77,14 +77,14 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 6,
+            column: 16,
+            line: 3,
         },
         statement: function(
             function {
                 position: Position {
-                    column: 0,
-                    line: 6,
+                    column: 16,
+                    line: 3,
                 },
                 modifiers: [],
                 name: IDENT(
@@ -116,8 +116,8 @@ expression: "&r.statements"
                 ),
                 body: body {
                     position: Position {
-                        column: 4,
-                        line: 7,
+                        column: 17,
+                        line: 6,
                     },
                     value: primitive_value(
                         IDENT(
@@ -133,38 +133,38 @@ expression: "&r.statements"
                     expressions: [
                         expressions {
                             position: Position {
-                                column: 6,
+                                column: 5,
                                 line: 7,
                             },
                             expression: match_operation(
                                 match_operation {
                                     position: Position {
-                                        column: 6,
+                                        column: 5,
                                         line: 7,
                                     },
                                     body: match_statement {
                                         position: Position {
-                                            column: 12,
+                                            column: 11,
                                             line: 7,
                                         },
                                         statements: [
                                             match_arm {
                                                 position: Position {
-                                                    column: 8,
-                                                    line: 8,
+                                                    column: 13,
+                                                    line: 7,
                                                 },
                                                 operator: equals(
                                                     equals {
                                                         position: Position {
-                                                            column: 8,
-                                                            line: 8,
+                                                            column: 13,
+                                                            line: 7,
                                                         },
                                                     },
                                                 ),
                                                 value: number(
                                                     number {
                                                         position: Position {
-                                                            column: 11,
+                                                            column: 10,
                                                             line: 8,
                                                         },
                                                         negative: None,
@@ -181,14 +181,14 @@ expression: "&r.statements"
                                                 ),
                                                 body: body {
                                                     position: Position {
-                                                        column: 16,
+                                                        column: 15,
                                                         line: 8,
                                                     },
                                                     value: primitive_value(
                                                         number(
                                                             number {
                                                                 position: Position {
-                                                                    column: 16,
+                                                                    column: 15,
                                                                     line: 8,
                                                                 },
                                                                 negative: None,
@@ -209,14 +209,14 @@ expression: "&r.statements"
                                             },
                                             match_arm {
                                                 position: Position {
-                                                    column: 8,
-                                                    line: 9,
+                                                    column: 18,
+                                                    line: 8,
                                                 },
                                                 operator: equals(
                                                     equals {
                                                         position: Position {
-                                                            column: 8,
-                                                            line: 9,
+                                                            column: 18,
+                                                            line: 8,
                                                         },
                                                     },
                                                 ),
@@ -231,7 +231,7 @@ expression: "&r.statements"
                                                 ),
                                                 body: body {
                                                     position: Position {
-                                                        column: 25,
+                                                        column: 24,
                                                         line: 9,
                                                     },
                                                     value: UNDERLINE(
@@ -248,27 +248,27 @@ expression: "&r.statements"
                                             },
                                             match_arm {
                                                 position: Position {
-                                                    column: 8,
-                                                    line: 10,
+                                                    column: 27,
+                                                    line: 9,
                                                 },
                                                 operator: equals(
                                                     equals {
                                                         position: Position {
-                                                            column: 8,
-                                                            line: 10,
+                                                            column: 27,
+                                                            line: 9,
                                                         },
                                                     },
                                                 ),
                                                 value: number(
                                                     number {
                                                         position: Position {
-                                                            column: 11,
+                                                            column: 10,
                                                             line: 10,
                                                         },
                                                         negative: Some(
                                                             negative {
                                                                 position: Position {
-                                                                    column: 11,
+                                                                    column: 10,
                                                                     line: 10,
                                                                 },
                                                             },
@@ -286,14 +286,14 @@ expression: "&r.statements"
                                                 ),
                                                 body: body {
                                                     position: Position {
-                                                        column: 17,
+                                                        column: 16,
                                                         line: 10,
                                                     },
                                                     value: primitive_value(
                                                         number(
                                                             number {
                                                                 position: Position {
-                                                                    column: 17,
+                                                                    column: 16,
                                                                     line: 10,
                                                                 },
                                                                 negative: None,
@@ -319,14 +319,14 @@ expression: "&r.statements"
                         },
                         expressions {
                             position: Position {
-                                column: 4,
-                                line: 12,
+                                column: 5,
+                                line: 11,
                             },
                             expression: binary_operation(
                                 binary_operation {
                                     position: Position {
-                                        column: 4,
-                                        line: 12,
+                                        column: 5,
+                                        line: 11,
                                     },
                                     operator: PLUS(
                                         Token {
@@ -341,7 +341,7 @@ expression: "&r.statements"
                                         number(
                                             number {
                                                 position: Position {
-                                                    column: 6,
+                                                    column: 5,
                                                     line: 12,
                                                 },
                                                 negative: None,

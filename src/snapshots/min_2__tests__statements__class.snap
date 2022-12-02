@@ -6,19 +6,19 @@ expression: "&r.statements"
     statements {
         position: Position {
             column: 0,
-            line: 1,
+            line: 0,
         },
         statement: imports(
             imports {
                 position: Position {
                     column: 0,
-                    line: 1,
+                    line: 0,
                 },
                 imports: [
                     import {
                         position: Position {
-                            column: 4,
-                            line: 2,
+                            column: 7,
+                            line: 1,
                         },
                         path: RAWIDENT(
                             Token {
@@ -38,7 +38,7 @@ expression: "&r.statements"
                                 items: [
                                     import_item {
                                         position: Position {
-                                            column: 17,
+                                            column: 16,
                                             line: 2,
                                         },
                                         item: IDENT(
@@ -57,8 +57,8 @@ expression: "&r.statements"
                     },
                     import {
                         position: Position {
-                            column: 4,
-                            line: 3,
+                            column: 24,
+                            line: 2,
                         },
                         path: RAWIDENT(
                             Token {
@@ -77,14 +77,14 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 4,
+            column: 16,
+            line: 3,
         },
         statement: variable(
             variable {
                 position: Position {
-                    column: 0,
-                    line: 4,
+                    column: 16,
+                    line: 3,
                 },
                 modifiers: [],
                 name: IDENT(
@@ -98,7 +98,7 @@ expression: "&r.statements"
                 ),
                 body: body {
                     position: Position {
-                        column: 5,
+                        column: 4,
                         line: 4,
                     },
                     value: primitive_value(
@@ -115,13 +115,13 @@ expression: "&r.statements"
                     expressions: [
                         expressions {
                             position: Position {
-                                column: 7,
+                                column: 6,
                                 line: 4,
                             },
                             expression: binary_operation(
                                 binary_operation {
                                     position: Position {
-                                        column: 7,
+                                        column: 6,
                                         line: 4,
                                     },
                                     operator: PLUS(
@@ -149,13 +149,13 @@ expression: "&r.statements"
                         },
                         expressions {
                             position: Position {
-                                column: 11,
+                                column: 10,
                                 line: 4,
                             },
                             expression: binary_operation(
                                 binary_operation {
                                     position: Position {
-                                        column: 11,
+                                        column: 10,
                                         line: 4,
                                     },
                                     operator: PLUS(
@@ -171,12 +171,12 @@ expression: "&r.statements"
                                         float(
                                             float {
                                                 position: Position {
-                                                    column: 13,
+                                                    column: 12,
                                                     line: 4,
                                                 },
                                                 whole: number {
                                                     position: Position {
-                                                        column: 13,
+                                                        column: 12,
                                                         line: 4,
                                                     },
                                                     negative: None,
@@ -212,20 +212,20 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 6,
+            column: 19,
+            line: 4,
         },
         statement: variable(
             variable {
                 position: Position {
-                    column: 0,
-                    line: 6,
+                    column: 19,
+                    line: 4,
                 },
                 modifiers: [
                     modifiers {
                         position: Position {
-                            column: 0,
-                            line: 6,
+                            column: 19,
+                            line: 4,
                         },
                         modifier: PUB(
                             Token {
@@ -239,7 +239,7 @@ expression: "&r.statements"
                     },
                     modifiers {
                         position: Position {
-                            column: 4,
+                            column: 3,
                             line: 6,
                         },
                         modifier: MUT(
@@ -264,14 +264,14 @@ expression: "&r.statements"
                 ),
                 body: body {
                     position: Position {
-                        column: 13,
+                        column: 12,
                         line: 6,
                     },
                     value: primitive_value(
                         number(
                             number {
                                 position: Position {
-                                    column: 13,
+                                    column: 12,
                                     line: 6,
                                 },
                                 negative: None,
@@ -294,14 +294,14 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 8,
+            column: 17,
+            line: 6,
         },
         statement: function(
             function {
                 position: Position {
-                    column: 0,
-                    line: 8,
+                    column: 17,
+                    line: 6,
                 },
                 modifiers: [],
                 name: IDENT(
@@ -349,7 +349,7 @@ expression: "&r.statements"
                 ),
                 body: body {
                     position: Position {
-                        column: 11,
+                        column: 10,
                         line: 8,
                     },
                     value: primitive_value(
@@ -366,13 +366,13 @@ expression: "&r.statements"
                     expressions: [
                         expressions {
                             position: Position {
-                                column: 13,
+                                column: 12,
                                 line: 8,
                             },
                             expression: binary_operation(
                                 binary_operation {
                                     position: Position {
-                                        column: 13,
+                                        column: 12,
                                         line: 8,
                                     },
                                     operator: PLUS(
@@ -405,14 +405,14 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 10,
+            column: 17,
+            line: 8,
         },
         statement: function(
             function {
                 position: Position {
-                    column: 0,
-                    line: 10,
+                    column: 17,
+                    line: 8,
                 },
                 modifiers: [],
                 name: IDENT(
@@ -444,7 +444,7 @@ expression: "&r.statements"
                 ),
                 body: body {
                     position: Position {
-                        column: 9,
+                        column: 8,
                         line: 10,
                     },
                     value: primitive_value(
@@ -461,13 +461,13 @@ expression: "&r.statements"
                     expressions: [
                         expressions {
                             position: Position {
-                                column: 11,
+                                column: 10,
                                 line: 10,
                             },
                             expression: binary_operation(
                                 binary_operation {
                                     position: Position {
-                                        column: 11,
+                                        column: 10,
                                         line: 10,
                                     },
                                     operator: PLUS(
@@ -495,13 +495,13 @@ expression: "&r.statements"
                         },
                         expressions {
                             position: Position {
-                                column: 15,
+                                column: 14,
                                 line: 10,
                             },
                             expression: binary_operation(
                                 binary_operation {
                                     position: Position {
-                                        column: 15,
+                                        column: 14,
                                         line: 10,
                                     },
                                     operator: PLUS(
@@ -534,20 +534,20 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 12,
+            column: 19,
+            line: 10,
         },
         statement: function(
             function {
                 position: Position {
-                    column: 0,
-                    line: 12,
+                    column: 19,
+                    line: 10,
                 },
                 modifiers: [
                     modifiers {
                         position: Position {
-                            column: 0,
-                            line: 12,
+                            column: 19,
+                            line: 10,
                         },
                         modifier: PUB(
                             Token {
@@ -572,7 +572,7 @@ expression: "&r.statements"
                 arguments: None,
                 body: body {
                     position: Position {
-                        column: 13,
+                        column: 12,
                         line: 12,
                     },
                     value: primitive_value(
@@ -593,14 +593,14 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 14,
+            column: 52,
+            line: 12,
         },
         statement: function(
             function {
                 position: Position {
-                    column: 0,
-                    line: 14,
+                    column: 52,
+                    line: 12,
                 },
                 modifiers: [],
                 name: IDENT(
@@ -615,19 +615,19 @@ expression: "&r.statements"
                 arguments: None,
                 body: body {
                     position: Position {
-                        column: 14,
+                        column: 13,
                         line: 14,
                     },
                     value: function_call(
                         function_call {
                             position: Position {
-                                column: 14,
+                                column: 13,
                                 line: 14,
                             },
                             path: [
                                 path {
                                     position: Position {
-                                        column: 14,
+                                        column: 13,
                                         line: 14,
                                     },
                                     path: IDENT(
@@ -677,12 +677,12 @@ expression: "&r.statements"
                                 },
                                 calls {
                                     position: Position {
-                                        column: 40,
+                                        column: 39,
                                         line: 14,
                                     },
                                     argument: body {
                                         position: Position {
-                                            column: 40,
+                                            column: 39,
                                             line: 14,
                                         },
                                         value: primitive_value(
@@ -709,14 +709,14 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 18,
+            column: 11,
+            line: 16,
         },
         statement: function(
             function {
                 position: Position {
-                    column: 0,
-                    line: 18,
+                    column: 11,
+                    line: 16,
                 },
                 modifiers: [],
                 name: IDENT(
@@ -731,13 +731,13 @@ expression: "&r.statements"
                 arguments: None,
                 body: body {
                     position: Position {
-                        column: 12,
+                        column: 11,
                         line: 18,
                     },
                     value: function_call(
                         function_call {
                             position: Position {
-                                column: 12,
+                                column: 11,
                                 line: 18,
                             },
                             path: [],
@@ -802,13 +802,13 @@ expression: "&r.statements"
                                                             expressions: [
                                                                 expressions {
                                                                     position: Position {
-                                                                        column: 21,
+                                                                        column: 20,
                                                                         line: 18,
                                                                     },
                                                                     expression: binary_operation(
                                                                         binary_operation {
                                                                             position: Position {
-                                                                                column: 21,
+                                                                                column: 20,
                                                                                 line: 18,
                                                                             },
                                                                             operator: PLUS(
@@ -836,13 +836,13 @@ expression: "&r.statements"
                                                                 },
                                                                 expressions {
                                                                     position: Position {
-                                                                        column: 25,
+                                                                        column: 24,
                                                                         line: 18,
                                                                     },
                                                                     expression: binary_operation(
                                                                         binary_operation {
                                                                             position: Position {
-                                                                                column: 25,
+                                                                                column: 24,
                                                                                 line: 18,
                                                                             },
                                                                             operator: MINUS(
@@ -873,24 +873,24 @@ expression: "&r.statements"
                                                     },
                                                     calls {
                                                         position: Position {
-                                                            column: 30,
+                                                            column: 29,
                                                             line: 18,
                                                         },
                                                         argument: body {
                                                             position: Position {
-                                                                column: 30,
+                                                                column: 29,
                                                                 line: 18,
                                                             },
                                                             value: primitive_value(
                                                                 float(
                                                                     float {
                                                                         position: Position {
-                                                                            column: 30,
+                                                                            column: 29,
                                                                             line: 18,
                                                                         },
                                                                         whole: number {
                                                                             position: Position {
-                                                                                column: 30,
+                                                                                column: 29,
                                                                                 line: 18,
                                                                             },
                                                                             negative: None,

@@ -6,19 +6,19 @@ expression: "&r.statements"
     statements {
         position: Position {
             column: 0,
-            line: 1,
+            line: 0,
         },
         statement: imports(
             imports {
                 position: Position {
                     column: 0,
-                    line: 1,
+                    line: 0,
                 },
                 imports: [
                     import {
                         position: Position {
-                            column: 4,
-                            line: 2,
+                            column: 7,
+                            line: 1,
                         },
                         path: RAWIDENT(
                             Token {
@@ -38,7 +38,7 @@ expression: "&r.statements"
                                 items: [
                                     import_item {
                                         position: Position {
-                                            column: 17,
+                                            column: 16,
                                             line: 2,
                                         },
                                         item: IDENT(
@@ -57,8 +57,8 @@ expression: "&r.statements"
                     },
                     import {
                         position: Position {
-                            column: 4,
-                            line: 3,
+                            column: 24,
+                            line: 2,
                         },
                         path: RAWIDENT(
                             Token {
@@ -77,14 +77,14 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 5,
+            column: 16,
+            line: 3,
         },
         statement: enum_version(
             enum_version {
                 position: Position {
-                    column: 0,
-                    line: 5,
+                    column: 16,
+                    line: 3,
                 },
                 name: IDENT(
                     Token {
@@ -98,20 +98,20 @@ expression: "&r.statements"
                 statements: [
                     enum_statements {
                         position: Position {
-                            column: 8,
-                            line: 6,
+                            column: 6,
+                            line: 5,
                         },
                         statement: variable(
                             variable {
                                 position: Position {
-                                    column: 8,
-                                    line: 6,
+                                    column: 6,
+                                    line: 5,
                                 },
                                 modifiers: [
                                     modifiers {
                                         position: Position {
-                                            column: 8,
-                                            line: 6,
+                                            column: 6,
+                                            line: 5,
                                         },
                                         modifier: PUB(
                                             Token {
@@ -135,7 +135,7 @@ expression: "&r.statements"
                                 ),
                                 body: body {
                                     position: Position {
-                                        column: 19,
+                                        column: 18,
                                         line: 6,
                                     },
                                     value: primitive_value(
@@ -160,14 +160,14 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 9,
+            column: 6,
+            line: 7,
         },
         statement: enum_version(
             enum_version {
                 position: Position {
-                    column: 0,
-                    line: 9,
+                    column: 6,
+                    line: 7,
                 },
                 name: IDENT(
                     Token {
@@ -181,14 +181,14 @@ expression: "&r.statements"
                 statements: [
                     enum_statements {
                         position: Position {
-                            column: 8,
-                            line: 10,
+                            column: 6,
+                            line: 9,
                         },
                         statement: variable(
                             variable {
                                 position: Position {
-                                    column: 8,
-                                    line: 10,
+                                    column: 6,
+                                    line: 9,
                                 },
                                 modifiers: [],
                                 name: IDENT(
@@ -202,7 +202,7 @@ expression: "&r.statements"
                                 ),
                                 body: body {
                                     position: Position {
-                                        column: 14,
+                                        column: 13,
                                         line: 10,
                                     },
                                     value: primitive_value(
@@ -227,14 +227,14 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 14,
+            column: 6,
+            line: 11,
         },
         statement: function(
             function {
                 position: Position {
-                    column: 0,
-                    line: 14,
+                    column: 6,
+                    line: 11,
                 },
                 modifiers: [],
                 name: IDENT(
@@ -266,7 +266,7 @@ expression: "&r.statements"
                 ),
                 body: body {
                     position: Position {
-                        column: 14,
+                        column: 13,
                         line: 14,
                     },
                     value: primitive_value(
@@ -283,13 +283,13 @@ expression: "&r.statements"
                     expressions: [
                         expressions {
                             position: Position {
-                                column: 19,
+                                column: 18,
                                 line: 14,
                             },
                             expression: binary_operation(
                                 binary_operation {
                                     position: Position {
-                                        column: 19,
+                                        column: 18,
                                         line: 14,
                                     },
                                     operator: PLUS(

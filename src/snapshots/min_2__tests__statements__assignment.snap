@@ -6,19 +6,19 @@ expression: "&r.statements"
     statements {
         position: Position {
             column: 0,
-            line: 1,
+            line: 0,
         },
         statement: imports(
             imports {
                 position: Position {
                     column: 0,
-                    line: 1,
+                    line: 0,
                 },
                 imports: [
                     import {
                         position: Position {
-                            column: 4,
-                            line: 2,
+                            column: 7,
+                            line: 1,
                         },
                         path: RAWIDENT(
                             Token {
@@ -38,7 +38,7 @@ expression: "&r.statements"
                                 items: [
                                     import_item {
                                         position: Position {
-                                            column: 17,
+                                            column: 16,
                                             line: 2,
                                         },
                                         item: IDENT(
@@ -57,8 +57,8 @@ expression: "&r.statements"
                     },
                     import {
                         position: Position {
-                            column: 4,
-                            line: 3,
+                            column: 24,
+                            line: 2,
                         },
                         path: RAWIDENT(
                             Token {
@@ -77,20 +77,20 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 7,
+            column: 16,
+            line: 3,
         },
         statement: variable(
             variable {
                 position: Position {
-                    column: 0,
-                    line: 7,
+                    column: 16,
+                    line: 3,
                 },
                 modifiers: [
                     modifiers {
                         position: Position {
-                            column: 0,
-                            line: 7,
+                            column: 16,
+                            line: 3,
                         },
                         modifier: MUT(
                             Token {
@@ -114,14 +114,14 @@ expression: "&r.statements"
                 ),
                 body: body {
                     position: Position {
-                        column: 10,
+                        column: 9,
                         line: 7,
                     },
                     value: primitive_value(
                         number(
                             number {
                                 position: Position {
-                                    column: 10,
+                                    column: 9,
                                     line: 7,
                                 },
                                 negative: None,
@@ -144,14 +144,14 @@ expression: "&r.statements"
     },
     statements {
         position: Position {
-            column: 0,
-            line: 9,
+            column: 12,
+            line: 7,
         },
         statement: function(
             function {
                 position: Position {
-                    column: 0,
-                    line: 9,
+                    column: 12,
+                    line: 7,
                 },
                 modifiers: [],
                 name: IDENT(
@@ -183,8 +183,8 @@ expression: "&r.statements"
                 ),
                 body: body {
                     position: Position {
-                        column: 4,
-                        line: 10,
+                        column: 11,
+                        line: 9,
                     },
                     value: primitive_value(
                         IDENT(
@@ -200,13 +200,13 @@ expression: "&r.statements"
                     expressions: [
                         expressions {
                             position: Position {
-                                column: 6,
+                                column: 5,
                                 line: 10,
                             },
                             expression: assingment_operation(
                                 assingment_operation {
                                     position: Position {
-                                        column: 6,
+                                        column: 5,
                                         line: 10,
                                     },
                                     identifier: IDENT(

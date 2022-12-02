@@ -23,10 +23,12 @@ Lexer!(
         {'('} => BRACKETOPEN,
         {')'} => BRACKETCLOSE,
         {'{'} => CBRACKETOPEN,
-        {'}'} => CBRACKETCLOSE
+        {'}'} => CBRACKETCLOSE,
+        {' '} => SPACE,
+        {'\n'} => NEWLINE
     }
 
-    { ' ' | '\n' } => _
+    ( SPACE | NEWLINE ) => _
 
     {
         IDENT => {
@@ -59,6 +61,7 @@ Parser!(
     float = {#number => whole, DOT, NUMBER => float},
     primitive_value = ( #float | #number | TEXTLITERAL | IDENT | TYPESCRIPT ),
     value = ( #function_call  | UNDERLINE | #primitive_value ),
+
 
     path = [ IDENT => path, DOT, * ],
     function_call = { *path => path, IDENT => name, BRACKETOPEN, *calls => arguments, BRACKETCLOSE },

@@ -4,9 +4,18 @@ expression: "&r.tokens"
 ---
 Tokens {
     index: RefCell {
-        value: 24,
+        value: 55,
     },
     tokens: [
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 0,
+                },
+            },
+        ),
         IMPORT(
             Token {
                 raw: "import",
@@ -22,6 +31,60 @@ Tokens {
                 position: Position {
                     column: 6,
                     line: 1,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 7,
+                    line: 1,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 8,
+                    line: 1,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 2,
                 },
             },
         ),
@@ -43,11 +106,29 @@ Tokens {
                 },
             },
         ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 16,
+                    line: 2,
+                },
+            },
+        ),
         IDENT(
             Token {
                 raw: "pipe",
                 position: Position {
                     column: 17,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 21,
                     line: 2,
                 },
             },
@@ -70,6 +151,51 @@ Tokens {
                 },
             },
         ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 24,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 3,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 3,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 3,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 3,
+                },
+            },
+        ),
         RAWIDENT(
             Token {
                 raw: "`@std/math`",
@@ -88,11 +214,56 @@ Tokens {
                 },
             },
         ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 16,
+                    line: 3,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 4,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 5,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 6,
+                },
+            },
+        ),
         MUT(
             Token {
                 raw: "mut",
                 position: Position {
                     column: 0,
+                    line: 7,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
                     line: 7,
                 },
             },
@@ -106,11 +277,29 @@ Tokens {
                 },
             },
         ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 7,
+                    line: 7,
+                },
+            },
+        ),
         EQUAL(
             Token {
                 raw: "=",
                 position: Position {
                     column: 8,
+                    line: 7,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 9,
                     line: 7,
                 },
             },
@@ -130,6 +319,24 @@ Tokens {
                 position: Position {
                     column: 11,
                     line: 7,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 12,
+                    line: 7,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 8,
                 },
             },
         ),
@@ -169,6 +376,15 @@ Tokens {
                 },
             },
         ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 9,
+                    line: 9,
+                },
+            },
+        ),
         EQUAL(
             Token {
                 raw: "=",
@@ -178,11 +394,65 @@ Tokens {
                 },
             },
         ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 11,
+                    line: 9,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 10,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 10,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 10,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 10,
+                },
+            },
+        ),
         IDENT(
             Token {
                 raw: "v",
                 position: Position {
                     column: 4,
+                    line: 10,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 5,
                     line: 10,
                 },
             },
@@ -201,6 +471,15 @@ Tokens {
                 raw: ">",
                 position: Position {
                     column: 7,
+                    line: 10,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 8,
                     line: 10,
                 },
             },

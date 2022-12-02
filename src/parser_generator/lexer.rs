@@ -1,3 +1,7 @@
+pub trait Lexer {
+    fn is_skipable(&self) -> bool;
+}
+
 #[macro_export]
 macro_rules! Lexer {
 
@@ -58,7 +62,6 @@ macro_rules! Lexer {
        $(
            $token_name:ident, $matcher:pat, $(=> $(($until:pat))?)?
        ),+
-       $(, ($skip:pat))?
    ) => {
 
            fn primary_pass(input: &str) -> Result<Vec<Lexer>, String> {
@@ -70,7 +73,7 @@ macro_rules! Lexer {
                    match c {
                        $(
                            $matcher => {
-                               
+
                               let position = it.get_position();
 
                                let token = Lexer!(@MATCH: $matcher, it $(, continue $(, $until)?)?);
@@ -81,12 +84,6 @@ macro_rules! Lexer {
                                continue;
                            }
                        )+
-
-                       $(
-                           $skip => {
-                               it.next();
-                           }
-                       )?
 
                        _ => {
                            return Err(format!("unexpected character {:?}", c));
@@ -150,7 +147,7 @@ macro_rules! Lexer {
             fn into(self) -> T {
                 match self {
                     $(Lexer::$token_name(v) => v),+
-                }        
+                }
             }
         }
 
@@ -164,18 +161,18 @@ macro_rules! Lexer {
             }
         }
 
-       
+
        $(
         #[derive(Debug, Clone)]
             pub struct $token_name(pub TokenContent);
 
             impl $crate::parser_generator::tokens::RawToken for $token_name {
-                fn raw_token(&self) -> TokenContent { 
+                fn raw_token(&self) -> TokenContent {
                     self.0.clone()
                 }
             }
         )+
-       
+
    };
 
    // ENTRYPOINT
@@ -187,7 +184,7 @@ macro_rules! Lexer {
        }
 
        // SKIP PATTERN
-       $({ $skip:pat } => _)?
+       $(( $($skip:ident)|+ ) => _)?
 
        { // SECOND PASS
            $(
@@ -215,7 +212,6 @@ macro_rules! Lexer {
                $(
                    $token_name, $matcher, $(=> $(($until))?)?
                ),+
-               $(, ($skip))?
            );
 
            Lexer!(@SECONDARY:
@@ -234,8 +230,21 @@ macro_rules! Lexer {
                let first = Lexer::primary_pass(input)?;
                Ok(Lexer::secondary_pass(first))
            }
-        
-           
+
+
+
        }
+
+       $(
+        impl $crate::parser_generator::lexer::Lexer for Lexer {
+            fn is_skipable(&self) -> bool {
+                match &self {
+                    $(Lexer::$skip(_))|+ => true,
+                    _ => false
+                }
+            }
+        }
+        )?
+
    };
 }
