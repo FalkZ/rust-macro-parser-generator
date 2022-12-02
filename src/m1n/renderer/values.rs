@@ -56,6 +56,9 @@ impl Render<Context> for value {
             value::UNDERLINE(v) => {
                 context.render_raw(v);
             }
+            value::bracket_expression(v) => {
+                context.render_boxed(v);
+            }
         };
     }
 }

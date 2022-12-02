@@ -60,8 +60,7 @@ Parser!(
     number = { ?negative => negative, NUMBER => whole},
     float = {#number => whole, DOT, NUMBER => float},
     primitive_value = ( #float | #number | TEXTLITERAL | IDENT | TYPESCRIPT ),
-    value = ( #function_call  | UNDERLINE | #primitive_value ),
-
+    value = ( #function_call  | UNDERLINE | #primitive_value | #bracket_expression),
 
 
 
@@ -75,13 +74,13 @@ Parser!(
     assingment_operation = { #assignment, IDENT => identifier },
 
     expression = ( #match_operation | #assingment_operation | #binary_operation ),
-    expressions = [ #expression_variant_wrapper => expression, * ],
+    expressions = [ #newline_expression => expression, * ],
     body = {#value => value, ?expression => first, *expressions => expressions },
 
     expression_variant_wrapper = { #expression_variant => expression},
     expression_variant = ( #bracket_expression | #newline_expression ),
     newline_expression = {_ NEWLINE, #expression => expressions },
-    bracket_expression = { BRACKETOPEN, #expression => expressions,  BRACKETCLOSE },
+    bracket_expression = { BRACKETOPEN, #body => expressions,  BRACKETCLOSE },
 
 
     argument =  [IDENT => arg, COMMA, *],

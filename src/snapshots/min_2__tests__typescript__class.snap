@@ -40,8 +40,10 @@ export class Class {
   private nesting() {
     return one(
       fn(
-        pipe(a).op(math["+"], b).op(math["-"], c)
-          .end,
+        pipe(a).op(
+          math["+"],
+          pipe(b).op(math["-"], c).end
+        ).end,
         123.2
       )
     );

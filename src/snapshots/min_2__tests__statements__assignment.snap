@@ -137,6 +137,7 @@ expression: "&r.statements"
                             },
                         ),
                     ),
+                    first: None,
                     expressions: [],
                 },
             },
@@ -197,31 +198,26 @@ expression: "&r.statements"
                             },
                         ),
                     ),
-                    expressions: [
-                        expressions {
-                            position: Position {
-                                column: 5,
-                                line: 10,
-                            },
-                            expression: assingment_operation(
-                                assingment_operation {
-                                    position: Position {
-                                        column: 5,
-                                        line: 10,
-                                    },
-                                    identifier: IDENT(
-                                        Token {
-                                            raw: "val",
-                                            position: Position {
-                                                column: 9,
-                                                line: 10,
-                                            },
-                                        },
-                                    ),
+                    first: Some(
+                        assingment_operation(
+                            assingment_operation {
+                                position: Position {
+                                    column: 5,
+                                    line: 10,
                                 },
-                            ),
-                        },
-                    ],
+                                identifier: IDENT(
+                                    Token {
+                                        raw: "val",
+                                        position: Position {
+                                            column: 9,
+                                            line: 10,
+                                        },
+                                    },
+                                ),
+                            },
+                        ),
+                    ),
+                    expressions: [],
                 },
             },
         ),

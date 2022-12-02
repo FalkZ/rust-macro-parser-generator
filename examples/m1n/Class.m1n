@@ -14,4 +14,4 @@ multiline() = console.log("test space", "multi
 
     line");
 
-nesting() = one(fn(a + b (- c), 123.2));
+nesting() = one(fn(a + (b - c), 123.2));
