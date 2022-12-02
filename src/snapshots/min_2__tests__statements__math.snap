@@ -17,36 +17,51 @@ expression: "&r.statements"
                 imports: [
                     import {
                         position: Position {
-                            column: 8,
-                            line: 1,
+                            column: 4,
+                            line: 2,
                         },
                         path: RAWIDENT(
                             Token {
                                 raw: "`@std/util`",
                                 position: Position {
-                                    column: 8,
-                                    line: 1,
+                                    column: 4,
+                                    line: 2,
                                 },
                             },
                         ),
                         import_items: Some(
                             import_items {
                                 position: Position {
-                                    column: 19,
-                                    line: 1,
+                                    column: 15,
+                                    line: 2,
                                 },
                                 items: [
                                     import_item {
                                         position: Position {
-                                            column: 21,
-                                            line: 1,
+                                            column: 17,
+                                            line: 2,
                                         },
                                         item: IDENT(
                                             Token {
                                                 raw: "pipe",
                                                 position: Position {
-                                                    column: 21,
-                                                    line: 1,
+                                                    column: 17,
+                                                    line: 2,
+                                                },
+                                            },
+                                        ),
+                                    },
+                                    import_item {
+                                        position: Position {
+                                            column: 23,
+                                            line: 2,
+                                        },
+                                        item: IDENT(
+                                            Token {
+                                                raw: "match",
+                                                position: Position {
+                                                    column: 23,
+                                                    line: 2,
                                                 },
                                             },
                                         ),
@@ -58,14 +73,14 @@ expression: "&r.statements"
                     import {
                         position: Position {
                             column: 4,
-                            line: 2,
+                            line: 3,
                         },
                         path: RAWIDENT(
                             Token {
                                 raw: "`@std/math`",
                                 position: Position {
                                     column: 4,
-                                    line: 2,
+                                    line: 3,
                                 },
                             },
                         ),
@@ -78,26 +93,26 @@ expression: "&r.statements"
     statements {
         position: Position {
             column: 0,
-            line: 3,
+            line: 4,
         },
         statement: function(
             function {
                 position: Position {
                     column: 0,
-                    line: 3,
+                    line: 4,
                 },
                 modifiers: [
                     modifiers {
                         position: Position {
                             column: 0,
-                            line: 3,
+                            line: 4,
                         },
                         modifier: PUB(
                             Token {
                                 raw: "pub",
                                 position: Position {
                                     column: 0,
-                                    line: 3,
+                                    line: 4,
                                 },
                             },
                         ),
@@ -108,7 +123,7 @@ expression: "&r.statements"
                         raw: "`+`",
                         position: Position {
                             column: 4,
-                            line: 3,
+                            line: 4,
                         },
                     },
                 ),
@@ -116,20 +131,20 @@ expression: "&r.statements"
                     arguments {
                         position: Position {
                             column: 8,
-                            line: 3,
+                            line: 4,
                         },
                         arguments: [
                             argument {
                                 position: Position {
                                     column: 8,
-                                    line: 3,
+                                    line: 4,
                                 },
                                 arg: IDENT(
                                     Token {
                                         raw: "a",
                                         position: Position {
                                             column: 8,
-                                            line: 3,
+                                            line: 4,
                                         },
                                     },
                                 ),
@@ -140,7 +155,7 @@ expression: "&r.statements"
                                 raw: "b",
                                 position: Position {
                                     column: 11,
-                                    line: 3,
+                                    line: 4,
                                 },
                             },
                         ),
@@ -149,16 +164,18 @@ expression: "&r.statements"
                 body: body {
                     position: Position {
                         column: 16,
-                        line: 3,
+                        line: 4,
                     },
-                    value: TYPESCRIPT(
-                        Token {
-                            raw: "#a + b#",
-                            position: Position {
-                                column: 16,
-                                line: 3,
+                    value: primitive_value(
+                        TYPESCRIPT(
+                            Token {
+                                raw: "#a + b#",
+                                position: Position {
+                                    column: 16,
+                                    line: 4,
+                                },
                             },
-                        },
+                        ),
                     ),
                     expressions: [],
                 },
@@ -168,26 +185,26 @@ expression: "&r.statements"
     statements {
         position: Position {
             column: 0,
-            line: 5,
+            line: 6,
         },
         statement: function(
             function {
                 position: Position {
                     column: 0,
-                    line: 5,
+                    line: 6,
                 },
                 modifiers: [
                     modifiers {
                         position: Position {
                             column: 0,
-                            line: 5,
+                            line: 6,
                         },
                         modifier: PUB(
                             Token {
                                 raw: "pub",
                                 position: Position {
                                     column: 0,
-                                    line: 5,
+                                    line: 6,
                                 },
                             },
                         ),
@@ -198,7 +215,7 @@ expression: "&r.statements"
                         raw: "`-`",
                         position: Position {
                             column: 4,
-                            line: 5,
+                            line: 6,
                         },
                     },
                 ),
@@ -206,20 +223,20 @@ expression: "&r.statements"
                     arguments {
                         position: Position {
                             column: 8,
-                            line: 5,
+                            line: 6,
                         },
                         arguments: [
                             argument {
                                 position: Position {
                                     column: 8,
-                                    line: 5,
+                                    line: 6,
                                 },
                                 arg: IDENT(
                                     Token {
                                         raw: "a",
                                         position: Position {
                                             column: 8,
-                                            line: 5,
+                                            line: 6,
                                         },
                                     },
                                 ),
@@ -230,7 +247,7 @@ expression: "&r.statements"
                                 raw: "b",
                                 position: Position {
                                     column: 11,
-                                    line: 5,
+                                    line: 6,
                                 },
                             },
                         ),
@@ -239,16 +256,18 @@ expression: "&r.statements"
                 body: body {
                     position: Position {
                         column: 16,
-                        line: 5,
+                        line: 6,
                     },
-                    value: TYPESCRIPT(
-                        Token {
-                            raw: "#a - b#",
-                            position: Position {
-                                column: 16,
-                                line: 5,
+                    value: primitive_value(
+                        TYPESCRIPT(
+                            Token {
+                                raw: "#a - b#",
+                                position: Position {
+                                    column: 16,
+                                    line: 6,
+                                },
                             },
-                        },
+                        ),
                     ),
                     expressions: [],
                 },
@@ -258,26 +277,26 @@ expression: "&r.statements"
     statements {
         position: Position {
             column: 0,
-            line: 7,
+            line: 8,
         },
         statement: function(
             function {
                 position: Position {
                     column: 0,
-                    line: 7,
+                    line: 8,
                 },
                 modifiers: [
                     modifiers {
                         position: Position {
                             column: 0,
-                            line: 7,
+                            line: 8,
                         },
                         modifier: PUB(
                             Token {
                                 raw: "pub",
                                 position: Position {
                                     column: 0,
-                                    line: 7,
+                                    line: 8,
                                 },
                             },
                         ),
@@ -288,7 +307,7 @@ expression: "&r.statements"
                         raw: "`*`",
                         position: Position {
                             column: 4,
-                            line: 7,
+                            line: 8,
                         },
                     },
                 ),
@@ -296,20 +315,20 @@ expression: "&r.statements"
                     arguments {
                         position: Position {
                             column: 8,
-                            line: 7,
+                            line: 8,
                         },
                         arguments: [
                             argument {
                                 position: Position {
                                     column: 8,
-                                    line: 7,
+                                    line: 8,
                                 },
                                 arg: IDENT(
                                     Token {
                                         raw: "a",
                                         position: Position {
                                             column: 8,
-                                            line: 7,
+                                            line: 8,
                                         },
                                     },
                                 ),
@@ -320,7 +339,7 @@ expression: "&r.statements"
                                 raw: "b",
                                 position: Position {
                                     column: 11,
-                                    line: 7,
+                                    line: 8,
                                 },
                             },
                         ),
@@ -329,16 +348,18 @@ expression: "&r.statements"
                 body: body {
                     position: Position {
                         column: 16,
-                        line: 7,
+                        line: 8,
                     },
-                    value: TYPESCRIPT(
-                        Token {
-                            raw: "#a * b#",
-                            position: Position {
-                                column: 16,
-                                line: 7,
+                    value: primitive_value(
+                        TYPESCRIPT(
+                            Token {
+                                raw: "#a * b#",
+                                position: Position {
+                                    column: 16,
+                                    line: 8,
+                                },
                             },
-                        },
+                        ),
                     ),
                     expressions: [],
                 },
@@ -348,26 +369,26 @@ expression: "&r.statements"
     statements {
         position: Position {
             column: 0,
-            line: 9,
+            line: 10,
         },
         statement: function(
             function {
                 position: Position {
                     column: 0,
-                    line: 9,
+                    line: 10,
                 },
                 modifiers: [
                     modifiers {
                         position: Position {
                             column: 0,
-                            line: 9,
+                            line: 10,
                         },
                         modifier: PUB(
                             Token {
                                 raw: "pub",
                                 position: Position {
                                     column: 0,
-                                    line: 9,
+                                    line: 10,
                                 },
                             },
                         ),
@@ -378,7 +399,7 @@ expression: "&r.statements"
                         raw: "`/`",
                         position: Position {
                             column: 4,
-                            line: 9,
+                            line: 10,
                         },
                     },
                 ),
@@ -386,20 +407,20 @@ expression: "&r.statements"
                     arguments {
                         position: Position {
                             column: 8,
-                            line: 9,
+                            line: 10,
                         },
                         arguments: [
                             argument {
                                 position: Position {
                                     column: 8,
-                                    line: 9,
+                                    line: 10,
                                 },
                                 arg: IDENT(
                                     Token {
                                         raw: "a",
                                         position: Position {
                                             column: 8,
-                                            line: 9,
+                                            line: 10,
                                         },
                                     },
                                 ),
@@ -410,7 +431,7 @@ expression: "&r.statements"
                                 raw: "b",
                                 position: Position {
                                     column: 11,
-                                    line: 9,
+                                    line: 10,
                                 },
                             },
                         ),
@@ -419,16 +440,18 @@ expression: "&r.statements"
                 body: body {
                     position: Position {
                         column: 16,
-                        line: 9,
+                        line: 10,
                     },
-                    value: TYPESCRIPT(
-                        Token {
-                            raw: "#a / b#",
-                            position: Position {
-                                column: 16,
-                                line: 9,
+                    value: primitive_value(
+                        TYPESCRIPT(
+                            Token {
+                                raw: "#a / b#",
+                                position: Position {
+                                    column: 16,
+                                    line: 10,
+                                },
                             },
-                        },
+                        ),
                     ),
                     expressions: [],
                 },

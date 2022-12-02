@@ -1,15 +1,6 @@
+use crate::m1n::grammar::{modifier, modifiers};
 
-
-use crate::m1n::grammar::{
-    modifier, modifiers,
-};
-
-use crate::{
-    parser_generator::{
-        render::{Render, RenderContext},
-    },
-};
-
+use crate::parser_generator::render::{Render, RenderContext};
 
 use super::{Context, FileType, StatementType};
 
@@ -52,7 +43,11 @@ impl Render<Context> for Vec<modifiers> {
                     if m.public {
                         context.str("public ");
                     } else {
-                        context.str("private ");
+                        context.str(if c.file_type == FileType::Class {
+                            "private "
+                        } else {
+                            "protected "
+                        });
                     }
                     if !m.mutable {
                         context.str("readonly ");
@@ -62,7 +57,11 @@ impl Render<Context> for Vec<modifiers> {
                     if m.public {
                         context.str("public ");
                     } else {
-                        context.str("private ");
+                        context.str(if c.file_type == FileType::Class {
+                            "private "
+                        } else {
+                            "protected "
+                        });
                     }
                 }
                 StatementType::None => unreachable!(),

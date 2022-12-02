@@ -2,19 +2,17 @@ mod body;
 mod definitions;
 mod enums;
 mod functions;
+mod match_statement;
 mod modifiers;
 mod statements;
 pub mod substring;
+mod values;
 mod variables;
 
 use std::{
     fs::{self},
     path::Path,
 };
-
-
-
-
 
 use crate::{
     m1n::{command::prettier_format, grammar::Parser},
@@ -58,7 +56,8 @@ pub fn render(source_path: &str) -> ParserResult<Return> {
 
     let source_content = format!(
         "
-import: `@std/util`{{ pipe }},
+import: 
+    `@std/util`{{ pipe, match }},
     `@std/math`;
 {}",
         source_content

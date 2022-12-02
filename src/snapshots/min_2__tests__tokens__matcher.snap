@@ -4,7 +4,7 @@ expression: "&r.tokens"
 ---
 Tokens {
     index: RefCell {
-        value: 51,
+        value: 43,
     },
     tokens: [
         IMPORT(
@@ -106,110 +106,11 @@ Tokens {
                 },
             },
         ),
-        PUB(
-            Token {
-                raw: "pub",
-                position: Position {
-                    column: 0,
-                    line: 4,
-                },
-            },
-        ),
-        RAWIDENT(
-            Token {
-                raw: "`+`",
-                position: Position {
-                    column: 4,
-                    line: 4,
-                },
-            },
-        ),
-        BRACKETOPEN(
-            Token {
-                raw: "(",
-                position: Position {
-                    column: 7,
-                    line: 4,
-                },
-            },
-        ),
         IDENT(
             Token {
-                raw: "a",
-                position: Position {
-                    column: 8,
-                    line: 4,
-                },
-            },
-        ),
-        COMMA(
-            Token {
-                raw: ",",
-                position: Position {
-                    column: 9,
-                    line: 4,
-                },
-            },
-        ),
-        IDENT(
-            Token {
-                raw: "b",
-                position: Position {
-                    column: 11,
-                    line: 4,
-                },
-            },
-        ),
-        BRACKETCLOSE(
-            Token {
-                raw: ")",
-                position: Position {
-                    column: 12,
-                    line: 4,
-                },
-            },
-        ),
-        EQUAL(
-            Token {
-                raw: "=",
-                position: Position {
-                    column: 14,
-                    line: 4,
-                },
-            },
-        ),
-        TYPESCRIPT(
-            Token {
-                raw: "#a + b#",
-                position: Position {
-                    column: 16,
-                    line: 4,
-                },
-            },
-        ),
-        SEMI(
-            Token {
-                raw: ";",
-                position: Position {
-                    column: 23,
-                    line: 4,
-                },
-            },
-        ),
-        PUB(
-            Token {
-                raw: "pub",
+                raw: "matchExample",
                 position: Position {
                     column: 0,
-                    line: 6,
-                },
-            },
-        ),
-        RAWIDENT(
-            Token {
-                raw: "`-`",
-                position: Position {
-                    column: 4,
                     line: 6,
                 },
             },
@@ -218,34 +119,16 @@ Tokens {
             Token {
                 raw: "(",
                 position: Position {
-                    column: 7,
+                    column: 12,
                     line: 6,
                 },
             },
         ),
         IDENT(
             Token {
-                raw: "a",
+                raw: "v",
                 position: Position {
-                    column: 8,
-                    line: 6,
-                },
-            },
-        ),
-        COMMA(
-            Token {
-                raw: ",",
-                position: Position {
-                    column: 9,
-                    line: 6,
-                },
-            },
-        ),
-        IDENT(
-            Token {
-                raw: "b",
-                position: Position {
-                    column: 11,
+                    column: 13,
                     line: 6,
                 },
             },
@@ -254,7 +137,7 @@ Tokens {
             Token {
                 raw: ")",
                 position: Position {
-                    column: 12,
+                    column: 14,
                     line: 6,
                 },
             },
@@ -263,44 +146,26 @@ Tokens {
             Token {
                 raw: "=",
                 position: Position {
-                    column: 14,
-                    line: 6,
-                },
-            },
-        ),
-        TYPESCRIPT(
-            Token {
-                raw: "#a - b#",
-                position: Position {
                     column: 16,
                     line: 6,
                 },
             },
         ),
-        SEMI(
+        IDENT(
             Token {
-                raw: ";",
-                position: Position {
-                    column: 23,
-                    line: 6,
-                },
-            },
-        ),
-        PUB(
-            Token {
-                raw: "pub",
-                position: Position {
-                    column: 0,
-                    line: 8,
-                },
-            },
-        ),
-        RAWIDENT(
-            Token {
-                raw: "`*`",
+                raw: "v",
                 position: Position {
                     column: 4,
-                    line: 8,
+                    line: 7,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "match",
+                position: Position {
+                    column: 6,
+                    line: 7,
                 },
             },
         ),
@@ -308,43 +173,16 @@ Tokens {
             Token {
                 raw: "(",
                 position: Position {
-                    column: 7,
-                    line: 8,
+                    column: 12,
+                    line: 7,
                 },
             },
         ),
-        IDENT(
+        EQUAL(
             Token {
-                raw: "a",
+                raw: "=",
                 position: Position {
                     column: 8,
-                    line: 8,
-                },
-            },
-        ),
-        COMMA(
-            Token {
-                raw: ",",
-                position: Position {
-                    column: 9,
-                    line: 8,
-                },
-            },
-        ),
-        IDENT(
-            Token {
-                raw: "b",
-                position: Position {
-                    column: 11,
-                    line: 8,
-                },
-            },
-        ),
-        BRACKETCLOSE(
-            Token {
-                raw: ")",
-                position: Position {
-                    column: 12,
                     line: 8,
                 },
             },
@@ -353,107 +191,197 @@ Tokens {
             Token {
                 raw: "=",
                 position: Position {
+                    column: 9,
+                    line: 8,
+                },
+            },
+        ),
+        NUMBER(
+            Token {
+                raw: "1",
+                position: Position {
+                    column: 11,
+                    line: 8,
+                },
+            },
+        ),
+        EQUAL(
+            Token {
+                raw: "=",
+                position: Position {
+                    column: 13,
+                    line: 8,
+                },
+            },
+        ),
+        MORETHAN(
+            Token {
+                raw: ">",
+                position: Position {
                     column: 14,
                     line: 8,
                 },
             },
         ),
-        TYPESCRIPT(
+        NUMBER(
             Token {
-                raw: "#a * b#",
+                raw: "1",
                 position: Position {
                     column: 16,
                     line: 8,
                 },
             },
         ),
-        SEMI(
+        COMMA(
             Token {
-                raw: ";",
+                raw: ",",
                 position: Position {
-                    column: 23,
+                    column: 17,
                     line: 8,
                 },
             },
         ),
-        PUB(
+        EQUAL(
             Token {
-                raw: "pub",
+                raw: "=",
                 position: Position {
-                    column: 0,
+                    column: 8,
+                    line: 9,
+                },
+            },
+        ),
+        EQUAL(
+            Token {
+                raw: "=",
+                position: Position {
+                    column: 9,
+                    line: 9,
+                },
+            },
+        ),
+        TEXTLITERAL(
+            Token {
+                raw: "\"a string\"",
+                position: Position {
+                    column: 11,
+                    line: 9,
+                },
+            },
+        ),
+        EQUAL(
+            Token {
+                raw: "=",
+                position: Position {
+                    column: 22,
+                    line: 9,
+                },
+            },
+        ),
+        MORETHAN(
+            Token {
+                raw: ">",
+                position: Position {
+                    column: 23,
+                    line: 9,
+                },
+            },
+        ),
+        NUMBER(
+            Token {
+                raw: "0",
+                position: Position {
+                    column: 25,
+                    line: 9,
+                },
+            },
+        ),
+        COMMA(
+            Token {
+                raw: ",",
+                position: Position {
+                    column: 26,
+                    line: 9,
+                },
+            },
+        ),
+        EQUAL(
+            Token {
+                raw: "=",
+                position: Position {
+                    column: 8,
                     line: 10,
                 },
             },
         ),
-        RAWIDENT(
+        EQUAL(
             Token {
-                raw: "`/`",
+                raw: "=",
+                position: Position {
+                    column: 9,
+                    line: 10,
+                },
+            },
+        ),
+        NUMBER(
+            Token {
+                raw: "2",
+                position: Position {
+                    column: 11,
+                    line: 10,
+                },
+            },
+        ),
+        EQUAL(
+            Token {
+                raw: "=",
+                position: Position {
+                    column: 13,
+                    line: 10,
+                },
+            },
+        ),
+        MORETHAN(
+            Token {
+                raw: ">",
+                position: Position {
+                    column: 14,
+                    line: 10,
+                },
+            },
+        ),
+        NUMBER(
+            Token {
+                raw: "2",
+                position: Position {
+                    column: 16,
+                    line: 10,
+                },
+            },
+        ),
+        BRACKETCLOSE(
+            Token {
+                raw: ")",
                 position: Position {
                     column: 4,
-                    line: 10,
+                    line: 11,
                 },
             },
         ),
-        BRACKETOPEN(
+        PLUS(
             Token {
-                raw: "(",
+                raw: "+",
                 position: Position {
-                    column: 7,
-                    line: 10,
+                    column: 4,
+                    line: 12,
                 },
             },
         ),
-        IDENT(
+        NUMBER(
             Token {
-                raw: "a",
+                raw: "2",
                 position: Position {
-                    column: 8,
-                    line: 10,
-                },
-            },
-        ),
-        COMMA(
-            Token {
-                raw: ",",
-                position: Position {
-                    column: 9,
-                    line: 10,
-                },
-            },
-        ),
-        IDENT(
-            Token {
-                raw: "b",
-                position: Position {
-                    column: 11,
-                    line: 10,
-                },
-            },
-        ),
-        BRACKETCLOSE(
-            Token {
-                raw: ")",
-                position: Position {
-                    column: 12,
-                    line: 10,
-                },
-            },
-        ),
-        EQUAL(
-            Token {
-                raw: "=",
-                position: Position {
-                    column: 14,
-                    line: 10,
-                },
-            },
-        ),
-        TYPESCRIPT(
-            Token {
-                raw: "#a / b#",
-                position: Position {
-                    column: 16,
-                    line: 10,
+                    column: 6,
+                    line: 12,
                 },
             },
         ),
@@ -461,8 +389,8 @@ Tokens {
             Token {
                 raw: ";",
                 position: Position {
-                    column: 23,
-                    line: 10,
+                    column: 7,
+                    line: 12,
                 },
             },
         ),

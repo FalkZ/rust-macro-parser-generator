@@ -4,7 +4,7 @@ expression: "&r.tokens"
 ---
 Tokens {
     index: RefCell {
-        value: 37,
+        value: 39,
     },
     tokens: [
         IMPORT(
@@ -29,8 +29,8 @@ Tokens {
             Token {
                 raw: "`@std/util`",
                 position: Position {
-                    column: 8,
-                    line: 1,
+                    column: 4,
+                    line: 2,
                 },
             },
         ),
@@ -38,8 +38,8 @@ Tokens {
             Token {
                 raw: "{",
                 position: Position {
-                    column: 19,
-                    line: 1,
+                    column: 15,
+                    line: 2,
                 },
             },
         ),
@@ -47,17 +47,8 @@ Tokens {
             Token {
                 raw: "pipe",
                 position: Position {
-                    column: 21,
-                    line: 1,
-                },
-            },
-        ),
-        CBRACKETCLOSE(
-            Token {
-                raw: "}",
-                position: Position {
-                    column: 26,
-                    line: 1,
+                    column: 17,
+                    line: 2,
                 },
             },
         ),
@@ -65,8 +56,35 @@ Tokens {
             Token {
                 raw: ",",
                 position: Position {
-                    column: 27,
-                    line: 1,
+                    column: 21,
+                    line: 2,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "match",
+                position: Position {
+                    column: 23,
+                    line: 2,
+                },
+            },
+        ),
+        CBRACKETCLOSE(
+            Token {
+                raw: "}",
+                position: Position {
+                    column: 29,
+                    line: 2,
+                },
+            },
+        ),
+        COMMA(
+            Token {
+                raw: ",",
+                position: Position {
+                    column: 30,
+                    line: 2,
                 },
             },
         ),
@@ -75,7 +93,7 @@ Tokens {
                 raw: "`@std/math`",
                 position: Position {
                     column: 4,
-                    line: 2,
+                    line: 3,
                 },
             },
         ),
@@ -84,7 +102,7 @@ Tokens {
                 raw: ";",
                 position: Position {
                     column: 15,
-                    line: 2,
+                    line: 3,
                 },
             },
         ),
@@ -93,7 +111,7 @@ Tokens {
                 raw: "|",
                 position: Position {
                     column: 0,
-                    line: 4,
+                    line: 5,
                 },
             },
         ),
@@ -102,7 +120,7 @@ Tokens {
                 raw: "A",
                 position: Position {
                     column: 4,
-                    line: 4,
+                    line: 5,
                 },
             },
         ),
@@ -111,7 +129,7 @@ Tokens {
                 raw: "(",
                 position: Position {
                     column: 5,
-                    line: 4,
+                    line: 5,
                 },
             },
         ),
@@ -120,7 +138,7 @@ Tokens {
                 raw: "pub",
                 position: Position {
                     column: 8,
-                    line: 5,
+                    line: 6,
                 },
             },
         ),
@@ -129,7 +147,7 @@ Tokens {
                 raw: "test",
                 position: Position {
                     column: 12,
-                    line: 5,
+                    line: 6,
                 },
             },
         ),
@@ -138,7 +156,7 @@ Tokens {
                 raw: "=",
                 position: Position {
                     column: 17,
-                    line: 5,
+                    line: 6,
                 },
             },
         ),
@@ -147,7 +165,7 @@ Tokens {
                 raw: "\"fsldkjf\"",
                 position: Position {
                     column: 19,
-                    line: 5,
+                    line: 6,
                 },
             },
         ),
@@ -156,7 +174,7 @@ Tokens {
                 raw: ";",
                 position: Position {
                     column: 28,
-                    line: 5,
+                    line: 6,
                 },
             },
         ),
@@ -165,7 +183,7 @@ Tokens {
                 raw: ")",
                 position: Position {
                     column: 4,
-                    line: 6,
+                    line: 7,
                 },
             },
         ),
@@ -174,7 +192,7 @@ Tokens {
                 raw: ";",
                 position: Position {
                     column: 5,
-                    line: 6,
+                    line: 7,
                 },
             },
         ),
@@ -183,7 +201,7 @@ Tokens {
                 raw: "|",
                 position: Position {
                     column: 0,
-                    line: 8,
+                    line: 9,
                 },
             },
         ),
@@ -192,7 +210,7 @@ Tokens {
                 raw: "B",
                 position: Position {
                     column: 4,
-                    line: 8,
+                    line: 9,
                 },
             },
         ),
@@ -201,7 +219,7 @@ Tokens {
                 raw: "(",
                 position: Position {
                     column: 5,
-                    line: 8,
+                    line: 9,
                 },
             },
         ),
@@ -210,7 +228,7 @@ Tokens {
                 raw: "val",
                 position: Position {
                     column: 8,
-                    line: 9,
+                    line: 10,
                 },
             },
         ),
@@ -219,7 +237,7 @@ Tokens {
                 raw: "=",
                 position: Position {
                     column: 12,
-                    line: 9,
+                    line: 10,
                 },
             },
         ),
@@ -228,7 +246,7 @@ Tokens {
                 raw: "false",
                 position: Position {
                     column: 14,
-                    line: 9,
+                    line: 10,
                 },
             },
         ),
@@ -237,7 +255,7 @@ Tokens {
                 raw: ";",
                 position: Position {
                     column: 19,
-                    line: 9,
+                    line: 10,
                 },
             },
         ),
@@ -246,7 +264,7 @@ Tokens {
                 raw: ")",
                 position: Position {
                     column: 4,
-                    line: 10,
+                    line: 11,
                 },
             },
         ),
@@ -255,7 +273,7 @@ Tokens {
                 raw: ";",
                 position: Position {
                     column: 5,
-                    line: 10,
+                    line: 11,
                 },
             },
         ),
@@ -264,7 +282,7 @@ Tokens {
                 raw: "fnForAll",
                 position: Position {
                     column: 0,
-                    line: 13,
+                    line: 14,
                 },
             },
         ),
@@ -273,7 +291,7 @@ Tokens {
                 raw: "(",
                 position: Position {
                     column: 8,
-                    line: 13,
+                    line: 14,
                 },
             },
         ),
@@ -282,7 +300,7 @@ Tokens {
                 raw: "a",
                 position: Position {
                     column: 9,
-                    line: 13,
+                    line: 14,
                 },
             },
         ),
@@ -291,7 +309,7 @@ Tokens {
                 raw: ")",
                 position: Position {
                     column: 10,
-                    line: 13,
+                    line: 14,
                 },
             },
         ),
@@ -300,7 +318,7 @@ Tokens {
                 raw: "=",
                 position: Position {
                     column: 12,
-                    line: 13,
+                    line: 14,
                 },
             },
         ),
@@ -309,7 +327,7 @@ Tokens {
                 raw: "this",
                 position: Position {
                     column: 14,
-                    line: 13,
+                    line: 14,
                 },
             },
         ),
@@ -318,7 +336,7 @@ Tokens {
                 raw: "+",
                 position: Position {
                     column: 19,
-                    line: 13,
+                    line: 14,
                 },
             },
         ),
@@ -327,7 +345,7 @@ Tokens {
                 raw: "a",
                 position: Position {
                     column: 21,
-                    line: 13,
+                    line: 14,
                 },
             },
         ),
@@ -336,7 +354,7 @@ Tokens {
                 raw: ";",
                 position: Position {
                     column: 22,
-                    line: 13,
+                    line: 14,
                 },
             },
         ),

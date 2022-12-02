@@ -37,5 +37,6 @@ tests!(
     enums: "./examples/m1n/Enum.m1n",
     class: "./examples/m1n/Class.m1n",
     file: "./examples/m1n/file.m1n",
-    math: "./examples/m1n/std/math.m1n"
+    math: "./examples/m1n/std/math.m1n",
+    matcher: "./examples/m1n/match.m1n"
 );

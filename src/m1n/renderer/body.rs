@@ -1,5 +1,3 @@
-
-
 use super::{substring::Substring, Context};
 use crate::{
     m1n::grammar::{body, calls, expressions, operator, path, value},
@@ -24,40 +22,11 @@ impl Render<Context> for calls {
 impl Render<Context> for operator {
     fn render(&self, context: &mut RenderContext<Context>) {
         match self {
+            operator::equals(_) => context.str("=="),
             operator::PLUS(_) => context.str("math['+']"),
             operator::MINUS(_) => context.str("math['-']"),
             operator::DIVISION(_) => context.str("math['/']"),
             operator::IDENT(v) => context.render_raw(v),
-        };
-    }
-}
-
-impl Render<Context> for value {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        match self {
-            value::function_call(v) => {
-                context
-                    .join(&v.path, "")
-                    .render_raw(&v.name)
-                    .str("(")
-                    .join(&v.arguments, ", ")
-                    .str(")");
-            }
-            value::float(v) => {
-                context.render_raw(&v.whole).str(".").render_raw(&v.float);
-            }
-            value::NUMBER(v) => {
-                context.render_raw(v);
-            }
-            value::TEXTLITERAL(v) => {
-                context.apply(v, |v| format!("`{}`", v.as_str().substring(1, -1)));
-            }
-            value::IDENT(v) => {
-                context.render_raw(v);
-            }
-            value::TYPESCRIPT(v) => {
-                context.apply(v, |v| format!("({})", v.as_str().substring(1, -1)));
-            }
         };
     }
 }

@@ -20,4 +20,8 @@ export const pipe = <T>(value: T): Pipe<T> => {
   return new Pipe<T>(value);
 };
 
+export const match = <T, R>(value: T, fn: (arg: T) => R): R => {
+  return fn(value);
+};
+
 export default { pipe };

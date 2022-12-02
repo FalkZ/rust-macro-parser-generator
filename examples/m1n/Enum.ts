@@ -1,8 +1,8 @@
-import util, { pipe } from "@std/util";
+import util, { pipe, match } from "@std/util";
 import math from "@std/math";
 
 export abstract class Enum {
-  private fnForAll(this: A | B, a) {
+  protected fnForAll(this: A | B, a) {
     return pipe(this).op(math["+"], a).end;
   }
 }

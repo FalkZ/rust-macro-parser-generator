@@ -3,16 +3,19 @@ use crate::{Lexer, Parser};
 Lexer!(
     {
         {'0'..='9' =>} => NUMBER,
+
         {'A'..='Z' | 'a'..='z' =>} => IDENT,
         {'`' => '`'} => RAWIDENT,
         {'"' | '\'' => '"' | '\''} => TEXTLITERAL,
         {'#' => '#'} => TYPESCRIPT,
+        {'_'} => UNDERLINE,
         {';'} => SEMI,
         {':'} => COL,
         {'.'} => DOT,
         {'+'} => PLUS,
         {'-'} => MINUS,
         {'='} => EQUAL,
+        {'>'} => MORETHAN,
         {','} => COMMA,
         {'/'} => DIVISION,
         {'|'} => PIPE,
@@ -37,13 +40,21 @@ Lexer!(
 );
 
 Parser!(
-    operator = (PLUS | MINUS | DIVISION | IDENT ),
+
+    equals = {EQUAL, EQUAL},
+    operator = (#equals | PLUS | MINUS | DIVISION | IDENT  ),
 
     modifier = ( MUT | PUB | CR ),
     modifiers = [#modifier => modifier, *],
 
+    arrow = {EQUAL, MORETHAN},
+
+    match_arm = [ #operator => operator, #primitive_value => value, #arrow, #body => body, (COMMA)*],
+    match_statement = {BRACKETOPEN, *match_arm => statements, BRACKETCLOSE},
+
     float = {NUMBER => whole, DOT, NUMBER => float},
-    value = ( #function_call | #float | NUMBER | TEXTLITERAL | IDENT | TYPESCRIPT ),
+    primitive_value = ( #float | NUMBER | TEXTLITERAL | IDENT | TYPESCRIPT ),
+    value = ( #match_statement | #function_call  | UNDERLINE | #primitive_value ),
 
     path = [ IDENT => path, DOT, * ],
     function_call = { *path => path, IDENT => name, BRACKETOPEN, *calls => arguments, BRACKETCLOSE },
