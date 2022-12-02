@@ -4,7 +4,7 @@ expression: "&r.tokens"
 ---
 Tokens {
     index: RefCell {
-        value: 51,
+        value: 49,
     },
     tokens: [
         IMPORT(
@@ -52,29 +52,11 @@ Tokens {
                 },
             },
         ),
-        COMMA(
-            Token {
-                raw: ",",
-                position: Position {
-                    column: 21,
-                    line: 2,
-                },
-            },
-        ),
-        IDENT(
-            Token {
-                raw: "match",
-                position: Position {
-                    column: 23,
-                    line: 2,
-                },
-            },
-        ),
         CBRACKETCLOSE(
             Token {
                 raw: "}",
                 position: Position {
-                    column: 29,
+                    column: 22,
                     line: 2,
                 },
             },
@@ -83,7 +65,7 @@ Tokens {
             Token {
                 raw: ",",
                 position: Position {
-                    column: 30,
+                    column: 23,
                     line: 2,
                 },
             },

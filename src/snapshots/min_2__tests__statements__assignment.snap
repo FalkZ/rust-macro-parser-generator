@@ -1,0 +1,229 @@
+---
+source: src/tests.rs
+expression: "&r.statements"
+---
+[
+    statements {
+        position: Position {
+            column: 0,
+            line: 1,
+        },
+        statement: imports(
+            imports {
+                position: Position {
+                    column: 0,
+                    line: 1,
+                },
+                imports: [
+                    import {
+                        position: Position {
+                            column: 4,
+                            line: 2,
+                        },
+                        path: RAWIDENT(
+                            Token {
+                                raw: "`@std/util`",
+                                position: Position {
+                                    column: 4,
+                                    line: 2,
+                                },
+                            },
+                        ),
+                        import_items: Some(
+                            import_items {
+                                position: Position {
+                                    column: 15,
+                                    line: 2,
+                                },
+                                items: [
+                                    import_item {
+                                        position: Position {
+                                            column: 17,
+                                            line: 2,
+                                        },
+                                        item: IDENT(
+                                            Token {
+                                                raw: "pipe",
+                                                position: Position {
+                                                    column: 17,
+                                                    line: 2,
+                                                },
+                                            },
+                                        ),
+                                    },
+                                ],
+                            },
+                        ),
+                    },
+                    import {
+                        position: Position {
+                            column: 4,
+                            line: 3,
+                        },
+                        path: RAWIDENT(
+                            Token {
+                                raw: "`@std/math`",
+                                position: Position {
+                                    column: 4,
+                                    line: 3,
+                                },
+                            },
+                        ),
+                        import_items: None,
+                    },
+                ],
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 7,
+        },
+        statement: variable(
+            variable {
+                position: Position {
+                    column: 0,
+                    line: 7,
+                },
+                modifiers: [
+                    modifiers {
+                        position: Position {
+                            column: 0,
+                            line: 7,
+                        },
+                        modifier: MUT(
+                            Token {
+                                raw: "mut",
+                                position: Position {
+                                    column: 0,
+                                    line: 7,
+                                },
+                            },
+                        ),
+                    },
+                ],
+                name: IDENT(
+                    Token {
+                        raw: "val",
+                        position: Position {
+                            column: 4,
+                            line: 7,
+                        },
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 10,
+                        line: 7,
+                    },
+                    value: primitive_value(
+                        number(
+                            number {
+                                position: Position {
+                                    column: 10,
+                                    line: 7,
+                                },
+                                negative: None,
+                                whole: NUMBER(
+                                    Token {
+                                        raw: "0",
+                                        position: Position {
+                                            column: 10,
+                                            line: 7,
+                                        },
+                                    },
+                                ),
+                            },
+                        ),
+                    ),
+                    expressions: [],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 0,
+            line: 9,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 0,
+                    line: 9,
+                },
+                modifiers: [],
+                name: IDENT(
+                    Token {
+                        raw: "setVal",
+                        position: Position {
+                            column: 0,
+                            line: 9,
+                        },
+                    },
+                ),
+                arguments: Some(
+                    arguments {
+                        position: Position {
+                            column: 7,
+                            line: 9,
+                        },
+                        arguments: [],
+                        last: IDENT(
+                            Token {
+                                raw: "v",
+                                position: Position {
+                                    column: 7,
+                                    line: 9,
+                                },
+                            },
+                        ),
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 4,
+                        line: 10,
+                    },
+                    value: primitive_value(
+                        IDENT(
+                            Token {
+                                raw: "v",
+                                position: Position {
+                                    column: 4,
+                                    line: 10,
+                                },
+                            },
+                        ),
+                    ),
+                    expressions: [
+                        expressions {
+                            position: Position {
+                                column: 6,
+                                line: 10,
+                            },
+                            expression: assingment_operation(
+                                assingment_operation {
+                                    position: Position {
+                                        column: 6,
+                                        line: 10,
+                                    },
+                                    identifier: IDENT(
+                                        Token {
+                                            raw: "val",
+                                            position: Position {
+                                                column: 9,
+                                                line: 10,
+                                            },
+                                        },
+                                    ),
+                                },
+                            ),
+                        },
+                    ],
+                },
+            },
+        ),
+    },
+]

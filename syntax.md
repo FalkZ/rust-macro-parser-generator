@@ -62,10 +62,11 @@ dfsakfalf
 
 matchExample(v) =
     v match (
-        > 1 => _ + 1,
-        == "a string" => 0,
-        == -2 => 2
-    );
+        == 1 -> 1,
+        == "a string" -> _,
+        == -2 -> 2
+    )
+    + 2;
 
 ```
 

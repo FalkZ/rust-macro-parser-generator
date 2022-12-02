@@ -1,0 +1,16 @@
+
+
+operatorExample(a, b) = 
+    !a 
+    && b
+    || a
+    && b;
+
+operatorExampleBrackets(a, b) = 
+    (((!a ) && b ) || a) && b;
+
+
+operatorExampleMixed(a, b) = 
+    (!a) && b
+    || a 
+    && b;

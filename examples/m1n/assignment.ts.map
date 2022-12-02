@@ -1,0 +1,1 @@
+{"version":3,"sources":["assignment.m1n"],"sourcesContent":["\nimport: \n    `@std/util`{ pipe },\n    `@std/math`;\n\n\n\nmut val = 0;\n\nsetVal(v) =\n    v => val;"],"names":[],"mappings":"AACA,AACI,OAAA,IAAW,IAAE,YAAb;OACA,UAAA;;AAIJ,IAAI,MAAM;;;;;;;AAEV,SAAA,MAAO,CAAA,YACH,KAAA,EAAE,IAAA,yBAAG"}

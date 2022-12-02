@@ -4,7 +4,7 @@ expression: "&r.tokens"
 ---
 Tokens {
     index: RefCell {
-        value: 37,
+        value: 24,
     },
     tokens: [
         IMPORT(
@@ -88,120 +88,12 @@ Tokens {
                 },
             },
         ),
-        PIPE(
+        MUT(
             Token {
-                raw: "|",
+                raw: "mut",
                 position: Position {
                     column: 0,
-                    line: 5,
-                },
-            },
-        ),
-        IDENT(
-            Token {
-                raw: "A",
-                position: Position {
-                    column: 4,
-                    line: 5,
-                },
-            },
-        ),
-        BRACKETOPEN(
-            Token {
-                raw: "(",
-                position: Position {
-                    column: 5,
-                    line: 5,
-                },
-            },
-        ),
-        PUB(
-            Token {
-                raw: "pub",
-                position: Position {
-                    column: 8,
-                    line: 6,
-                },
-            },
-        ),
-        IDENT(
-            Token {
-                raw: "test",
-                position: Position {
-                    column: 12,
-                    line: 6,
-                },
-            },
-        ),
-        EQUAL(
-            Token {
-                raw: "=",
-                position: Position {
-                    column: 17,
-                    line: 6,
-                },
-            },
-        ),
-        TEXTLITERAL(
-            Token {
-                raw: "\"fsldkjf\"",
-                position: Position {
-                    column: 19,
-                    line: 6,
-                },
-            },
-        ),
-        SEMI(
-            Token {
-                raw: ";",
-                position: Position {
-                    column: 28,
-                    line: 6,
-                },
-            },
-        ),
-        BRACKETCLOSE(
-            Token {
-                raw: ")",
-                position: Position {
-                    column: 4,
                     line: 7,
-                },
-            },
-        ),
-        SEMI(
-            Token {
-                raw: ";",
-                position: Position {
-                    column: 5,
-                    line: 7,
-                },
-            },
-        ),
-        PIPE(
-            Token {
-                raw: "|",
-                position: Position {
-                    column: 0,
-                    line: 9,
-                },
-            },
-        ),
-        IDENT(
-            Token {
-                raw: "B",
-                position: Position {
-                    column: 4,
-                    line: 9,
-                },
-            },
-        ),
-        BRACKETOPEN(
-            Token {
-                raw: "(",
-                position: Position {
-                    column: 5,
-                    line: 9,
                 },
             },
         ),
@@ -209,8 +101,8 @@ Tokens {
             Token {
                 raw: "val",
                 position: Position {
-                    column: 8,
-                    line: 10,
+                    column: 4,
+                    line: 7,
                 },
             },
         ),
@@ -218,17 +110,17 @@ Tokens {
             Token {
                 raw: "=",
                 position: Position {
-                    column: 12,
-                    line: 10,
+                    column: 8,
+                    line: 7,
                 },
             },
         ),
-        IDENT(
+        NUMBER(
             Token {
-                raw: "false",
+                raw: "0",
                 position: Position {
-                    column: 14,
-                    line: 10,
+                    column: 10,
+                    line: 7,
                 },
             },
         ),
@@ -236,35 +128,17 @@ Tokens {
             Token {
                 raw: ";",
                 position: Position {
-                    column: 19,
-                    line: 10,
-                },
-            },
-        ),
-        BRACKETCLOSE(
-            Token {
-                raw: ")",
-                position: Position {
-                    column: 4,
-                    line: 11,
-                },
-            },
-        ),
-        SEMI(
-            Token {
-                raw: ";",
-                position: Position {
-                    column: 5,
-                    line: 11,
+                    column: 11,
+                    line: 7,
                 },
             },
         ),
         IDENT(
             Token {
-                raw: "fnForAll",
+                raw: "setVal",
                 position: Position {
                     column: 0,
-                    line: 14,
+                    line: 9,
                 },
             },
         ),
@@ -272,17 +146,17 @@ Tokens {
             Token {
                 raw: "(",
                 position: Position {
-                    column: 8,
-                    line: 14,
+                    column: 6,
+                    line: 9,
                 },
             },
         ),
         IDENT(
             Token {
-                raw: "a",
+                raw: "v",
                 position: Position {
-                    column: 9,
-                    line: 14,
+                    column: 7,
+                    line: 9,
                 },
             },
         ),
@@ -290,8 +164,8 @@ Tokens {
             Token {
                 raw: ")",
                 position: Position {
-                    column: 10,
-                    line: 14,
+                    column: 8,
+                    line: 9,
                 },
             },
         ),
@@ -299,35 +173,44 @@ Tokens {
             Token {
                 raw: "=",
                 position: Position {
-                    column: 12,
-                    line: 14,
+                    column: 10,
+                    line: 9,
                 },
             },
         ),
         IDENT(
             Token {
-                raw: "this",
+                raw: "v",
                 position: Position {
-                    column: 14,
-                    line: 14,
+                    column: 4,
+                    line: 10,
                 },
             },
         ),
-        PLUS(
+        EQUAL(
             Token {
-                raw: "+",
+                raw: "=",
                 position: Position {
-                    column: 19,
-                    line: 14,
+                    column: 6,
+                    line: 10,
+                },
+            },
+        ),
+        MORETHAN(
+            Token {
+                raw: ">",
+                position: Position {
+                    column: 7,
+                    line: 10,
                 },
             },
         ),
         IDENT(
             Token {
-                raw: "a",
+                raw: "val",
                 position: Position {
-                    column: 21,
-                    line: 14,
+                    column: 9,
+                    line: 10,
                 },
             },
         ),
@@ -335,8 +218,8 @@ Tokens {
             Token {
                 raw: ";",
                 position: Position {
-                    column: 22,
-                    line: 14,
+                    column: 12,
+                    line: 10,
                 },
             },
         ),

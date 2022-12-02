@@ -1,16 +1,16 @@
-import util, { pipe, match } from "@std/util";
+import util, { pipe } from "@std/util";
 import math from "@std/math";
 
 const self = {};
 
 function matchExample(v) {
   return pipe(v)
-    .op(match, (_) => {
+    .op(util["match"], (_) => {
       if (_ == 1) {
         return 1;
       } else if (_ == `a string`) {
-        return 0;
-      } else if (_ == 2) {
+        return _;
+      } else if (_ == -2) {
         return 2;
       }
     })

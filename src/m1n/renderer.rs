@@ -1,3 +1,4 @@
+mod assignment;
 mod body;
 mod definitions;
 mod enums;
@@ -57,7 +58,7 @@ pub fn render(source_path: &str) -> ParserResult<Return> {
     let source_content = format!(
         "
 import: 
-    `@std/util`{{ pipe, match }},
+    `@std/util`{{ pipe }},
     `@std/math`;
 {}",
         source_content

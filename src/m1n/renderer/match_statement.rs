@@ -1,6 +1,9 @@
 use super::{substring::Substring, Context};
 use crate::{
-    m1n::grammar::{body, calls, expressions, match_arm, match_statement, operator, path, value},
+    m1n::grammar::{
+        body, calls, expressions, match_arm, match_operation, match_statement, operator, path,
+        value,
+    },
     parser_generator::{
         render::{Render, RenderContext},
         tokens::RawToken,
@@ -25,5 +28,11 @@ impl Render<Context> for match_statement {
             .str("(_) => { if ")
             .join(&self.statements, " else if ")
             .str("}");
+    }
+}
+
+impl Render<Context> for match_operation {
+    fn render(&self, context: &mut RenderContext<Context>) {
+        context.str("util['match'], ").render_boxed(&self.body);
     }
 }

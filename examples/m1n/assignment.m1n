@@ -1,0 +1,7 @@
+
+
+
+mut val = 0;
+
+setVal(v) =
+    v => val;

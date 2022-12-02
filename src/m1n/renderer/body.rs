@@ -1,6 +1,6 @@
 use super::{substring::Substring, Context};
 use crate::{
-    m1n::grammar::{body, calls, expressions, operator, path, value},
+    m1n::grammar::{binary_operation, body, calls, expression, expressions, operator, path, value},
     parser_generator::{
         render::{Render, RenderContext},
         tokens::RawToken,
@@ -27,18 +27,33 @@ impl Render<Context> for operator {
             operator::MINUS(_) => context.str("math['-']"),
             operator::DIVISION(_) => context.str("math['/']"),
             operator::IDENT(v) => context.render_raw(v),
+            operator::assignment(_) => todo!(),
+        };
+    }
+}
+
+impl Render<Context> for binary_operation {
+    fn render(&self, context: &mut RenderContext<Context>) {
+        context
+            .render_boxed(&self.operator)
+            .str(", ")
+            .render_boxed(&self.value);
+    }
+}
+
+impl Render<Context> for expression {
+    fn render(&self, context: &mut RenderContext<Context>) {
+        match self {
+            expression::assingment_operation(v) => context.render_boxed(&v),
+            expression::match_operation(v) => context.render_boxed(&v),
+            expression::binary_operation(v) => context.render_boxed(&v),
         };
     }
 }
 
 impl Render<Context> for expressions {
     fn render(&self, context: &mut RenderContext<Context>) {
-        context
-            .str(".op(")
-            .render_boxed(&self.operator)
-            .str(", ")
-            .render_boxed(&self.value)
-            .str(")");
+        context.str(".op(").render_boxed(&self.expression).str(")");
     }
 }
 

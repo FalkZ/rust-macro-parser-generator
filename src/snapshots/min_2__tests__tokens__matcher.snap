@@ -4,7 +4,7 @@ expression: "&r.tokens"
 ---
 Tokens {
     index: RefCell {
-        value: 43,
+        value: 42,
     },
     tokens: [
         IMPORT(
@@ -52,29 +52,11 @@ Tokens {
                 },
             },
         ),
-        COMMA(
-            Token {
-                raw: ",",
-                position: Position {
-                    column: 21,
-                    line: 2,
-                },
-            },
-        ),
-        IDENT(
-            Token {
-                raw: "match",
-                position: Position {
-                    column: 23,
-                    line: 2,
-                },
-            },
-        ),
         CBRACKETCLOSE(
             Token {
                 raw: "}",
                 position: Position {
-                    column: 29,
+                    column: 22,
                     line: 2,
                 },
             },
@@ -83,7 +65,7 @@ Tokens {
             Token {
                 raw: ",",
                 position: Position {
-                    column: 30,
+                    column: 23,
                     line: 2,
                 },
             },
@@ -160,7 +142,7 @@ Tokens {
                 },
             },
         ),
-        IDENT(
+        MATCH(
             Token {
                 raw: "match",
                 position: Position {
@@ -205,9 +187,9 @@ Tokens {
                 },
             },
         ),
-        EQUAL(
+        MINUS(
             Token {
-                raw: "=",
+                raw: "-",
                 position: Position {
                     column: 13,
                     line: 8,
@@ -268,9 +250,9 @@ Tokens {
                 },
             },
         ),
-        EQUAL(
+        MINUS(
             Token {
-                raw: "=",
+                raw: "-",
                 position: Position {
                     column: 22,
                     line: 9,
@@ -286,9 +268,9 @@ Tokens {
                 },
             },
         ),
-        NUMBER(
+        UNDERLINE(
             Token {
-                raw: "0",
+                raw: "_",
                 position: Position {
                     column: 25,
                     line: 9,
@@ -322,20 +304,29 @@ Tokens {
                 },
             },
         ),
-        NUMBER(
+        MINUS(
             Token {
-                raw: "2",
+                raw: "-",
                 position: Position {
                     column: 11,
                     line: 10,
                 },
             },
         ),
-        EQUAL(
+        NUMBER(
             Token {
-                raw: "=",
+                raw: "2",
                 position: Position {
-                    column: 13,
+                    column: 12,
+                    line: 10,
+                },
+            },
+        ),
+        MINUS(
+            Token {
+                raw: "-",
+                position: Position {
+                    column: 14,
                     line: 10,
                 },
             },
@@ -344,7 +335,7 @@ Tokens {
             Token {
                 raw: ">",
                 position: Position {
-                    column: 14,
+                    column: 15,
                     line: 10,
                 },
             },
@@ -353,7 +344,7 @@ Tokens {
             Token {
                 raw: "2",
                 position: Position {
-                    column: 16,
+                    column: 17,
                     line: 10,
                 },
             },

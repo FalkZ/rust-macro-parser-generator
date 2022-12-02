@@ -31,6 +31,7 @@ Lexer!(
     {
         IDENT => {
             {"if"} => IF,
+            {"match"} => MATCH,
             {"import"} => IMPORT,
             {"mut"} => MUT,
             {"pub"} => PUB,
@@ -42,26 +43,34 @@ Lexer!(
 Parser!(
 
     equals = {EQUAL, EQUAL},
-    operator = (#equals | PLUS | MINUS | DIVISION | IDENT  ),
+    operator = (#assignment | #equals | PLUS | MINUS | DIVISION | IDENT  ),
 
     modifier = ( MUT | PUB | CR ),
     modifiers = [#modifier => modifier, *],
 
-    arrow = {EQUAL, MORETHAN},
+    arrow = {MINUS, MORETHAN},
+    assignment = {EQUAL, MORETHAN},
 
     match_arm = [ #operator => operator, #primitive_value => value, #arrow, #body => body, (COMMA)*],
     match_statement = {BRACKETOPEN, *match_arm => statements, BRACKETCLOSE},
 
-    float = {NUMBER => whole, DOT, NUMBER => float},
-    primitive_value = ( #float | NUMBER | TEXTLITERAL | IDENT | TYPESCRIPT ),
-    value = ( #match_statement | #function_call  | UNDERLINE | #primitive_value ),
+    negative = { MINUS },
+    number = { ?negative => negative, NUMBER => whole},
+    float = {#number => whole, DOT, NUMBER => float},
+    primitive_value = ( #float | #number | TEXTLITERAL | IDENT | TYPESCRIPT ),
+    value = ( #function_call  | UNDERLINE | #primitive_value ),
 
     path = [ IDENT => path, DOT, * ],
     function_call = { *path => path, IDENT => name, BRACKETOPEN, *calls => arguments, BRACKETCLOSE },
 
     calls =  [#body => argument, (COMMA) *],
 
-    expressions = [ #operator => operator, #value => value, * ],
+    binary_operation = { #operator => operator, #value => value },
+    match_operation = { MATCH, #match_statement => body },
+    assingment_operation = { #assignment, IDENT => identifier },
+
+    expression = ( #match_operation | #assingment_operation | #binary_operation ),
+    expressions = [ #expression => expression, * ],
     body = {#value => value, *expressions => expressions},
 
     argument =  [IDENT => arg, COMMA, *],

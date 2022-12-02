@@ -24,4 +24,9 @@ export const match = <T, R>(value: T, fn: (arg: T) => R): R => {
   return fn(value);
 };
 
+export const assign = <T>(value: T, fn: (arg: T) => void): T => {
+  fn(value);
+  return value;
+};
+
 export default { pipe };

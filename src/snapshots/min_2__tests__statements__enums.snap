@@ -51,21 +51,6 @@ expression: "&r.statements"
                                             },
                                         ),
                                     },
-                                    import_item {
-                                        position: Position {
-                                            column: 23,
-                                            line: 2,
-                                        },
-                                        item: IDENT(
-                                            Token {
-                                                raw: "match",
-                                                position: Position {
-                                                    column: 23,
-                                                    line: 2,
-                                                },
-                                            },
-                                        ),
-                                    },
                                 ],
                             },
                         ),
@@ -301,25 +286,33 @@ expression: "&r.statements"
                                 column: 19,
                                 line: 14,
                             },
-                            operator: PLUS(
-                                Token {
-                                    raw: "+",
+                            expression: binary_operation(
+                                binary_operation {
                                     position: Position {
                                         column: 19,
                                         line: 14,
                                     },
-                                },
-                            ),
-                            value: primitive_value(
-                                IDENT(
-                                    Token {
-                                        raw: "a",
-                                        position: Position {
-                                            column: 21,
-                                            line: 14,
+                                    operator: PLUS(
+                                        Token {
+                                            raw: "+",
+                                            position: Position {
+                                                column: 19,
+                                                line: 14,
+                                            },
                                         },
-                                    },
-                                ),
+                                    ),
+                                    value: primitive_value(
+                                        IDENT(
+                                            Token {
+                                                raw: "a",
+                                                position: Position {
+                                                    column: 21,
+                                                    line: 14,
+                                                },
+                                            },
+                                        ),
+                                    ),
+                                },
                             ),
                         },
                     ],
