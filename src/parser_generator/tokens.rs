@@ -73,15 +73,33 @@ impl<T: GetPosition + Lexer> Tokens<T> {
         *reference
     }
 
-    pub fn next_skipable(&self) -> Option<&T> {
-        let next = self.tokens.get(self.index()).clone();
+    fn increment(&self) {
+        let mut reference = self.index.borrow_mut();
+        *reference += 1;
+    }
 
-        {
-            let mut reference = self.index.borrow_mut();
-            *reference += 1;
+    pub fn next_skipable<F: Fn(&T) -> bool>(&self, matcher: F) -> bool {
+        let mut i = self.index();
+        loop {
+            let next = self.tokens.get(i).clone();
+
+            match next {
+                Some(v) => {
+                    if v.is_skipable() {
+                        if matcher(v) {
+                            return true;
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+                None => {
+                    return false;
+                }
+            }
+
+            i += 1;
         }
-
-        next
     }
 
     pub fn next(&self) -> Option<&T> {

@@ -1,0 +1,382 @@
+---
+source: src/tests.rs
+assertion_line: 36
+expression: "&r.statements"
+---
+[
+    statements {
+        position: Position {
+            column: 0,
+            line: 0,
+        },
+        statement: imports(
+            imports {
+                position: Position {
+                    column: 0,
+                    line: 0,
+                },
+                imports: [
+                    import {
+                        position: Position {
+                            column: 7,
+                            line: 1,
+                        },
+                        path: RAWIDENT(
+                            Token {
+                                raw: "`@std/util`",
+                                position: Position {
+                                    column: 4,
+                                    line: 2,
+                                },
+                            },
+                        ),
+                        import_items: Some(
+                            import_items {
+                                position: Position {
+                                    column: 15,
+                                    line: 2,
+                                },
+                                items: [
+                                    import_item {
+                                        position: Position {
+                                            column: 16,
+                                            line: 2,
+                                        },
+                                        item: IDENT(
+                                            Token {
+                                                raw: "pipe",
+                                                position: Position {
+                                                    column: 17,
+                                                    line: 2,
+                                                },
+                                            },
+                                        ),
+                                    },
+                                ],
+                            },
+                        ),
+                    },
+                    import {
+                        position: Position {
+                            column: 24,
+                            line: 2,
+                        },
+                        path: RAWIDENT(
+                            Token {
+                                raw: "`@std/math`",
+                                position: Position {
+                                    column: 4,
+                                    line: 3,
+                                },
+                            },
+                        ),
+                        import_items: None,
+                    },
+                ],
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 16,
+            line: 3,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 16,
+                    line: 3,
+                },
+                modifiers: [],
+                name: IDENT(
+                    Token {
+                        raw: "matchExample",
+                        position: Position {
+                            column: 0,
+                            line: 6,
+                        },
+                    },
+                ),
+                arguments: Some(
+                    arguments {
+                        position: Position {
+                            column: 13,
+                            line: 6,
+                        },
+                        arguments: [],
+                        last: IDENT(
+                            Token {
+                                raw: "v",
+                                position: Position {
+                                    column: 13,
+                                    line: 6,
+                                },
+                            },
+                        ),
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 17,
+                        line: 6,
+                    },
+                    value: primitive_value(
+                        IDENT(
+                            Token {
+                                raw: "v",
+                                position: Position {
+                                    column: 4,
+                                    line: 7,
+                                },
+                            },
+                        ),
+                    ),
+                    first: Some(
+                        match_operation(
+                            match_operation {
+                                position: Position {
+                                    column: 5,
+                                    line: 7,
+                                },
+                                body: match_statement {
+                                    position: Position {
+                                        column: 11,
+                                        line: 7,
+                                    },
+                                    statements: [
+                                        match_arm {
+                                            position: Position {
+                                                column: 13,
+                                                line: 7,
+                                            },
+                                            operator: equals(
+                                                equals {
+                                                    position: Position {
+                                                        column: 13,
+                                                        line: 7,
+                                                    },
+                                                },
+                                            ),
+                                            value: number(
+                                                number {
+                                                    position: Position {
+                                                        column: 10,
+                                                        line: 8,
+                                                    },
+                                                    negative: None,
+                                                    whole: NUMBER(
+                                                        Token {
+                                                            raw: "1",
+                                                            position: Position {
+                                                                column: 11,
+                                                                line: 8,
+                                                            },
+                                                        },
+                                                    ),
+                                                },
+                                            ),
+                                            body: body {
+                                                position: Position {
+                                                    column: 15,
+                                                    line: 8,
+                                                },
+                                                value: primitive_value(
+                                                    number(
+                                                        number {
+                                                            position: Position {
+                                                                column: 15,
+                                                                line: 8,
+                                                            },
+                                                            negative: None,
+                                                            whole: NUMBER(
+                                                                Token {
+                                                                    raw: "1",
+                                                                    position: Position {
+                                                                        column: 16,
+                                                                        line: 8,
+                                                                    },
+                                                                },
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                                first: None,
+                                                expressions: [],
+                                            },
+                                        },
+                                        match_arm {
+                                            position: Position {
+                                                column: 18,
+                                                line: 8,
+                                            },
+                                            operator: equals(
+                                                equals {
+                                                    position: Position {
+                                                        column: 18,
+                                                        line: 8,
+                                                    },
+                                                },
+                                            ),
+                                            value: TEXTLITERAL(
+                                                Token {
+                                                    raw: "\"a string\"",
+                                                    position: Position {
+                                                        column: 11,
+                                                        line: 9,
+                                                    },
+                                                },
+                                            ),
+                                            body: body {
+                                                position: Position {
+                                                    column: 24,
+                                                    line: 9,
+                                                },
+                                                value: UNDERLINE(
+                                                    Token {
+                                                        raw: "_",
+                                                        position: Position {
+                                                            column: 25,
+                                                            line: 9,
+                                                        },
+                                                    },
+                                                ),
+                                                first: None,
+                                                expressions: [],
+                                            },
+                                        },
+                                        match_arm {
+                                            position: Position {
+                                                column: 27,
+                                                line: 9,
+                                            },
+                                            operator: equals(
+                                                equals {
+                                                    position: Position {
+                                                        column: 27,
+                                                        line: 9,
+                                                    },
+                                                },
+                                            ),
+                                            value: number(
+                                                number {
+                                                    position: Position {
+                                                        column: 10,
+                                                        line: 10,
+                                                    },
+                                                    negative: Some(
+                                                        negative {
+                                                            position: Position {
+                                                                column: 10,
+                                                                line: 10,
+                                                            },
+                                                        },
+                                                    ),
+                                                    whole: NUMBER(
+                                                        Token {
+                                                            raw: "2",
+                                                            position: Position {
+                                                                column: 12,
+                                                                line: 10,
+                                                            },
+                                                        },
+                                                    ),
+                                                },
+                                            ),
+                                            body: body {
+                                                position: Position {
+                                                    column: 16,
+                                                    line: 10,
+                                                },
+                                                value: primitive_value(
+                                                    number(
+                                                        number {
+                                                            position: Position {
+                                                                column: 16,
+                                                                line: 10,
+                                                            },
+                                                            negative: None,
+                                                            whole: NUMBER(
+                                                                Token {
+                                                                    raw: "2",
+                                                                    position: Position {
+                                                                        column: 17,
+                                                                        line: 10,
+                                                                    },
+                                                                },
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                                first: None,
+                                                expressions: [],
+                                            },
+                                        },
+                                    ],
+                                },
+                            },
+                        ),
+                    ),
+                    expressions: [
+                        expressions {
+                            position: Position {
+                                column: 5,
+                                line: 11,
+                            },
+                            expression: expression_variant_wrapper {
+                                position: Position {
+                                    column: 5,
+                                    line: 11,
+                                },
+                                expression: newline_expression(
+                                    newline_expression {
+                                        position: Position {
+                                            column: 5,
+                                            line: 11,
+                                        },
+                                        expressions: binary_operation(
+                                            binary_operation {
+                                                position: Position {
+                                                    column: 5,
+                                                    line: 11,
+                                                },
+                                                operator: PLUS(
+                                                    Token {
+                                                        raw: "+",
+                                                        position: Position {
+                                                            column: 4,
+                                                            line: 12,
+                                                        },
+                                                    },
+                                                ),
+                                                value: primitive_value(
+                                                    number(
+                                                        number {
+                                                            position: Position {
+                                                                column: 5,
+                                                                line: 12,
+                                                            },
+                                                            negative: None,
+                                                            whole: NUMBER(
+                                                                Token {
+                                                                    raw: "2",
+                                                                    position: Position {
+                                                                        column: 6,
+                                                                        line: 12,
+                                                                    },
+                                                                },
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ),
+                            },
+                        },
+                    ],
+                },
+            },
+        ),
+    },
+]

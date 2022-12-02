@@ -59,15 +59,17 @@ impl Render<Context> for expressions {
 
 impl Render<Context> for body {
     fn render(&self, context: &mut RenderContext<Context>) {
-        if self.expressions.len() == 0 {
-            context.render_boxed(&self.value);
-        } else {
+        if let Some(v) = &self.first {
             context
                 .str("pipe(")
                 .render_boxed(&self.value)
+                .str(").op(")
+                .render_boxed(v)
                 .str(")")
                 .join(&self.expressions, "")
                 .str(".end");
+        } else {
+            context.render_boxed(&self.value);
         }
     }
 }

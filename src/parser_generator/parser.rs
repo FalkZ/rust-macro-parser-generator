@@ -3,6 +3,7 @@ macro_rules! Parser {
     (
             $(
                 $rule_name:ident =
+                // ENUM RULE
                 $((
                     $(
                         $($lex_or:ident)?
@@ -10,11 +11,16 @@ macro_rules! Parser {
                         $(*$rule_or_iter:ident)?
                     )|+
                 ))?
+                // STRUCT RULE
                 $({
                     $(
                         $(
                             $lex_and:ident
                             $(=> $enum_key:ident)?
+                        )?
+                        $(
+                            _$skip_and:ident
+                            $(=> $skip_enum_key:ident)?
                         )?
                         $(  #$rule_and:ident
                             $(=> $rule_enum_key:ident)?
@@ -233,6 +239,9 @@ macro_rules! Parser {
                         $(
                             $(
                                 $(let $enum_key =)? match_or_err!(tokens, $lex_and, $lex_and)?
+                            )?
+                            $(
+                                match_or_err!(tokens, _ $skip_and)?
                             )?
                             $(
                                 $(let $rule_enum_key =)? match_or_err!(tokens, #$rule_and)?

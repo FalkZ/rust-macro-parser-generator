@@ -2,6 +2,7 @@ mod assignment;
 mod body;
 mod definitions;
 mod enums;
+mod expressions;
 mod functions;
 mod match_statement;
 mod modifiers;

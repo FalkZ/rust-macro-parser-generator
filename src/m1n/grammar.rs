@@ -63,6 +63,8 @@ Parser!(
     value = ( #function_call  | UNDERLINE | #primitive_value ),
 
 
+
+
     path = [ IDENT => path, DOT, * ],
     function_call = { *path => path, IDENT => name, BRACKETOPEN, *calls => arguments, BRACKETCLOSE },
 
@@ -73,8 +75,14 @@ Parser!(
     assingment_operation = { #assignment, IDENT => identifier },
 
     expression = ( #match_operation | #assingment_operation | #binary_operation ),
-    expressions = [ #expression => expression, * ],
-    body = {#value => value, *expressions => expressions},
+    expressions = [ #expression_variant_wrapper => expression, * ],
+    body = {#value => value, ?expression => first, *expressions => expressions },
+
+    expression_variant_wrapper = { #expression_variant => expression},
+    expression_variant = ( #bracket_expression | #newline_expression ),
+    newline_expression = {_ NEWLINE, #expression => expressions },
+    bracket_expression = { BRACKETOPEN, #expression => expressions,  BRACKETCLOSE },
+
 
     argument =  [IDENT => arg, COMMA, *],
     arguments = {*argument => arguments, IDENT => last},

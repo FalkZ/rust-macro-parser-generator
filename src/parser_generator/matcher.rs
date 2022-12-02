@@ -23,6 +23,21 @@ macro_rules! return_end_if_missmatch {
 
 #[macro_export]
 macro_rules! match_or_err {
+    ($pinned_tokens:expr, _ $name:ident) => {{
+        use $crate::parser_generator::traits::OrMessage;
+
+        let tokens = $pinned_tokens;
+
+        let next = tokens.next_skipable(|t| match t {
+            Lexer::$name(_) => true,
+            _ => false,
+        });
+
+        match next {
+            true => Ok(()),
+            false => Err(ParserError::Mismatch),
+        }
+    }};
     ($pinned_tokens:expr, $name:ident, $name_out:path) => {{
         use $crate::parser_generator::traits::OrMessage;
 

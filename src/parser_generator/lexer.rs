@@ -142,6 +142,13 @@ macro_rules! Lexer {
            $($token_name(TokenContent)),+
        }
 
+       impl PartialEq for Lexer {
+            fn eq(&self, other: &Self) -> bool {
+                use $crate::parser_generator::tokens::RawToken;
+                self.raw_token().raw == other.raw_token().raw
+            }
+       }
+
        type T =  $crate::parser_generator::tokens::Token;
        impl Into<T> for Lexer{
             fn into(self) -> T {
