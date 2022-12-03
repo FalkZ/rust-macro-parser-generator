@@ -27,7 +27,6 @@ impl Render<Context> for operator {
             operator::MINUS(_) => context.str("math['-']"),
             operator::DIVISION(_) => context.str("math['/']"),
             operator::IDENT(v) => context.render_raw(v),
-            operator::assignment(_) => unreachable!(),
         };
     }
 }

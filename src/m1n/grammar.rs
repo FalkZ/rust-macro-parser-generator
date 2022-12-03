@@ -45,7 +45,7 @@ Lexer!(
 Parser!(
 
     equals = {EQUAL, EQUAL},
-    operator = (#assignment | #equals | PLUS | MINUS | DIVISION | IDENT  ),
+    operator = ( #equals | PLUS | MINUS | DIVISION | IDENT  ),
 
     modifier = ( MUT | PUB | CR ),
     modifiers = [#modifier => modifier, *],
