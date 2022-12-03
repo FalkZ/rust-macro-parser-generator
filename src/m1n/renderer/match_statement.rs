@@ -5,14 +5,14 @@ use crate::{
         value,
     },
     parser_generator::{
-        render::{Render, RenderContext},
+        render::{OutputBuilder, Render},
         tokens::RawToken,
     },
 };
 
 impl Render<Context> for match_arm {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        context
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
+        builder
             .str("(_ ")
             .render_boxed(&self.operator)
             .render_boxed(&self.value)
@@ -23,8 +23,8 @@ impl Render<Context> for match_arm {
 }
 
 impl Render<Context> for match_statement {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        context
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
+        builder
             .str("(_) => { if ")
             .join(&self.statements, " else if ")
             .str("}");
@@ -32,16 +32,16 @@ impl Render<Context> for match_statement {
 }
 
 impl Render<Context> for match_operation {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        if let Some(value) = context.get_context().single_expression.clone() {
-            context
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
+        if let Some(value) = builder.get_context().single_expression.clone() {
+            builder
                 .str("util['match'](")
                 .render_boxed(&value)
                 .str(",")
                 .render_boxed(&self.body)
                 .str(")");
         } else {
-            context.str("util['match'], ").render_boxed(&self.body);
+            builder.str("util['match'], ").render_boxed(&self.body);
         }
     }
 }

@@ -84,8 +84,19 @@ matchExample(v) =
 
 ```
 
+# is syntax
+
 is function
 
 is string
 
 is Type
+
+# lambdas
+
+```python
+
+test() =
+    arr map (_[0] + 2)
+
+```

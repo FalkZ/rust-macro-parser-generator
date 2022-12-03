@@ -1,23 +1,16 @@
-use crate::m1n::grammar::{
-    name,
-    statement, statements,
-};
+use crate::m1n::grammar::{name, statement, statements};
 
-use crate::{
-    parser_generator::{
-        render::{Render, RenderContext},
-    },
-};
+use crate::parser_generator::render::{OutputBuilder, Render};
 
 use super::modifiers::Modifiers;
 use super::{Context, FileType};
 
 impl Render<Context> for statements {
-    fn render(&self, _context: &mut RenderContext<Context>) {}
+    fn render(&self, _context: &mut OutputBuilder<Context>) {}
 }
 
 impl Render<Context> for Vec<statements> {
-    fn render(&self, context: &mut RenderContext<Context>) {
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
         let mut imports = vec![];
         let mut variables = vec![];
         let mut functions = vec![];
@@ -46,7 +39,7 @@ impl Render<Context> for Vec<statements> {
         });
 
         if enum_versions.len() > 0 {
-            let c = context.borrow_context();
+            let c = builder.borrow_context();
             if c.file_type != FileType::Class {
                 panic!("file name should be uppercase for enum type: {}", c.name);
             }
@@ -58,13 +51,13 @@ impl Render<Context> for Vec<statements> {
             c.file_type = FileType::Enum(names);
         }
 
-        context.join_boxed(&imports, "\n").str("\n\n");
+        builder.join_boxed(&imports, "\n").str("\n\n");
 
-        let c = context.get_context();
+        let c = builder.get_context();
 
         match c.file_type {
             FileType::Class => {
-                context
+                builder
                     .str(format!("export class {} {{\n", c.name))
                     .join_boxed(&variables, "\n\n")
                     .str("\n\n\n")
@@ -84,7 +77,7 @@ impl Render<Context> for Vec<statements> {
                     .collect::<Vec<&str>>()
                     .join(", ");
 
-                context
+                builder
                     .join_boxed(&variables, "\n\n")
                     .str("\n\n\n")
                     .str("\n const self = {")
@@ -95,7 +88,7 @@ impl Render<Context> for Vec<statements> {
                     .str(format!("export default {{ ...self, {}}}", names));
             }
             FileType::Enum(_) => {
-                context
+                builder
                     .str(format!("export abstract class {} {{\n", c.name))
                     .join_boxed(&variables, "\n\n")
                     .str("\n\n\n")
@@ -105,9 +98,9 @@ impl Render<Context> for Vec<statements> {
                     .str("\n};")
                     .str("\n\n");
 
-                context.borrow_context().file_type = FileType::Class;
+                builder.borrow_context().file_type = FileType::Class;
 
-                context.join_boxed(&enum_versions, "\n\n");
+                builder.join_boxed(&enum_versions, "\n\n");
             }
         };
     }

@@ -19,7 +19,7 @@ use std::{
 use crate::{
     m1n::{command::prettier_format, grammar::Parser},
     parser_generator::{
-        render::{Render, RenderContext},
+        render::{OutputBuilder, Render},
         result::ParserResult,
         tokens::Tokens,
     },
@@ -98,7 +98,7 @@ import:
         single_expression: None,
     };
 
-    let mut src = RenderContext::new(context);
+    let mut src = OutputBuilder::new(context);
 
     statements.render(&mut src);
 

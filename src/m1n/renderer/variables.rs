@@ -1,25 +1,16 @@
+use crate::m1n::grammar::variable;
 
-
-use crate::m1n::grammar::{
-    variable,
-};
-
-use crate::{
-    parser_generator::{
-        render::{Render, RenderContext},
-    },
-};
-
+use crate::parser_generator::render::{OutputBuilder, Render};
 
 use super::{Context, StatementType};
 
 impl Render<Context> for variable {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        context.borrow_context().statement_type = StatementType::Variable;
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
+        builder.borrow_context().statement_type = StatementType::Variable;
 
-        context.render(&self.modifiers);
-        context.render_raw(&self.name);
+        builder.render(&self.modifiers);
+        builder.render_raw(&self.name);
 
-        context.str(" = ").render_boxed(&self.body).str(";");
+        builder.str(" = ").render_boxed(&self.body).str(";");
     }
 }

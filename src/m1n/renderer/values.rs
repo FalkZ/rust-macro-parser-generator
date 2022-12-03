@@ -2,47 +2,47 @@ use super::{substring::Substring, Context};
 use crate::{
     m1n::grammar::{body, calls, expressions, number, operator, path, primitive_value, value},
     parser_generator::{
-        render::{Render, RenderContext},
+        render::{OutputBuilder, Render},
         tokens::RawToken,
     },
 };
 
 impl Render<Context> for number {
-    fn render(&self, context: &mut RenderContext<Context>) {
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
         if let Some(_) = self.negative {
-            context.str("-");
+            builder.str("-");
         }
-        context.render_raw(&self.whole);
+        builder.render_raw(&self.whole);
     }
 }
 
 impl Render<Context> for primitive_value {
-    fn render(&self, context: &mut RenderContext<Context>) {
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
         match self {
             primitive_value::float(v) => {
-                context.render_boxed(&v.whole).str(".").render_raw(&v.float);
+                builder.render_boxed(&v.whole).str(".").render_raw(&v.float);
             }
             primitive_value::number(v) => {
-                context.render_boxed(v);
+                builder.render_boxed(v);
             }
             primitive_value::TEXTLITERAL(v) => {
-                context.apply(v, |v| format!("`{}`", v.as_str().substring(1, -1)));
+                builder.apply(v, |v| format!("`{}`", v.as_str().substring(1, -1)));
             }
             primitive_value::IDENT(v) => {
-                context.render_raw(v);
+                builder.render_raw(v);
             }
             primitive_value::TYPESCRIPT(v) => {
-                context.apply(v, |v| format!("({})", v.as_str().substring(1, -1)));
+                builder.apply(v, |v| format!("({})", v.as_str().substring(1, -1)));
             }
         };
     }
 }
 
 impl Render<Context> for value {
-    fn render(&self, context: &mut RenderContext<Context>) {
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
         match self {
             value::function_call(v) => {
-                context
+                builder
                     .join(&v.path, "")
                     .render_raw(&v.name)
                     .str("(")
@@ -51,13 +51,13 @@ impl Render<Context> for value {
             }
 
             value::primitive_value(v) => {
-                context.render_boxed(v);
+                builder.render_boxed(v);
             }
             value::UNDERLINE(v) => {
-                context.render_raw(v);
+                builder.render_raw(v);
             }
             value::bracket_expression(v) => {
-                context.render_boxed(v);
+                builder.render_boxed(v);
             }
         };
     }

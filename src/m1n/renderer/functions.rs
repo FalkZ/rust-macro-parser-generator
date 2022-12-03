@@ -1,37 +1,27 @@
+use crate::m1n::grammar::{argument, arguments, function, name};
 
-
-
-
-use crate::m1n::grammar::{
-    argument, arguments, function, name,
-};
-
-use crate::{
-    parser_generator::{
-        render::{Render, RenderContext},
-    },
-};
+use crate::parser_generator::render::{OutputBuilder, Render};
 
 use super::substring::Substring;
 use super::{Context, FileType, StatementType};
 
 impl Render<Context> for argument {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        context.render_raw(&self.arg).str(", ");
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
+        builder.render_raw(&self.arg).str(", ");
     }
 }
 
 impl Render<Context> for arguments {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        let c = context.get_context().clone();
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
+        let c = builder.get_context().clone();
 
-        context.str("(");
+        builder.str("(");
 
         if let FileType::Enum(names) = c.file_type {
-            context.str(format!("this: {}, ", names.join(" | ")));
+            builder.str(format!("this: {}, ", names.join(" | ")));
         }
 
-        context
+        builder
             .join(&self.arguments, "")
             .render_raw(&self.last)
             .str(")");
@@ -39,32 +29,32 @@ impl Render<Context> for arguments {
 }
 
 impl Render<Context> for name {
-    fn render(&self, context: &mut RenderContext<Context>) {
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
         match self {
             name::RAWIDENT(v) => {
                 let val: &str = v.as_str();
 
-                context.str(format!("['{}']", &val.substring(1, -1)))
+                builder.str(format!("['{}']", &val.substring(1, -1)))
             }
-            name::IDENT(r) => context.render_raw(r),
+            name::IDENT(r) => builder.render_raw(r),
         };
     }
 }
 
 impl Render<Context> for function {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        context.borrow_context().statement_type = match *self.name {
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
+        builder.borrow_context().statement_type = match *self.name {
             name::RAWIDENT(_) => StatementType::RawFunction,
             name::IDENT(_) => StatementType::Function,
         };
 
-        context.render(&self.modifiers).render_boxed(&self.name);
+        builder.render(&self.modifiers).render_boxed(&self.name);
 
         match &self.arguments {
-            Some(v) => context.render_boxed(v),
-            None => context.str("()"),
+            Some(v) => builder.render_boxed(v),
+            None => builder.str("()"),
         };
 
-        context.str(" { return ").render_boxed(&self.body).str(";}");
+        builder.str(" { return ").render_boxed(&self.body).str(";}");
     }
 }

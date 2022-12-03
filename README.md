@@ -1,31 +1,13 @@
 ![m1n logo](assets/m1n.svg)
 
-
 > A minimalistic programming language & drop in replacement for typescript
-```python
 
-PI = 3.16;
+# Features
 
-add(a: Number, b: Number) =
-    a + b;
-
-
-add1 =
-    PI 
-    add 1 
-    + 2;
-
-add2 =
-    add(1, PI)
-    + 2;
-
-add3 =
-    add 1 
-    (PI + 2);
-
-```
-
-## TODO
-- [ ] Inline Modifier
-- [ ] cr, eq modifier
-- [ ] header with traits?
+- [ ] Lambdas
+- [ ] object / array literals
+- [ ] scope detection
+- [ ] Deconstructing
+- [ ] derives
+- [ ] async / arrays
+- [ ] stores

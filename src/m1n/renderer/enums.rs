@@ -1,23 +1,23 @@
 use crate::{
     m1n::grammar::{enum_statement, enum_statements, enum_version},
-    parser_generator::render::{Render, RenderContext},
+    parser_generator::render::{OutputBuilder, Render},
 };
 
 use super::Context;
 
 impl Render<Context> for enum_statements {
-    fn render(&self, context: &mut RenderContext<Context>) {
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
         match &*self.statement {
-            enum_statement::function(v) => context.render_boxed(&v),
-            enum_statement::variable(v) => context.render_boxed(&v),
+            enum_statement::function(v) => builder.render_boxed(&v),
+            enum_statement::variable(v) => builder.render_boxed(&v),
         };
     }
 }
 impl Render<Context> for enum_version {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        let c = context.get_context().clone();
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
+        let c = builder.get_context().clone();
 
-        context
+        builder
             .str("export class ")
             .render_raw(&self.name)
             .str(format!(" extends {} {{\n", c.name))

@@ -1,6 +1,6 @@
 use crate::m1n::grammar::{modifier, modifiers};
 
-use crate::parser_generator::render::{Render, RenderContext};
+use crate::parser_generator::render::{OutputBuilder, Render};
 
 use super::{Context, FileType, StatementType};
 
@@ -32,32 +32,32 @@ impl Modifiers {
 }
 
 impl Render<Context> for Vec<modifiers> {
-    fn render(&self, context: &mut RenderContext<Context>) {
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
         let m = Modifiers::new(&self);
 
-        let c = context.get_context();
+        let c = builder.get_context();
 
         match c.file_type {
             FileType::Class | FileType::Enum(_) => match c.statement_type {
                 StatementType::Variable => {
                     if m.public {
-                        context.str("public ");
+                        builder.str("public ");
                     } else {
-                        context.str(if c.file_type == FileType::Class {
+                        builder.str(if c.file_type == FileType::Class {
                             "private "
                         } else {
                             "protected "
                         });
                     }
                     if !m.mutable {
-                        context.str("readonly ");
+                        builder.str("readonly ");
                     }
                 }
                 StatementType::RawFunction | StatementType::Function => {
                     if m.public {
-                        context.str("public ");
+                        builder.str("public ");
                     } else {
-                        context.str(if c.file_type == FileType::Class {
+                        builder.str(if c.file_type == FileType::Class {
                             "private "
                         } else {
                             "protected "
@@ -69,20 +69,20 @@ impl Render<Context> for Vec<modifiers> {
             FileType::Singleton => match c.statement_type {
                 StatementType::Variable => {
                     if m.public {
-                        context.str("export ");
+                        builder.str("export ");
                     }
                     if m.mutable {
-                        context.str("let ");
+                        builder.str("let ");
                     } else {
-                        context.str("const ");
+                        builder.str("const ");
                     }
                 }
                 StatementType::Function => {
                     if m.public {
-                        context.str("export ");
+                        builder.str("export ");
                     }
 
-                    context.str("function ");
+                    builder.str("function ");
                 }
 
                 StatementType::RawFunction => {}

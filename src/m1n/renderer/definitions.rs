@@ -2,11 +2,11 @@ use super::substring::Substring;
 use super::Context;
 use crate::{
     m1n::grammar::{import, import_items, imports, IDENT, RAWIDENT},
-    parser_generator::render::{Render, RenderContext},
+    parser_generator::render::{OutputBuilder, Render},
 };
 
 impl Render<Context> for import_items {
-    fn render(&self, context: &mut RenderContext<Context>) {
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
         let mut raw: Vec<RAWIDENT> = vec![];
         let mut norm: Vec<IDENT> = vec![];
 
@@ -16,26 +16,26 @@ impl Render<Context> for import_items {
         });
 
         if norm.len() > 0 {
-            context.str(", { ").join_raw(&norm, ", ").str(" }");
+            builder.str(", { ").join_raw(&norm, ", ").str(" }");
         }
     }
 }
 
 impl Render<Context> for import {
-    fn render(&self, context: &mut RenderContext<Context>) {
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
         let path: String = self.path.0.as_str().substring(1, -1);
 
         let name = path.split("/").last().unwrap();
 
-        context
+        builder
             .str("import ")
             .apply(&self.path, |_v: &RAWIDENT| &name);
 
         if let Some(args) = &self.import_items {
-            context.render_boxed(args);
+            builder.render_boxed(args);
         }
 
-        context
+        builder
             .str(" from ")
             .apply(&self.path, |_v: &RAWIDENT| format!("'{}'", &path))
             .str(";");
@@ -43,7 +43,7 @@ impl Render<Context> for import {
 }
 
 impl Render<Context> for imports {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        context.join(&self.imports, "\n");
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
+        builder.join(&self.imports, "\n");
     }
 }

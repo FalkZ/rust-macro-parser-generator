@@ -1,21 +1,21 @@
 use crate::{
     m1n::grammar::assingment_operation,
-    parser_generator::render::{Render, RenderContext},
+    parser_generator::render::{OutputBuilder, Render},
 };
 
 use super::Context;
 
 impl Render<Context> for assingment_operation {
-    fn render(&self, context: &mut RenderContext<Context>) {
-        if let Some(value) = context.get_context().single_expression.clone() {
-            context
+    fn render(&self, builder: &mut OutputBuilder<Context>) {
+        if let Some(value) = builder.get_context().single_expression.clone() {
+            builder
                 .str("util['assign'](")
                 .render_boxed(&value)
                 .str(", (_) => { ")
                 .render_raw(&self.identifier)
                 .str(" = _; })");
         } else {
-            context
+            builder
                 .str("util['assign'], (_) => { ")
                 .render_raw(&self.identifier)
                 .str(" = _; }");

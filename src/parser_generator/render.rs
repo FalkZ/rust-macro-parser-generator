@@ -14,7 +14,7 @@ use super::{
 };
 
 pub trait Render<Context: Clone>: TryGetPosition {
-    fn render(&self, context: &mut RenderContext<Context>);
+    fn render(&self, context: &mut OutputBuilder<Context>);
 }
 
 struct StaticContext {
@@ -89,12 +89,12 @@ impl StaticContext {
 }
 
 #[derive(Clone)]
-pub struct RenderContext<C: Clone> {
+pub struct OutputBuilder<C: Clone> {
     context: Box<C>,
     static_context: Rc<RefCell<StaticContext>>,
 }
 
-impl<C: Clone> RenderContext<C> {
+impl<C: Clone> OutputBuilder<C> {
     pub fn new(context: C) -> Self {
         Self {
             context: Box::new(context),
@@ -172,8 +172,6 @@ impl<C: Clone> RenderContext<C> {
         content: &Vec<Box<T>>,
         separator: S,
     ) -> &mut Self {
-        
-
         let last = content.len();
         content.iter().enumerate().for_each(|(i, v)| {
             self.render_boxed(&v);
