@@ -1,6 +1,6 @@
 use crate::{
     m1n::grammar::{enum_statement, enum_statements, enum_version},
-    parser_generator::render::{OutputBuilder, Render},
+    parser_generator::render::{OutputBuilder, Render, RenderBoxed},
 };
 
 use super::Context;

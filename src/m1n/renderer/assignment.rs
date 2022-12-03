@@ -1,6 +1,6 @@
 use crate::{
     m1n::grammar::assingment_operation,
-    parser_generator::render::{OutputBuilder, Render},
+    parser_generator::render::{OutputBuilder, Render, RenderBoxed},
 };
 
 use super::Context;

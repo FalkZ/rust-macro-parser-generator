@@ -1,6 +1,6 @@
 use crate::m1n::grammar::variable;
 
-use crate::parser_generator::render::{OutputBuilder, Render};
+use crate::parser_generator::render::{OutputBuilder, Render, RenderBoxed};
 
 use super::{Context, StatementType};
 

@@ -5,7 +5,7 @@ use crate::{
         value,
     },
     parser_generator::{
-        render::{OutputBuilder, Render},
+        render::{OutputBuilder, Render, RenderBoxed},
         tokens::RawToken,
     },
 };

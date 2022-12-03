@@ -2,7 +2,7 @@ use super::{substring::Substring, Context};
 use crate::{
     m1n::grammar::{body, calls, expressions, number, operator, path, primitive_value, value},
     parser_generator::{
-        render::{OutputBuilder, Render},
+        render::{OutputBuilder, Render, RenderBoxed},
         tokens::RawToken,
     },
 };

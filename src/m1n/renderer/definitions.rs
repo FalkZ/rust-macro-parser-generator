@@ -2,7 +2,7 @@ use super::substring::Substring;
 use super::Context;
 use crate::{
     m1n::grammar::{import, import_items, imports, IDENT, RAWIDENT},
-    parser_generator::render::{OutputBuilder, Render},
+    parser_generator::render::{OutputBuilder, Render, RenderBoxed},
 };
 
 impl Render<Context> for import_items {

@@ -2,7 +2,7 @@ use std::fs::ReadDir;
 
 use crate::{
     m1n::grammar::{bracket_expression, expression, newline_expression},
-    parser_generator::render::{OutputBuilder, Render},
+    parser_generator::render::{OutputBuilder, Render, RenderBoxed},
 };
 
 use super::Context;

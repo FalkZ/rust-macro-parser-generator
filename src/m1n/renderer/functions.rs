@@ -1,6 +1,6 @@
 use crate::m1n::grammar::{argument, arguments, function, name};
 
-use crate::parser_generator::render::{OutputBuilder, Render};
+use crate::parser_generator::render::{OutputBuilder, Render, RenderBoxed};
 
 use super::substring::Substring;
 use super::{Context, FileType, StatementType};

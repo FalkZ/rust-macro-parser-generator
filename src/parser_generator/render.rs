@@ -135,7 +135,7 @@ impl<C: Clone> OutputBuilder<C> {
         self
     }
 
-    pub fn render_boxed<T: Render<C> + Clone>(&mut self, content: &Box<T>) -> &mut Self {
+    fn render_boxed<T: Render<C> + Clone>(&mut self, content: &Box<T>) -> &mut Self {
         let c = &(**content);
         self.render(c);
 
@@ -221,5 +221,18 @@ impl<C: Clone> OutputBuilder<C> {
         self.static_context
             .borrow()
             .write_files(src_file_path, source_content);
+    }
+}
+
+pub trait RenderBoxed<C: Clone> {
+    fn render_boxed<T: Render<C> + Clone>(&mut self, content: &Box<T>) -> &mut Self;
+}
+
+impl<C: Clone> RenderBoxed<C> for OutputBuilder<C> {
+    fn render_boxed<T: Render<C> + Clone>(&mut self, content: &Box<T>) -> &mut Self {
+        let c = &(**content);
+        self.render(c);
+
+        self
     }
 }
