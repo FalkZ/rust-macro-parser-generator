@@ -77,8 +77,6 @@ Parser!(
     expressions = [ #newline_expression => expression, * ],
     body = {#value => value, ?expression => first, *expressions => expressions },
 
-    expression_variant_wrapper = { #expression_variant => expression},
-    expression_variant = ( #bracket_expression | #newline_expression ),
     newline_expression = {_ NEWLINE, #expression => expressions },
     bracket_expression = { BRACKETOPEN, #body => expressions,  BRACKETCLOSE },
 

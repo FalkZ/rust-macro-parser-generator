@@ -33,6 +33,15 @@ impl Render<Context> for match_statement {
 
 impl Render<Context> for match_operation {
     fn render(&self, context: &mut RenderContext<Context>) {
-        context.str("util['match'], ").render_boxed(&self.body);
+        if let Some(value) = context.get_context().single_expression.clone() {
+            context
+                .str("util['match'](")
+                .render_boxed(&value)
+                .str(",")
+                .render_boxed(&self.body)
+                .str(")");
+        } else {
+            context.str("util['match'], ").render_boxed(&self.body);
+        }
     }
 }

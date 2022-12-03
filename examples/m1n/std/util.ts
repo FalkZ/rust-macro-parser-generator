@@ -11,7 +11,7 @@ class Pipe<Value1> {
     return new Pipe<Out>(op(this.value, value));
   }
 
-  public get end(): Value1 {
+  public end(): Value1 {
     return this.value;
   }
 }

@@ -83,3 +83,9 @@ matchExample(v) =
     );
 
 ```
+
+is function
+
+is string
+
+is Type

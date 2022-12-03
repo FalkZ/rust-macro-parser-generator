@@ -6,8 +6,17 @@ let val = 0;
 const self = {};
 
 function setVal(v) {
-  return pipe(v).op(util["assign"], (_) => {
+  return util["assign"](v, (_) => {
     val = _;
-  }).end;
+  });
+}
+
+function setValTwo(v) {
+  return pipe(v)
+    .op(math["+"], 2)
+    .op(util["assign"], (_) => {
+      val = _;
+    })
+    .end();
 }
 export default { ...self };

@@ -4,7 +4,7 @@ expression: "&r.tokens"
 ---
 Tokens {
     index: RefCell {
-        value: 55,
+        value: 83,
     },
     tokens: [
         NEWLINE(
@@ -499,6 +499,258 @@ Tokens {
                 position: Position {
                     column: 12,
                     line: 10,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 13,
+                    line: 10,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 11,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "setValTwo",
+                position: Position {
+                    column: 0,
+                    line: 12,
+                },
+            },
+        ),
+        BRACKETOPEN(
+            Token {
+                raw: "(",
+                position: Position {
+                    column: 9,
+                    line: 12,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "v",
+                position: Position {
+                    column: 10,
+                    line: 12,
+                },
+            },
+        ),
+        BRACKETCLOSE(
+            Token {
+                raw: ")",
+                position: Position {
+                    column: 11,
+                    line: 12,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 12,
+                    line: 12,
+                },
+            },
+        ),
+        EQUAL(
+            Token {
+                raw: "=",
+                position: Position {
+                    column: 13,
+                    line: 12,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 14,
+                    line: 12,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 13,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "v",
+                position: Position {
+                    column: 4,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 5,
+                    line: 13,
+                },
+            },
+        ),
+        PLUS(
+            Token {
+                raw: "+",
+                position: Position {
+                    column: 6,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 7,
+                    line: 13,
+                },
+            },
+        ),
+        NUMBER(
+            Token {
+                raw: "2",
+                position: Position {
+                    column: 8,
+                    line: 13,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 9,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 14,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 14,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 14,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 14,
+                },
+            },
+        ),
+        EQUAL(
+            Token {
+                raw: "=",
+                position: Position {
+                    column: 4,
+                    line: 14,
+                },
+            },
+        ),
+        MORETHAN(
+            Token {
+                raw: ">",
+                position: Position {
+                    column: 5,
+                    line: 14,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 6,
+                    line: 14,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "val",
+                position: Position {
+                    column: 7,
+                    line: 14,
+                },
+            },
+        ),
+        SEMI(
+            Token {
+                raw: ";",
+                position: Position {
+                    column: 10,
+                    line: 14,
                 },
             },
         ),

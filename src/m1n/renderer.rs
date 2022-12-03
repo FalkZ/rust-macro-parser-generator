@@ -25,6 +25,8 @@ use crate::{
     },
 };
 
+use super::grammar::value;
+
 #[derive(Clone, PartialEq)]
 enum FileType {
     Class,
@@ -45,6 +47,7 @@ struct Context {
     statement_type: StatementType,
     file_type: FileType,
     name: String,
+    single_expression: Option<Box<value>>,
 }
 
 pub struct Return {
@@ -92,6 +95,7 @@ import:
         file_type,
         name,
         statement_type: StatementType::None,
+        single_expression: None,
     };
 
     let mut src = RenderContext::new(context);

@@ -89,26 +89,26 @@ expression: "&r.statements"
                 modifiers: [],
                 name: IDENT(
                     Token {
-                        raw: "matchExample",
+                        raw: "matchSimple",
                         position: Position {
                             column: 0,
-                            line: 6,
+                            line: 7,
                         },
                     },
                 ),
                 arguments: Some(
                     arguments {
                         position: Position {
-                            column: 13,
-                            line: 6,
+                            column: 12,
+                            line: 7,
                         },
                         arguments: [],
                         last: IDENT(
                             Token {
                                 raw: "v",
                                 position: Position {
-                                    column: 13,
-                                    line: 6,
+                                    column: 12,
+                                    line: 7,
                                 },
                             },
                         ),
@@ -116,8 +116,8 @@ expression: "&r.statements"
                 ),
                 body: body {
                     position: Position {
-                        column: 17,
-                        line: 6,
+                        column: 16,
+                        line: 7,
                     },
                     value: primitive_value(
                         IDENT(
@@ -125,7 +125,7 @@ expression: "&r.statements"
                                 raw: "v",
                                 position: Position {
                                     column: 4,
-                                    line: 7,
+                                    line: 8,
                                 },
                             },
                         ),
@@ -135,24 +135,24 @@ expression: "&r.statements"
                             match_operation {
                                 position: Position {
                                     column: 5,
-                                    line: 7,
+                                    line: 8,
                                 },
                                 body: match_statement {
                                     position: Position {
                                         column: 11,
-                                        line: 7,
+                                        line: 8,
                                     },
                                     statements: [
                                         match_arm {
                                             position: Position {
                                                 column: 13,
-                                                line: 7,
+                                                line: 8,
                                             },
                                             operator: equals(
                                                 equals {
                                                     position: Position {
                                                         column: 13,
-                                                        line: 7,
+                                                        line: 8,
                                                     },
                                                 },
                                             ),
@@ -160,7 +160,7 @@ expression: "&r.statements"
                                                 number {
                                                     position: Position {
                                                         column: 10,
-                                                        line: 8,
+                                                        line: 9,
                                                     },
                                                     negative: None,
                                                     whole: NUMBER(
@@ -168,7 +168,7 @@ expression: "&r.statements"
                                                             raw: "1",
                                                             position: Position {
                                                                 column: 11,
-                                                                line: 8,
+                                                                line: 9,
                                                             },
                                                         },
                                                     ),
@@ -177,14 +177,14 @@ expression: "&r.statements"
                                             body: body {
                                                 position: Position {
                                                     column: 15,
-                                                    line: 8,
+                                                    line: 9,
                                                 },
                                                 value: primitive_value(
                                                     number(
                                                         number {
                                                             position: Position {
                                                                 column: 15,
-                                                                line: 8,
+                                                                line: 9,
                                                             },
                                                             negative: None,
                                                             whole: NUMBER(
@@ -192,7 +192,7 @@ expression: "&r.statements"
                                                                     raw: "1",
                                                                     position: Position {
                                                                         column: 16,
-                                                                        line: 8,
+                                                                        line: 9,
                                                                     },
                                                                 },
                                                             ),
@@ -206,13 +206,13 @@ expression: "&r.statements"
                                         match_arm {
                                             position: Position {
                                                 column: 18,
-                                                line: 8,
+                                                line: 9,
                                             },
                                             operator: equals(
                                                 equals {
                                                     position: Position {
                                                         column: 18,
-                                                        line: 8,
+                                                        line: 9,
                                                     },
                                                 },
                                             ),
@@ -221,21 +221,21 @@ expression: "&r.statements"
                                                     raw: "\"a string\"",
                                                     position: Position {
                                                         column: 11,
-                                                        line: 9,
+                                                        line: 10,
                                                     },
                                                 },
                                             ),
                                             body: body {
                                                 position: Position {
                                                     column: 24,
-                                                    line: 9,
+                                                    line: 10,
                                                 },
                                                 value: UNDERLINE(
                                                     Token {
                                                         raw: "_",
                                                         position: Position {
                                                             column: 25,
-                                                            line: 9,
+                                                            line: 10,
                                                         },
                                                     },
                                                 ),
@@ -246,13 +246,13 @@ expression: "&r.statements"
                                         match_arm {
                                             position: Position {
                                                 column: 27,
-                                                line: 9,
+                                                line: 10,
                                             },
                                             operator: equals(
                                                 equals {
                                                     position: Position {
                                                         column: 27,
-                                                        line: 9,
+                                                        line: 10,
                                                     },
                                                 },
                                             ),
@@ -260,13 +260,13 @@ expression: "&r.statements"
                                                 number {
                                                     position: Position {
                                                         column: 10,
-                                                        line: 10,
+                                                        line: 11,
                                                     },
                                                     negative: Some(
                                                         negative {
                                                             position: Position {
                                                                 column: 10,
-                                                                line: 10,
+                                                                line: 11,
                                                             },
                                                         },
                                                     ),
@@ -275,7 +275,7 @@ expression: "&r.statements"
                                                             raw: "2",
                                                             position: Position {
                                                                 column: 12,
-                                                                line: 10,
+                                                                line: 11,
                                                             },
                                                         },
                                                     ),
@@ -284,14 +284,14 @@ expression: "&r.statements"
                                             body: body {
                                                 position: Position {
                                                     column: 16,
-                                                    line: 10,
+                                                    line: 11,
                                                 },
                                                 value: primitive_value(
                                                     number(
                                                         number {
                                                             position: Position {
                                                                 column: 16,
-                                                                line: 10,
+                                                                line: 11,
                                                             },
                                                             negative: None,
                                                             whole: NUMBER(
@@ -299,7 +299,252 @@ expression: "&r.statements"
                                                                     raw: "2",
                                                                     position: Position {
                                                                         column: 17,
-                                                                        line: 10,
+                                                                        line: 11,
+                                                                    },
+                                                                },
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                                first: None,
+                                                expressions: [],
+                                            },
+                                        },
+                                    ],
+                                },
+                            },
+                        ),
+                    ),
+                    expressions: [],
+                },
+            },
+        ),
+    },
+    statements {
+        position: Position {
+            column: 6,
+            line: 12,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 6,
+                    line: 12,
+                },
+                modifiers: [],
+                name: IDENT(
+                    Token {
+                        raw: "matchExample",
+                        position: Position {
+                            column: 0,
+                            line: 14,
+                        },
+                    },
+                ),
+                arguments: Some(
+                    arguments {
+                        position: Position {
+                            column: 13,
+                            line: 14,
+                        },
+                        arguments: [],
+                        last: IDENT(
+                            Token {
+                                raw: "v",
+                                position: Position {
+                                    column: 13,
+                                    line: 14,
+                                },
+                            },
+                        ),
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 17,
+                        line: 14,
+                    },
+                    value: primitive_value(
+                        IDENT(
+                            Token {
+                                raw: "v",
+                                position: Position {
+                                    column: 4,
+                                    line: 15,
+                                },
+                            },
+                        ),
+                    ),
+                    first: Some(
+                        match_operation(
+                            match_operation {
+                                position: Position {
+                                    column: 5,
+                                    line: 15,
+                                },
+                                body: match_statement {
+                                    position: Position {
+                                        column: 11,
+                                        line: 15,
+                                    },
+                                    statements: [
+                                        match_arm {
+                                            position: Position {
+                                                column: 13,
+                                                line: 15,
+                                            },
+                                            operator: equals(
+                                                equals {
+                                                    position: Position {
+                                                        column: 13,
+                                                        line: 15,
+                                                    },
+                                                },
+                                            ),
+                                            value: number(
+                                                number {
+                                                    position: Position {
+                                                        column: 10,
+                                                        line: 16,
+                                                    },
+                                                    negative: None,
+                                                    whole: NUMBER(
+                                                        Token {
+                                                            raw: "1",
+                                                            position: Position {
+                                                                column: 11,
+                                                                line: 16,
+                                                            },
+                                                        },
+                                                    ),
+                                                },
+                                            ),
+                                            body: body {
+                                                position: Position {
+                                                    column: 15,
+                                                    line: 16,
+                                                },
+                                                value: primitive_value(
+                                                    number(
+                                                        number {
+                                                            position: Position {
+                                                                column: 15,
+                                                                line: 16,
+                                                            },
+                                                            negative: None,
+                                                            whole: NUMBER(
+                                                                Token {
+                                                                    raw: "1",
+                                                                    position: Position {
+                                                                        column: 16,
+                                                                        line: 16,
+                                                                    },
+                                                                },
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                                first: None,
+                                                expressions: [],
+                                            },
+                                        },
+                                        match_arm {
+                                            position: Position {
+                                                column: 18,
+                                                line: 16,
+                                            },
+                                            operator: equals(
+                                                equals {
+                                                    position: Position {
+                                                        column: 18,
+                                                        line: 16,
+                                                    },
+                                                },
+                                            ),
+                                            value: TEXTLITERAL(
+                                                Token {
+                                                    raw: "\"a string\"",
+                                                    position: Position {
+                                                        column: 11,
+                                                        line: 17,
+                                                    },
+                                                },
+                                            ),
+                                            body: body {
+                                                position: Position {
+                                                    column: 24,
+                                                    line: 17,
+                                                },
+                                                value: UNDERLINE(
+                                                    Token {
+                                                        raw: "_",
+                                                        position: Position {
+                                                            column: 25,
+                                                            line: 17,
+                                                        },
+                                                    },
+                                                ),
+                                                first: None,
+                                                expressions: [],
+                                            },
+                                        },
+                                        match_arm {
+                                            position: Position {
+                                                column: 27,
+                                                line: 17,
+                                            },
+                                            operator: equals(
+                                                equals {
+                                                    position: Position {
+                                                        column: 27,
+                                                        line: 17,
+                                                    },
+                                                },
+                                            ),
+                                            value: number(
+                                                number {
+                                                    position: Position {
+                                                        column: 10,
+                                                        line: 18,
+                                                    },
+                                                    negative: Some(
+                                                        negative {
+                                                            position: Position {
+                                                                column: 10,
+                                                                line: 18,
+                                                            },
+                                                        },
+                                                    ),
+                                                    whole: NUMBER(
+                                                        Token {
+                                                            raw: "2",
+                                                            position: Position {
+                                                                column: 12,
+                                                                line: 18,
+                                                            },
+                                                        },
+                                                    ),
+                                                },
+                                            ),
+                                            body: body {
+                                                position: Position {
+                                                    column: 16,
+                                                    line: 18,
+                                                },
+                                                value: primitive_value(
+                                                    number(
+                                                        number {
+                                                            position: Position {
+                                                                column: 16,
+                                                                line: 18,
+                                                            },
+                                                            negative: None,
+                                                            whole: NUMBER(
+                                                                Token {
+                                                                    raw: "2",
+                                                                    position: Position {
+                                                                        column: 17,
+                                                                        line: 18,
                                                                     },
                                                                 },
                                                             ),
@@ -319,25 +564,25 @@ expression: "&r.statements"
                         expressions {
                             position: Position {
                                 column: 5,
-                                line: 11,
+                                line: 19,
                             },
                             expression: newline_expression {
                                 position: Position {
                                     column: 5,
-                                    line: 11,
+                                    line: 19,
                                 },
                                 expressions: binary_operation(
                                     binary_operation {
                                         position: Position {
                                             column: 5,
-                                            line: 11,
+                                            line: 19,
                                         },
                                         operator: PLUS(
                                             Token {
                                                 raw: "+",
                                                 position: Position {
                                                     column: 4,
-                                                    line: 12,
+                                                    line: 20,
                                                 },
                                             },
                                         ),
@@ -346,7 +591,7 @@ expression: "&r.statements"
                                                 number {
                                                     position: Position {
                                                         column: 5,
-                                                        line: 12,
+                                                        line: 20,
                                                     },
                                                     negative: None,
                                                     whole: NUMBER(
@@ -354,7 +599,7 @@ expression: "&r.statements"
                                                             raw: "2",
                                                             position: Position {
                                                                 column: 6,
-                                                                line: 12,
+                                                                line: 20,
                                                             },
                                                         },
                                                     ),

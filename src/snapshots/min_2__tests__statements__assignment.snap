@@ -222,4 +222,133 @@ expression: "&r.statements"
             },
         ),
     },
+    statements {
+        position: Position {
+            column: 13,
+            line: 10,
+        },
+        statement: function(
+            function {
+                position: Position {
+                    column: 13,
+                    line: 10,
+                },
+                modifiers: [],
+                name: IDENT(
+                    Token {
+                        raw: "setValTwo",
+                        position: Position {
+                            column: 0,
+                            line: 12,
+                        },
+                    },
+                ),
+                arguments: Some(
+                    arguments {
+                        position: Position {
+                            column: 10,
+                            line: 12,
+                        },
+                        arguments: [],
+                        last: IDENT(
+                            Token {
+                                raw: "v",
+                                position: Position {
+                                    column: 10,
+                                    line: 12,
+                                },
+                            },
+                        ),
+                    },
+                ),
+                body: body {
+                    position: Position {
+                        column: 14,
+                        line: 12,
+                    },
+                    value: primitive_value(
+                        IDENT(
+                            Token {
+                                raw: "v",
+                                position: Position {
+                                    column: 4,
+                                    line: 13,
+                                },
+                            },
+                        ),
+                    ),
+                    first: Some(
+                        binary_operation(
+                            binary_operation {
+                                position: Position {
+                                    column: 5,
+                                    line: 13,
+                                },
+                                operator: PLUS(
+                                    Token {
+                                        raw: "+",
+                                        position: Position {
+                                            column: 6,
+                                            line: 13,
+                                        },
+                                    },
+                                ),
+                                value: primitive_value(
+                                    number(
+                                        number {
+                                            position: Position {
+                                                column: 7,
+                                                line: 13,
+                                            },
+                                            negative: None,
+                                            whole: NUMBER(
+                                                Token {
+                                                    raw: "2",
+                                                    position: Position {
+                                                        column: 8,
+                                                        line: 13,
+                                                    },
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                ),
+                            },
+                        ),
+                    ),
+                    expressions: [
+                        expressions {
+                            position: Position {
+                                column: 9,
+                                line: 13,
+                            },
+                            expression: newline_expression {
+                                position: Position {
+                                    column: 9,
+                                    line: 13,
+                                },
+                                expressions: assingment_operation(
+                                    assingment_operation {
+                                        position: Position {
+                                            column: 9,
+                                            line: 13,
+                                        },
+                                        identifier: IDENT(
+                                            Token {
+                                                raw: "val",
+                                                position: Position {
+                                                    column: 7,
+                                                    line: 14,
+                                                },
+                                            },
+                                        ),
+                                    },
+                                ),
+                            },
+                        },
+                    ],
+                },
+            },
+        ),
+    },
 ]

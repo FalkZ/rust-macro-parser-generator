@@ -8,18 +8,20 @@ import math from "@std/math";
 export class Class {
   private readonly PI = pipe(a)
     .op(math["+"], b)
-    .op(math["+"], 0.012).end;
+    .op(math["+"], 0.012)
+    .end();
 
   public Pi = 123;
 
   private fn(a, b) {
-    return pipe(a).op(math["+"], b).end;
+    return math["+"](a, b);
   }
 
   private one(b) {
     return pipe(a)
       .op(math["+"], b)
-      .op(math["+"], c).end;
+      .op(math["+"], c)
+      .end();
   }
 
   public zero() {
@@ -39,13 +41,7 @@ export class Class {
 
   private nesting() {
     return one(
-      fn(
-        pipe(a).op(
-          math["+"],
-          pipe(b).op(math["-"], c).end
-        ).end,
-        123.2
-      )
+      fn(math["+"](a, math["-"](b, c)), 123.2)
     );
   }
 }

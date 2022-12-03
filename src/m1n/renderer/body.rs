@@ -27,17 +27,27 @@ impl Render<Context> for operator {
             operator::MINUS(_) => context.str("math['-']"),
             operator::DIVISION(_) => context.str("math['/']"),
             operator::IDENT(v) => context.render_raw(v),
-            operator::assignment(_) => todo!(),
+            operator::assignment(_) => unreachable!(),
         };
     }
 }
 
 impl Render<Context> for binary_operation {
     fn render(&self, context: &mut RenderContext<Context>) {
-        context
-            .render_boxed(&self.operator)
-            .str(", ")
-            .render_boxed(&self.value);
+        if let Some(value) = context.get_context().single_expression.clone() {
+            context
+                .render_boxed(&self.operator)
+                .str("(")
+                .render_boxed(&value)
+                .str(",")
+                .render_boxed(&self.value)
+                .str(")");
+        } else {
+            context
+                .render_boxed(&self.operator)
+                .str(", ")
+                .render_boxed(&self.value);
+        }
     }
 }
 
@@ -59,15 +69,22 @@ impl Render<Context> for expressions {
 
 impl Render<Context> for body {
     fn render(&self, context: &mut RenderContext<Context>) {
-        if let Some(v) = &self.first {
-            context
-                .str("pipe(")
-                .render_boxed(&self.value)
-                .str(").op(")
-                .render_boxed(v)
-                .str(")")
-                .join(&self.expressions, "")
-                .str(".end");
+        if let Some(first) = &self.first {
+            if self.expressions.len() == 0 {
+                context.borrow_context().single_expression = Some(self.value.clone());
+
+                context.render_boxed(first);
+            } else {
+                context.borrow_context().single_expression = None;
+                context
+                    .str("pipe(")
+                    .render_boxed(&self.value)
+                    .str(").op(")
+                    .render_boxed(first)
+                    .str(")")
+                    .join(&self.expressions, "")
+                    .str(".end()");
+            }
         } else {
             context.render_boxed(&self.value);
         }

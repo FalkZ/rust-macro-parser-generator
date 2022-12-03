@@ -1,5 +1,13 @@
 
 
+
+matchSimple(v) =
+    v match (
+        == 1 -> 1,
+        == "a string" -> _,
+        == -2 -> 2
+    );
+
 matchExample(v) =
     v match (
         == 1 -> 1,

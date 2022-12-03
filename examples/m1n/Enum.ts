@@ -3,7 +3,7 @@ import math from "@std/math";
 
 export abstract class Enum {
   protected fnForAll(this: A | B, a) {
-    return pipe(this).op(math["+"], a).end;
+    return math["+"](this, a);
   }
 }
 

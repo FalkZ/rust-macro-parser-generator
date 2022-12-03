@@ -3,14 +3,15 @@ import math from "@std/math";
 
 const PI = pipe(a)
   .op(math["+"], b)
-  .op(math["+"], 0.012).end;
+  .op(math["+"], 0.012)
+  .end();
 
 export let Pi = 123;
 
 const self = {};
 
 function fn(a, b) {
-  return pipe(a).op(math["+"], b).end;
+  return math["+"](a, b);
 }
 
 function one(b) {
@@ -18,6 +19,6 @@ function one(b) {
 }
 
 export function zero() {
-  return pipe(a).op(math["+"], b).end;
+  return math["+"](a, b);
 }
 export default { ...self, zero };
