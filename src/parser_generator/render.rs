@@ -10,82 +10,12 @@ use sourcemap::SourceMapBuilder;
 
 use super::{
     position::{Position, TryGetPosition},
+    static_context::StaticContext,
     tokens::RawToken,
 };
 
 pub trait Render<Context: Clone>: TryGetPosition {
     fn render(&self, context: &mut OutputBuilder<Context>);
-}
-
-struct StaticContext {
-    sourcemap: Vec<(u32, u32, u32, u32)>,
-    rows: Vec<String>,
-}
-
-impl StaticContext {
-    fn new() -> Self {
-        Self {
-            sourcemap: vec![],
-            rows: vec!["".to_string()],
-        }
-    }
-    fn current_column(&self) -> u32 {
-        self.rows[self.rows.len() - 1].len() as u32
-    }
-    fn current_line(&self) -> u32 {
-        (self.rows.len() - 1) as u32
-    }
-
-    fn add_posititon(&mut self, pos: Option<Position>) {
-        if let Some(pos) = pos {
-            self.sourcemap.push((
-                self.current_line(),
-                self.current_column(),
-                pos.line,
-                pos.column,
-            ));
-        }
-    }
-
-    pub fn add_string(&mut self, str: &str) {
-        let mut var: Vec<String> = str.split("\n").into_iter().map(str::to_string).collect();
-
-        let first = var.remove(0);
-
-        let len = self.rows.len();
-
-        self.rows[len - 1] += &first;
-
-        self.rows.append(&mut var);
-    }
-
-    pub fn write_files(&self, src_file_path: &str, source_content: Option<&str>) {
-        let src_file_name: String = Path::new(&src_file_path)
-            .file_name()
-            .unwrap()
-            .to_str()
-            .unwrap()
-            .to_string();
-
-        let mut sourcemap = SourceMapBuilder::new(None);
-
-        self.sourcemap.iter().for_each(|t| {
-            sourcemap.add(t.0, t.1, t.2, t.3, Some(&src_file_name), None);
-        });
-
-        let out = src_file_path.replace(".m1n", ".ts");
-        let out_sourcemap = format!("{}.map", &out);
-
-        let mut s = sourcemap.into_sourcemap();
-
-        let content = self.rows.join("\n");
-        fs::write(&out, &content).expect("couldn't read file");
-
-        s.set_source_contents(0, source_content);
-
-        let f = File::create(&out_sourcemap).expect("couldn't open map file");
-        s.to_writer(f).expect("couldn't write map file");
-    }
 }
 
 #[derive(Clone)]
@@ -131,13 +61,6 @@ impl<C: Clone> OutputBuilder<C> {
         let t = content.raw_token();
         self.add_posititon(Some(t.position));
         self.add_string(&t.raw);
-
-        self
-    }
-
-    fn render_boxed<T: Render<C> + Clone>(&mut self, content: &Box<T>) -> &mut Self {
-        let c = &(**content);
-        self.render(c);
 
         self
     }
@@ -224,12 +147,12 @@ impl<C: Clone> OutputBuilder<C> {
     }
 }
 
-pub trait RenderBoxed<C: Clone> {
-    fn render_boxed<T: Render<C> + Clone>(&mut self, content: &Box<T>) -> &mut Self;
+pub trait RenderBoxed<T: Clone> {
+    fn render_boxed(&mut self, content: &T) -> &mut Self;
 }
 
-impl<C: Clone> RenderBoxed<C> for OutputBuilder<C> {
-    fn render_boxed<T: Render<C> + Clone>(&mut self, content: &Box<T>) -> &mut Self {
+impl<C: Clone, T: Render<C> + Clone> RenderBoxed<Box<T>> for OutputBuilder<C> {
+    fn render_boxed(&mut self, content: &Box<T>) -> &mut Self {
         let c = &(**content);
         self.render(c);
 
