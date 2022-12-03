@@ -1,0 +1,1361 @@
+---
+source: src/tests.rs
+expression: "&r.tokens"
+---
+Tokens {
+    index: RefCell {
+        value: 150,
+    },
+    tokens: [
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 0,
+                },
+            },
+        ),
+        IMPORT(
+            Token {
+                raw: "import",
+                position: Position {
+                    column: 0,
+                    line: 1,
+                },
+            },
+        ),
+        COL(
+            Token {
+                raw: ":",
+                position: Position {
+                    column: 6,
+                    line: 1,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 7,
+                    line: 1,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 8,
+                    line: 1,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 2,
+                },
+            },
+        ),
+        RAWIDENT(
+            Token {
+                raw: "`@std/util`",
+                position: Position {
+                    column: 4,
+                    line: 2,
+                },
+            },
+        ),
+        CBRACKETOPEN(
+            Token {
+                raw: "{",
+                position: Position {
+                    column: 15,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 16,
+                    line: 2,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "pipe",
+                position: Position {
+                    column: 17,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 21,
+                    line: 2,
+                },
+            },
+        ),
+        CBRACKETCLOSE(
+            Token {
+                raw: "}",
+                position: Position {
+                    column: 22,
+                    line: 2,
+                },
+            },
+        ),
+        COMMA(
+            Token {
+                raw: ",",
+                position: Position {
+                    column: 23,
+                    line: 2,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 24,
+                    line: 2,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 3,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 3,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 3,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 3,
+                },
+            },
+        ),
+        RAWIDENT(
+            Token {
+                raw: "`@std/math`",
+                position: Position {
+                    column: 4,
+                    line: 3,
+                },
+            },
+        ),
+        SEMI(
+            Token {
+                raw: ";",
+                position: Position {
+                    column: 15,
+                    line: 3,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 16,
+                    line: 3,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 4,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 5,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "operatorExample",
+                position: Position {
+                    column: 0,
+                    line: 6,
+                },
+            },
+        ),
+        BRACKETOPEN(
+            Token {
+                raw: "(",
+                position: Position {
+                    column: 15,
+                    line: 6,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "a",
+                position: Position {
+                    column: 16,
+                    line: 6,
+                },
+            },
+        ),
+        COMMA(
+            Token {
+                raw: ",",
+                position: Position {
+                    column: 17,
+                    line: 6,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 18,
+                    line: 6,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "b",
+                position: Position {
+                    column: 19,
+                    line: 6,
+                },
+            },
+        ),
+        BRACKETCLOSE(
+            Token {
+                raw: ")",
+                position: Position {
+                    column: 20,
+                    line: 6,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 21,
+                    line: 6,
+                },
+            },
+        ),
+        EQUAL(
+            Token {
+                raw: "=",
+                position: Position {
+                    column: 22,
+                    line: 6,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 23,
+                    line: 6,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 24,
+                    line: 6,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 7,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 7,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 7,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 7,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "a",
+                position: Position {
+                    column: 4,
+                    line: 7,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 5,
+                    line: 7,
+                },
+            },
+        ),
+        NOT(
+            Token {
+                raw: "!",
+                position: Position {
+                    column: 6,
+                    line: 7,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 7,
+                    line: 7,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 8,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 8,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 8,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 8,
+                },
+            },
+        ),
+        PLUS(
+            Token {
+                raw: "+",
+                position: Position {
+                    column: 4,
+                    line: 8,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 5,
+                    line: 8,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "b",
+                position: Position {
+                    column: 6,
+                    line: 8,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 7,
+                    line: 8,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 9,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 9,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 9,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 9,
+                },
+            },
+        ),
+        MINUS(
+            Token {
+                raw: "-",
+                position: Position {
+                    column: 4,
+                    line: 9,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 5,
+                    line: 9,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "a",
+                position: Position {
+                    column: 6,
+                    line: 9,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 7,
+                    line: 9,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 10,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 10,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 10,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 10,
+                },
+            },
+        ),
+        PLUS(
+            Token {
+                raw: "+",
+                position: Position {
+                    column: 4,
+                    line: 10,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 5,
+                    line: 10,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "b",
+                position: Position {
+                    column: 6,
+                    line: 10,
+                },
+            },
+        ),
+        SEMI(
+            Token {
+                raw: ";",
+                position: Position {
+                    column: 7,
+                    line: 10,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 8,
+                    line: 10,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 11,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "operatorExampleBrackets",
+                position: Position {
+                    column: 0,
+                    line: 12,
+                },
+            },
+        ),
+        BRACKETOPEN(
+            Token {
+                raw: "(",
+                position: Position {
+                    column: 23,
+                    line: 12,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "a",
+                position: Position {
+                    column: 24,
+                    line: 12,
+                },
+            },
+        ),
+        COMMA(
+            Token {
+                raw: ",",
+                position: Position {
+                    column: 25,
+                    line: 12,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 26,
+                    line: 12,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "b",
+                position: Position {
+                    column: 27,
+                    line: 12,
+                },
+            },
+        ),
+        BRACKETCLOSE(
+            Token {
+                raw: ")",
+                position: Position {
+                    column: 28,
+                    line: 12,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 29,
+                    line: 12,
+                },
+            },
+        ),
+        EQUAL(
+            Token {
+                raw: "=",
+                position: Position {
+                    column: 30,
+                    line: 12,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 31,
+                    line: 12,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 32,
+                    line: 12,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 13,
+                },
+            },
+        ),
+        BRACKETOPEN(
+            Token {
+                raw: "(",
+                position: Position {
+                    column: 4,
+                    line: 13,
+                },
+            },
+        ),
+        BRACKETOPEN(
+            Token {
+                raw: "(",
+                position: Position {
+                    column: 5,
+                    line: 13,
+                },
+            },
+        ),
+        BRACKETOPEN(
+            Token {
+                raw: "(",
+                position: Position {
+                    column: 6,
+                    line: 13,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "a",
+                position: Position {
+                    column: 7,
+                    line: 13,
+                },
+            },
+        ),
+        NOT(
+            Token {
+                raw: "!",
+                position: Position {
+                    column: 8,
+                    line: 13,
+                },
+            },
+        ),
+        BRACKETCLOSE(
+            Token {
+                raw: ")",
+                position: Position {
+                    column: 9,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 10,
+                    line: 13,
+                },
+            },
+        ),
+        PLUS(
+            Token {
+                raw: "+",
+                position: Position {
+                    column: 11,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 12,
+                    line: 13,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "b",
+                position: Position {
+                    column: 13,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 14,
+                    line: 13,
+                },
+            },
+        ),
+        BRACKETCLOSE(
+            Token {
+                raw: ")",
+                position: Position {
+                    column: 15,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 16,
+                    line: 13,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "not",
+                position: Position {
+                    column: 17,
+                    line: 13,
+                },
+            },
+        ),
+        BRACKETCLOSE(
+            Token {
+                raw: ")",
+                position: Position {
+                    column: 20,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 21,
+                    line: 13,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "and",
+                position: Position {
+                    column: 22,
+                    line: 13,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 25,
+                    line: 13,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "b",
+                position: Position {
+                    column: 26,
+                    line: 13,
+                },
+            },
+        ),
+        SEMI(
+            Token {
+                raw: ";",
+                position: Position {
+                    column: 27,
+                    line: 13,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 28,
+                    line: 13,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 14,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 0,
+                    line: 15,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "operatorExampleMixed",
+                position: Position {
+                    column: 0,
+                    line: 16,
+                },
+            },
+        ),
+        BRACKETOPEN(
+            Token {
+                raw: "(",
+                position: Position {
+                    column: 20,
+                    line: 16,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "a",
+                position: Position {
+                    column: 21,
+                    line: 16,
+                },
+            },
+        ),
+        COMMA(
+            Token {
+                raw: ",",
+                position: Position {
+                    column: 22,
+                    line: 16,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 23,
+                    line: 16,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "b",
+                position: Position {
+                    column: 24,
+                    line: 16,
+                },
+            },
+        ),
+        BRACKETCLOSE(
+            Token {
+                raw: ")",
+                position: Position {
+                    column: 25,
+                    line: 16,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 26,
+                    line: 16,
+                },
+            },
+        ),
+        EQUAL(
+            Token {
+                raw: "=",
+                position: Position {
+                    column: 27,
+                    line: 16,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 28,
+                    line: 16,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 29,
+                    line: 16,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 17,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 17,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 17,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 17,
+                },
+            },
+        ),
+        BRACKETOPEN(
+            Token {
+                raw: "(",
+                position: Position {
+                    column: 4,
+                    line: 17,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "a",
+                position: Position {
+                    column: 5,
+                    line: 17,
+                },
+            },
+        ),
+        NOT(
+            Token {
+                raw: "!",
+                position: Position {
+                    column: 6,
+                    line: 17,
+                },
+            },
+        ),
+        BRACKETCLOSE(
+            Token {
+                raw: ")",
+                position: Position {
+                    column: 7,
+                    line: 17,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 8,
+                    line: 17,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "and",
+                position: Position {
+                    column: 9,
+                    line: 17,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 12,
+                    line: 17,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "b",
+                position: Position {
+                    column: 13,
+                    line: 17,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 14,
+                    line: 17,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 18,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 18,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 18,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 18,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "or",
+                position: Position {
+                    column: 4,
+                    line: 18,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 6,
+                    line: 18,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "a",
+                position: Position {
+                    column: 7,
+                    line: 18,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 8,
+                    line: 18,
+                },
+            },
+        ),
+        NEWLINE(
+            Token {
+                raw: "\n",
+                position: Position {
+                    column: 9,
+                    line: 18,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 0,
+                    line: 19,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 1,
+                    line: 19,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 2,
+                    line: 19,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 3,
+                    line: 19,
+                },
+            },
+        ),
+        PLUS(
+            Token {
+                raw: "+",
+                position: Position {
+                    column: 4,
+                    line: 19,
+                },
+            },
+        ),
+        SPACE(
+            Token {
+                raw: " ",
+                position: Position {
+                    column: 5,
+                    line: 19,
+                },
+            },
+        ),
+        IDENT(
+            Token {
+                raw: "b",
+                position: Position {
+                    column: 6,
+                    line: 19,
+                },
+            },
+        ),
+        SEMI(
+            Token {
+                raw: ";",
+                position: Position {
+                    column: 7,
+                    line: 19,
+                },
+            },
+        ),
+    ],
+}

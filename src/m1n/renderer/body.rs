@@ -1,6 +1,9 @@
 use super::{substring::Substring, Context};
 use crate::{
-    m1n::grammar::{binary_operation, body, calls, expression, expressions, operator, path, value},
+    m1n::grammar::{
+        binary_operation, body, calls, expression, expressions, operator, path, unary_operation,
+        unary_operator, value,
+    },
     parser_generator::{
         render::{Render, RenderContext},
         tokens::RawToken,
@@ -50,12 +53,36 @@ impl Render<Context> for binary_operation {
     }
 }
 
+impl Render<Context> for unary_operator {
+    fn render(&self, context: &mut RenderContext<Context>) {
+        match self {
+            unary_operator::NOT(_) => context.str("math['!']"),
+            unary_operator::IDENT(v) => context.render_raw(v),
+        };
+    }
+}
+
+impl Render<Context> for unary_operation {
+    fn render(&self, context: &mut RenderContext<Context>) {
+        if let Some(value) = context.get_context().single_expression.clone() {
+            context
+                .render_boxed(&self.operator)
+                .str("(")
+                .render_boxed(&value)
+                .str(")");
+        } else {
+            context.render_boxed(&self.operator);
+        }
+    }
+}
+
 impl Render<Context> for expression {
     fn render(&self, context: &mut RenderContext<Context>) {
         match self {
             expression::assingment_operation(v) => context.render_boxed(&v),
             expression::match_operation(v) => context.render_boxed(&v),
             expression::binary_operation(v) => context.render_boxed(&v),
+            expression::unary_operation(v) => context.render_boxed(&v),
         };
     }
 }

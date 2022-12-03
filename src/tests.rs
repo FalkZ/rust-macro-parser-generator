@@ -39,5 +39,6 @@ tests!(
     file: "./examples/m1n/file.m1n",
     math: "./examples/m1n/std/math.m1n",
     matcher: "./examples/m1n/match.m1n",
-    assignment: "./examples/m1n/assignment.m1n"
+    assignment: "./examples/m1n/assignment.m1n",
+    operator: "./examples/m1n/operator.m1n"
 );

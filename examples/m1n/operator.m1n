@@ -1,16 +1,16 @@
 
 
 operatorExample(a, b) = 
-    !a 
-    && b
-    || a
-    && b;
+    a !
+    + b
+    - a
+    + b;
 
 operatorExampleBrackets(a, b) = 
-    (((!a ) && b ) || a) && b;
+    (((a!) + b ) not) and b;
 
 
 operatorExampleMixed(a, b) = 
-    (!a) && b
-    || a 
-    && b;
+    (a!) and b
+    or a 
+    + b;
