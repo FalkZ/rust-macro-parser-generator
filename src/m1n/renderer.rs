@@ -54,6 +54,15 @@ pub struct Return {
     pub tokens: Tokens<super::grammar::Lexer>,
     pub statements: Vec<super::grammar::statements>,
     pub typescript: String,
+    pub sourcemap: String,
+}
+
+use serde::{Deserialize, Serialize};
+use serde_json::Result;
+
+#[derive(Serialize, Deserialize)]
+struct SourceMapJson {
+    mappings: String,
 }
 
 pub fn render(source_path: &str) -> ParserResult<Return> {
@@ -105,12 +114,28 @@ import:
     src.write_files(source_path, Some(&source_content));
 
     let out_file_name = source_path.replace(".m1n", ".ts");
-    prettier_format(&out_file_name);
+    let out_file_name_map = source_path.replace(".m1n", ".ts.map");
+    let out_file_name_pretty = source_path.replace(".m1n", ".pretty.ts");
 
-    let typescript = fs::read_to_string(&out_file_name).expect("couldn't read file");
+    fs::copy(&out_file_name, &out_file_name_pretty).expect("couldn't copy pretty");
+
+    prettier_format(&out_file_name_pretty);
+
+    let sourcemap = fs::read_to_string(&out_file_name_map).expect("couldn't read file");
+
+    let typescript = fs::read_to_string(&out_file_name_pretty).expect("couldn't read file");
+
+    let typescript_ugly = fs::read_to_string(&out_file_name).expect("couldn't read file");
+
+    let s: SourceMapJson = serde_json::from_str(&sourcemap).expect("couldn't parse sourcemap");
+
+    let s = s.mappings.replace(";", "\n");
+
+    let sourcemap = format!("{}\n\n\n{}", typescript_ugly, s);
 
     Ok(Return {
         typescript,
+        sourcemap,
         tokens: t.tokens,
         statements,
     })

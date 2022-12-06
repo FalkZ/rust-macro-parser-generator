@@ -1,0 +1,22 @@
+import util, { pipe } from "@std/util";
+import math from "@std/math";
+
+let val = 0;
+
+const self = {};
+
+function setVal(v) {
+  return util["assign"](v, (_) => {
+    val = _;
+  });
+}
+
+function setValTwo(v) {
+  return pipe(v)
+    .op(math["+"], 2)
+    .op(util["assign"], (_) => {
+      val = _;
+    })
+    .end();
+}
+export default { ...self };

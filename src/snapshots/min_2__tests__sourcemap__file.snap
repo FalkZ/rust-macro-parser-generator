@@ -1,0 +1,44 @@
+---
+source: src/tests.rs
+expression: "&r.sourcemap"
+---
+import util, { pipe } from '@std/util';
+import math from '@std/math';
+
+const PI = pipe(a).op(math['+'], b).op(math['+'], 0.012).end();
+
+export let Pi = 123;
+
+
+
+ const self = {}
+
+
+
+
+function fn(a, b) { return math['+'](a,b);}
+
+function one(b) { return console.log(b);}
+
+export function zero() { return math['+'](a,b);}export default { ...self, zero}
+
+
+AAAA,AACO,OACH,IAAW,IAAE,YAAb
+AAAA,OACA,UAAA
+AAAA
+AAAA,AAEU,MAEd,KAAI,KAAC,MAAC,AACF,WAAE,EAAC,IAAA,AACH,WAAC,AAAC,EAAE
+AAAA
+AAAA,AAAI,WAEJ,KAAI,AAAC
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA,AAAI,SAEjB,EAAG,CAAA,GAAG,YAAI,AAAE,AACR,UADO,EACL
+AAAA
+AAAA,AAAE,SAER,GAAI,CAAA,YAAI,AAAC,QAAQ,IAAI
+AAAA
+AAAA,AAAG,gBAEpB,gBAAQ,AACP,AACD,UADA,EACE

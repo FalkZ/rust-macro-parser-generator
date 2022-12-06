@@ -100,3 +100,15 @@ test() =
     arr map (_[0] + 2)
 
 ```
+
+
+# stores / async
+
+```python
+
+test: $string = "df"
+
+test() *string =
+    arr map (_[0] + 2)
+
+```

@@ -108,7 +108,7 @@ impl Render<Context> for body {
                     .str(").op(")
                     .render_boxed(first)
                     .str(")")
-                    .join(&self.expressions, "")
+                    .join(&self.expressions, "\n")
                     .str(".end()");
             }
         } else {

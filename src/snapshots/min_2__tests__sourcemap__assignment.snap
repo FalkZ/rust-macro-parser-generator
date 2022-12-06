@@ -1,0 +1,36 @@
+---
+source: src/tests.rs
+expression: "&r.sourcemap"
+---
+import util, { pipe } from '@std/util';
+import math from '@std/math';
+
+let val = 0;
+
+
+
+ const self = {}
+
+
+
+
+function setVal(v) { return util['assign'](v, (_) => { val = _; });}
+
+function setValTwo(v) { return pipe(v).op(math['+'], 2).op(util['assign'], (_) => { val = _; }).end();}export default { ...self, }
+
+
+AAAA,AACO,OACH,IAAW,IAAE,YAAb
+AAAA,OACA,UAAA
+AAAA
+AAAA,AAAY,IAIZ,MAAK,AAAC
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA,AAAE,SAEZ,MAAO,CAAA,YAAI,AACN,eAAD,YAAK
+AAAA
+AAAA,AAAI,SAEb,SAAU,CAAA,YAAI,KACV,MAAC,AAAC,WAAC,AAAC,EAAC,IAAA,yBACF

@@ -83,9 +83,22 @@ impl Render<Context> for Vec<statements> {
                     .str("\n const self = {")
                     .join_boxed(&raw_functions, ",\n\n")
                     .str("}")
-                    .str("\n\n\n")
+                    .str("\n\n\n");
+                let mut pin = builder.get_pin();
+
+                builder
                     .join_boxed(&functions, "\n\n")
                     .str(format!("export default {{ ...self, {}}}", names));
+
+                /*
+                pin.str(
+                    "/*
+                dsfk
+                */
+",
+                );*/
+
+                builder.insert_pin(pin);
             }
             FileType::Enum(_) => {
                 builder

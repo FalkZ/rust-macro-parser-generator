@@ -1,0 +1,46 @@
+---
+source: src/tests.rs
+expression: "&r.sourcemap"
+---
+import util, { pipe } from '@std/util';
+import math from '@std/math';
+
+
+
+
+
+ const self = {}
+
+
+
+
+function operatorExample(a, b) { return pipe(a).op(math['!']).op(math['+'], b)
+.op(math['-'], a)
+.op(math['+'], b).end();}
+
+function operatorExampleBrackets(a, b) { return and(not(math['+'](math['!'](a),b)),b);}
+
+function operatorExampleMixed(a, b) { return pipe(math['!'](a)).op(and, b).op(or, a)
+.op(math['+'], b).end();}export default { ...self, }
+
+
+AAAA,AACO,OACH,IAAW,IAAE,YAAb
+AAAA,OACA,UAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA,AAAY,SAGhB,eAAgB,CAAA,GAAG,YAAI,KACnB,MAAC,AAAC,UAAC,IAAA,AACH,WAAE
+AAAA,IAAC,AACH,WAAE
+AAAA,IAAC,AACH,WAAE
+AAAA
+AAAA,AAAE,SAER,uBAAwB,CAAA,GAAG,YAAI,AACV,AAAC,IADS,AAC1B,AAAW,AAAC,IAAZ,AAAC,AAAI,AAAC,UAAL,AAAC,AAAC,UAAD,GAAM,IAAa
+AAAA
+AAAA,AAAE,SAG5B,oBAAqB,CAAA,GAAG,YAAI,KAAA,AACvB,AAAC,UAAD,OAAG,AAAC,KAAI,EAAC,IAAA,AACV,IAAG
+AAAA,IAAC,AACJ,WAAE

@@ -13,8 +13,18 @@ macro_rules! tests {
             insta::assert_display_snapshot!(&r.$t);
         }
     };
+    (@run: $name:ident, $t:ident, $str:literal) => {
+        pub fn $name() {
+           crate::m1n::renderer::render($str).expect("couldn't compile file");
+        }
+    };
     // `()` indicates that the macro takes no argument.
     ($($name:ident: $str:literal),*) => {
+        pub mod run {
+            $(
+                tests!(@run: $name, run, $str);
+            )*
+        }
         mod tokens {
             $(
                 tests!(@debug: $name, tokens, $str);
@@ -28,6 +38,11 @@ macro_rules! tests {
         mod typescript {
             $(
                 tests!(@display: $name, typescript, $str);
+            )*
+        }
+        mod sourcemap {
+            $(
+                tests!(@display: $name, sourcemap, $str);
             )*
         }
     };

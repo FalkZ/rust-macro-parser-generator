@@ -1,43 +1,24 @@
-import util, { pipe } from "@std/util";
-import math from "@std/math";
+import util, { pipe } from '@std/util';
+import math from '@std/math';
 
 export class Class {
-  private readonly PI = pipe(a)
-    .op(math["+"], b)
-    .op(math["+"], 0.012)
-    .end();
+private readonly PI = pipe(a).op(math['+'], b).op(math['+'], 0.012).end();
 
-  public Pi = 123;
+public Pi = 123;
 
-  private fn(a, b) {
-    return math["+"](a, b);
-  }
 
-  private one(b) {
-    return pipe(a)
-      .op(math["+"], b)
-      .op(math["+"], c)
-      .end();
-  }
+private fn(a, b) { return math['+'](a,b);}
 
-  public zero() {
-    return (() => {
-      throw new Error("hello 2");
-    })();
-  }
+private one(b) { return pipe(a).op(math['+'], b).op(math['+'], c).end();}
 
-  private multiline() {
-    return console.log(
-      `test space`,
-      `multi
+public zero() { return ((()=>{throw new Error("hello 2")})());}
 
-    line`
-    );
-  }
+private multiline() { return console.log(`test space`, `multi
 
-  private nesting() {
-    return one(
-      fn(math["+"](a, math["-"](b, c)), 123.2)
-    );
-  }
-}
+    line`);}
+
+private nesting() { return one(fn(math['+'](a,math['-'](b,c)), 123.2));}
+
+
+
+};

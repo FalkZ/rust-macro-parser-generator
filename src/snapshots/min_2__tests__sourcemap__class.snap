@@ -1,0 +1,54 @@
+---
+source: src/tests.rs
+expression: "&r.sourcemap"
+---
+import util, { pipe } from '@std/util';
+import math from '@std/math';
+
+export class Class {
+private readonly PI = pipe(a).op(math['+'], b).op(math['+'], 0.012).end();
+
+public Pi = 123;
+
+
+private fn(a, b) { return math['+'](a,b);}
+
+private one(b) { return pipe(a).op(math['+'], b).op(math['+'], c).end();}
+
+public zero() { return ((()=>{throw new Error("hello 2")})());}
+
+private multiline() { return console.log(`test space`, `multi
+
+    line`);}
+
+private nesting() { return one(fn(math['+'](a,math['-'](b,c)), 123.2));}
+
+
+
+};
+
+
+AAAA,AACO,OACH,IAAW,IAAE,YAAb
+AAAA,OACA,UAAA
+AAAA
+AAAA
+AAAA,AAAY,iBAChB,KAAI,KAAC,MAAC,AAAC,WAAE,EAAC,IAAA,AACN,WAAC,AAAC,EAAE
+AAAA
+AAAA,AAAI,OAEJ,KAAI,AAAC
+AAAA
+AAAA
+AAAA,AAAI,QAEjB,EAAG,CAAA,GAAG,YAAI,AAAE,AAAC,UAAF,EAAI
+AAAA
+AAAA,AAAE,QAEjB,GAAI,CAAA,YAAI,KAAC,MAAC,AAAC,WAAE,EAAC,IAAA,AACV,WAAE
+AAAA
+AAAA,AAAE,OAEJ,gBAAQ,AAAC
+AAAA
+AAAA,AAAuC,QAEpD,qBAAa,AAAC,QAAQ,IAAI,cAAa,AAAC
+AAAA
+AAAA
+AAAA
+AAAA,AAE7B,QAEX,mBAAW,AAAC,IAAI,GAAG,AAAC,AAAC,UAAF,EAAG,AAAE,AAAC,AAAC,UAAF,EAAI,KAAG,AAAC,IAAI
+AAAA
+AAAA
+AAAA
+AAAA

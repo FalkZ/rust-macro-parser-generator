@@ -1,21 +1,25 @@
 use std::{
+    cell::RefCell,
     fs::{self, File},
     path::Path,
+    rc::Rc,
 };
 
 use sourcemap::SourceMapBuilder;
 
 use super::position::Position;
 
+#[derive(Clone, Default)]
 struct SourceMapRowEntry {
     source_column: u32,
     source_line: u32,
     target_column: u32,
 }
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 struct SourceMap {
     sourcemap_line: Vec<Vec<SourceMapRowEntry>>,
+    last: Option<SourceMapRowEntry>,
 }
 
 impl SourceMap {
@@ -24,6 +28,13 @@ impl SourceMap {
             self.sourcemap_line.push(vec![])
         }
     }
+
+    pub fn insert_sourcemap(&mut self, row: usize, sourcemap: Self) {
+        let s = sourcemap.sourcemap_line[row..sourcemap.sourcemap_line.len()].to_vec();
+
+        self.sourcemap_line.splice(row..row, s);
+    }
+
     fn add_entry(
         &mut self,
         source_line: u32,
@@ -35,11 +46,23 @@ impl SourceMap {
 
         let line = self.sourcemap_line.get_mut(target_line as usize).unwrap();
 
-        line.push(SourceMapRowEntry {
+        let e = SourceMapRowEntry {
             source_column,
             source_line,
             target_column,
-        })
+        };
+
+        line.push(e.clone());
+
+        self.last = Some(e);
+    }
+
+    fn add_following_line(&mut self) {
+        let mut last = self.last.clone().unwrap_or_default();
+
+        last.target_column = 0;
+
+        self.sourcemap_line.push(vec![last]);
     }
 
     fn write_soucemap(&self, src_file_path: &str, source_content: Option<&str>) {
@@ -80,6 +103,7 @@ impl SourceMap {
     }
 }
 
+#[derive(Clone)]
 pub struct StaticContext {
     sourcemap: SourceMap,
     rows: Vec<String>,
@@ -95,8 +119,15 @@ impl StaticContext {
     fn current_column(&self) -> u32 {
         self.rows[self.rows.len() - 1].len() as u32
     }
-    fn current_line(&self) -> u32 {
+    pub fn current_line(&self) -> u32 {
         (self.rows.len() - 1) as u32
+    }
+
+    pub fn insert_context(&mut self, row: usize, context: Rc<RefCell<Self>>) {
+        let c = context.borrow();
+        let s = c.rows[row..c.rows.len()].to_vec();
+        self.sourcemap.insert_sourcemap(row, c.sourcemap.clone());
+        self.rows.splice(row..row, s);
     }
 
     pub fn add_posititon(&mut self, pos: Option<Position>) {
@@ -119,7 +150,10 @@ impl StaticContext {
 
         self.rows[len - 1] += &first;
 
-        self.rows.append(&mut var);
+        for rest in var {
+            self.sourcemap.add_following_line();
+            self.rows.push(rest);
+        }
     }
 
     pub fn write_files(&self, src_file_path: &str, source_content: Option<&str>) {

@@ -22,6 +22,7 @@ pub trait Render<Context: Clone>: TryGetPosition {
 pub struct OutputBuilder<C: Clone> {
     context: Box<C>,
     static_context: Rc<RefCell<StaticContext>>,
+    pin: Option<usize>,
 }
 
 impl<C: Clone> OutputBuilder<C> {
@@ -29,7 +30,32 @@ impl<C: Clone> OutputBuilder<C> {
         Self {
             context: Box::new(context),
             static_context: Rc::new(RefCell::new(StaticContext::new())),
+            pin: None,
         }
+    }
+
+    pub fn get_pin(&mut self) -> Self {
+        self.str("\n");
+        let c = self.static_context.borrow();
+
+        let s = c.clone();
+
+        let pin = c.current_line() as usize;
+        Self {
+            context: self.context.clone(),
+            static_context: Rc::new(RefCell::new(s)),
+            pin: Some(pin),
+        }
+    }
+
+    pub fn insert_pin(&mut self, pin: Self) -> &mut Self {
+        let row = pin.pin.unwrap();
+
+        self.static_context
+            .borrow_mut()
+            .insert_context(row, pin.static_context);
+
+        self
     }
 
     pub fn get_context(&self) -> &C {

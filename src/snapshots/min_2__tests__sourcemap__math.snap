@@ -1,0 +1,44 @@
+---
+source: src/tests.rs
+expression: "&r.sourcemap"
+---
+import util, { pipe } from '@std/util';
+import math from '@std/math';
+
+
+
+
+
+ const self = {['+'](a, b) { return (a + b);},
+
+['-'](a, b) { return (a - b);},
+
+['*'](a, b) { return (a * b);},
+
+['/'](a, b) { return (a / b);}}
+
+
+
+
+export default { ...self, }
+
+
+AAAA,AACO,OACH,IAAW,IAAE,YAAb
+AAAA,OACA,UAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA,eAAY,AACZ,KAAI,CAAA,GAAG,YAAI,AAAC
+AAAA
+AAAA,AAAQ,AAEpB,KAAI,CAAA,GAAG,YAAI,AAAC
+AAAA
+AAAA,AAAQ,AAEpB,KAAI,CAAA,GAAG,YAAI,AAAC
+AAAA
+AAAA,AAAQ,AAEpB,KAAI,CAAA,GAAG,YAAI,AAAC
+AAAA
+AAAA
+AAAA
+AAAA
+AAAA
