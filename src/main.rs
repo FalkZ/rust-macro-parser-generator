@@ -7,5 +7,5 @@ mod parser_generator;
 mod tests;
 
 fn main() {
-    run::file();
+    run::run();
 }

@@ -79,11 +79,7 @@ import:
 
     let t = Parser::new(&source_content)?;
 
-    println!("{}", &t.tokens);
-
     let statements = Parser::statements(&t.tokens)?;
-
-    println!("{:#?}", &statements); // AST
 
     let name = Path::new(&source_path)
         .file_name()

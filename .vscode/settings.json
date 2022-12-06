@@ -1,5 +1,6 @@
 {
   "files.associations": {
     "*.m1n": "python"
-  }
+  },
+  "rust-analyzer.procMacro.attributes.enable": true
 }

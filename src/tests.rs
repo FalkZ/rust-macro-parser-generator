@@ -24,6 +24,12 @@ macro_rules! tests {
             $(
                 tests!(@run: $name, run, $str);
             )*
+
+            pub fn run() {
+                $(
+                self::$name();
+                )*
+            }
         }
         mod tokens {
             $(
